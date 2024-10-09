@@ -1,5 +1,11 @@
+import SideNav from "../../components/sidenav/SideNav";
+
 function Main() {
-  return <div>hi</div>;
+  return (
+    <>
+      <SideNav />
+    </>
+  );
 }
 
 export default Main;
