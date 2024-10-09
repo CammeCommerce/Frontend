@@ -1,8 +1,10 @@
 import { useRecoilState } from "recoil";
 import { sidenavAtom, sidenavDetailAtom } from "../../../pages/recoil";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SideNav() {
+  const navigate = useNavigate();
   const [selected, setSelected] = useRecoilState<null | SideNavMenu>(
     sidenavAtom,
   );
@@ -35,7 +37,10 @@ function SideNav() {
     <nav className="bg-sidenav flex h-full w-56 flex-col p-4">
       <div
         className={`${selected === "매체관리" ? "bg-sidenavSelected" : ""} flex h-14 w-full cursor-pointer items-center justify-center rounded-md bg-opacity-20 py-2`}
-        onClick={() => handleMenuClick("매체관리")}
+        onClick={() => {
+          handleMenuClick("매체관리");
+          navigate("/company-management");
+        }}
       >
         <span
           className={`text-lg text-white ${selected === "매체관리" ? "font-bold" : ""} py-2`}
