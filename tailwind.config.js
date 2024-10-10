@@ -5,7 +5,11 @@ export default {
     extend: {
       colors: {
         sidenav: "#0E2238",
-        sidenavSelected: "#00bac7",
+        primaryButton: "#00bac7",
+        primaryButtonHover: "#009ea9",
+      },
+      width: {
+        content: "calc(100% - 14rem)",
       },
     },
   },
