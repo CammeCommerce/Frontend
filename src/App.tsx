@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import CompanyManagement from "./pages/CompanyManagement";
 import SettlementCompanyManagement from "./pages/SettlementCompanyManagement";
-import OrderManagement from "./pages/OrderManagement";
+import OrderManagement from "./pages/OrderList";
 import OrderMatchingList from "./pages/OrderMatchingList";
 import DepositList from "./pages/DepositList";
 import DepositMatchingList from "./pages/DepositMatchingList";
