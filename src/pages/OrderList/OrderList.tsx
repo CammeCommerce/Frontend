@@ -6,7 +6,7 @@ function OrderList() {
   return (
     <>
       <SideNav />
-      <div className="w-content flex h-screen flex-col">
+      <div className="flex h-screen w-content flex-col">
         <MainHeader />
         <OrderListContent />
       </div>
