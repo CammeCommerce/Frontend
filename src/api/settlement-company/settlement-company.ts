@@ -1,18 +1,18 @@
 import api from "../baseUrl/baseUrl";
 
-interface SettlementCompanyCreatedAt {
+export interface SettlementCompanyCreatedAt {
   id: number;
   name: string;
   createdAt: string;
 }
 
-interface SettlementCompanyUpdatedAt {
+export interface SettlementCompanyUpdatedAt {
   id: number;
   name: string;
   updatedAt: string;
 }
 
-interface fetchSettlementCompanyAllResponse {
+export interface fetchSettlementCompanyAllResponse {
   items: SettlementCompanyCreatedAt[];
 }
 

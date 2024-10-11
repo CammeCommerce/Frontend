@@ -10,14 +10,17 @@ import closeIcon from "/assets/icon/svg/Close_round.svg";
 
 function CompanyManagementContent() {
   const [companyList, setCompanyList] = useState<FetchCompanyAllResponse>(); // 매체관리 리스트
+
   const [isCreateCompanyModalOpen, setIsCreateCompanyModalOpen] =
-    useState<boolean>(false); // 매체 등록 모달 오픈 여부
+    useState<boolean>(false); // 매체 등록 모달 상태
   const [isUpdateCompanyModalOpen, setIsUpdateCompanyModalOpen] =
-    useState<boolean>(false); // 매체 수정 모달 오픈 여부
+    useState<boolean>(false); // 매체 수정 모달 상태
   const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] =
-    useState<boolean>(false); // 매체 삭제 확인 모달 오픈 여부
+    useState<boolean>(false); // 매체 삭제 확인 모달 상태
+
   const [companyNameInput, setCompanyNameInput] = useState<string>(""); // 매체명 입력값
   const [companyNameToUpdate, setCompanyNameToUpdate] = useState<string>(""); // 수정할 매체명
+
   const [companyIdToUpdate, setCompanyIdToUpdate] = useState<number>(-1); // 수정할 매체 ID
   const [companyIdToDelete, setCompanyIdToDelete] = useState<number>(-1); // 삭제할 매체 ID
 
@@ -209,7 +212,6 @@ function CompanyManagementContent() {
       {isCreateCompanyModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
           <div className="relative flex h-40 w-96 flex-col items-center rounded-md bg-white px-10 py-4">
-            {/** 모달 제거 이미지 넣어야함 */}
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
@@ -239,7 +241,6 @@ function CompanyManagementContent() {
       {isUpdateCompanyModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
           <div className="relative flex h-40 w-96 flex-col items-center rounded-md bg-white px-10 py-4">
-            {/** 모달 제거 이미지 넣어야함 */}
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
@@ -269,7 +270,6 @@ function CompanyManagementContent() {
       {isDeleteConfirmModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
           <div className="relative flex h-32 w-80 flex-col items-center rounded-md bg-white px-10 py-4">
-            {/** 모달 제거 이미지 넣어야함 */}
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
