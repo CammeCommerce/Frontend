@@ -1,6 +1,6 @@
 function CompanyManagementContent() {
   return (
-    <div className="h-main bg-primaryBackground flex w-full flex-col p-5">
+    <div className="flex h-main w-full flex-col bg-primaryBackground p-5">
       <div className="flex h-fit w-full flex-col bg-white px-10 py-6 shadow-md">
         <h2 className="text-xl font-semibold">매체관리</h2>
         <div className="mt-4 flex w-full flex-col gap-6 rounded-lg border border-solid border-gray-400 p-5">

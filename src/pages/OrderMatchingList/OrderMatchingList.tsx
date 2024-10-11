@@ -6,7 +6,7 @@ function OrderMatchingList() {
   return (
     <>
       <SideNav />
-      <div className="flex h-screen w-content flex-col">
+      <div className="flex h-screen w-content flex-col overflow-y-auto">
         <MainHeader />
         <OrderMatchingListContent />
       </div>

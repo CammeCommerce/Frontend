@@ -6,7 +6,7 @@ function WithdrawalMatchingList() {
   return (
     <>
       <SideNav />
-      <div className="flex h-screen w-content flex-col">
+      <div className="flex h-screen w-content flex-col overflow-y-auto">
         <MainHeader />
         <WithdrawalMatchingListContent />
       </div>
