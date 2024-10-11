@@ -1,6 +1,6 @@
 function OrderListContent() {
   return (
-    <div className="h-main bg-primaryBackground flex w-full flex-col p-5">
+    <div className="flex h-main w-full flex-col bg-primaryBackground p-5">
       <div className="flex h-fit w-full flex-col bg-white px-10 py-6 shadow-md">
         <h2 className="text-xl font-semibold">주문 리스트</h2>
         <div className="mt-4 flex w-full flex-col gap-6 rounded-lg border border-solid border-gray-400 p-5">
@@ -14,43 +14,43 @@ function OrderListContent() {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 전체
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 어제
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 지난 3일
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 일주일
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 1개월
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 3개월
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 6개월
               </button>
@@ -154,13 +154,13 @@ function OrderListContent() {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 검색하기
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
               >
                 검색 초기화
               </button>
