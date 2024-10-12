@@ -130,7 +130,7 @@ function CompanyManagementContent() {
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
-                  onClick={() => setPeriodType("전체")}
+                  onClick={() => setPeriodType("")}
                 >
                   전체
                 </button>
