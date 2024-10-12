@@ -11,9 +11,11 @@ export default {
       },
       width: {
         content: "calc(100% - 14rem)",
+        excelModal: "800px",
       },
       height: {
         main: "calc(100% - 4rem)",
+        excelModal: "600px",
       },
     },
   },
