@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   fetchOrderListAll,
   fetchOrderListAllResponse,
+  updateOrderListOne,
   uploadOrder,
 } from "../../../api/order/order";
 import { useDropzone } from "react-dropzone";
@@ -14,8 +15,13 @@ const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
 function OrderListContent() {
   const [orderList, setOrderList] = useState<fetchOrderListAllResponse>(); // 주문 리스트
 
+  const [orderIdToUpdate, setOrderIdToUpdate] = useState<number>(-1); // 수정할 주문값의 ID
+  const [orderIdToDelete, setOrderIdToDelete] = useState<number>(-1); // 삭제할 주문값의 ID
+
   const [isCreateOrderModalOpen, setIsCreateOrderModalOpen] =
     useState<boolean>(false); // 주문값 등록 모달 오픈 상태
+  const [isUpdateOrderModalOpen, setIsUpdateOrderModalOpen] =
+    useState<boolean>(false); // 주문값 수정 모달 오픈 상태
 
   const [excelFile, setExcelFile] = useState<File>(); // 엑셀 파일
 
@@ -32,6 +38,22 @@ function OrderListContent() {
   const [salesShippingFeeIndex, setSalesShippingFeeIndex] =
     useState<string>(""); // 매출 배송비
   const [taxTypeIndex, setTaxTypeIndex] = useState<string>(""); // 과세 여부
+
+  // 수정할 주문값
+  const [updateOrder, setUpdateOrder] = useState({
+    mediumName: "",
+    settlementCompanyName: "",
+    productName: "",
+    quantity: 0,
+    orderDate: "",
+    purchasePlace: "",
+    salesPlace: "",
+    purchasePrice: 0,
+    salesPrice: 0,
+    purchaseShippingFee: 0,
+    salesShippingFee: 0,
+    taxType: 0,
+  });
 
   // 엑셀 파일 드롭 이벤트
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -57,23 +79,40 @@ function OrderListContent() {
     setExcelFile(undefined);
   }
 
+  // 주문값 등록 버튼 클릭 이벤트
   function handleCreateOrderButtonClick() {
-    uploadOrder(
-      excelFile,
-      productNameIndex,
-      quantityIndex,
-      orderDateIndex,
-      purchasePlaceIndex,
-      salesPlaceIndex,
-      purchasePriceIndex,
-      salesPriceIndex,
-      purchaseShippingFeeIndex,
-      salesShippingFeeIndex,
-      taxTypeIndex,
-    )
-      .then(() => {
-        setIsCreateOrderModalOpen(false);
-        setExcelFile(undefined);
+    if (excelFile) {
+      uploadOrder(
+        excelFile,
+        productNameIndex,
+        quantityIndex,
+        orderDateIndex,
+        purchasePlaceIndex,
+        salesPlaceIndex,
+        purchasePriceIndex,
+        salesPriceIndex,
+        purchaseShippingFeeIndex,
+        salesShippingFeeIndex,
+        taxTypeIndex,
+      )
+        .then(() => {
+          setIsCreateOrderModalOpen(false);
+          setExcelFile(undefined);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      alert("엑셀 파일을 업로드해주세요.");
+    }
+  }
+
+  // 주문값 수정 버튼 클릭 이벤트
+  function handleUpdateOrderButtonClick() {
+    updateOrderListOne(orderIdToUpdate, updateOrder)
+      .then((response) => {
+        console.log(response);
+        setIsUpdateOrderModalOpen(false);
       })
       .catch((error) => {
         console.error(error);
@@ -307,6 +346,7 @@ function OrderListContent() {
                   <th className="border border-black">과세여부</th>
                   <th className="border border-black">마진액</th>
                   <th className="border border-black">배송차액</th>
+                  <th className="border border-black">관리</th>
                 </tr>
               </thead>
               <tbody>
@@ -360,6 +400,18 @@ function OrderListContent() {
                     </td>
                     <td className="border border-black text-center">
                       {order.shippingDifference}
+                    </td>
+                    <td className="border border-black text-center">
+                      <button
+                        type="button"
+                        className="border border-solid border-black bg-gray-300"
+                        onClick={() => {
+                          setIsUpdateOrderModalOpen(true);
+                          setOrderIdToUpdate(order.id);
+                        }}
+                      >
+                        수정
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -537,6 +589,188 @@ function OrderListContent() {
               onClick={handleCreateOrderButtonClick}
             >
               등록
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isUpdateOrderModalOpen && (
+        <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
+          <div className="w-updateModal h-updateModal relative flex flex-col items-center rounded-md bg-white px-10 py-4">
+            <button
+              type="button"
+              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
+              onClick={() => setIsUpdateOrderModalOpen(false)}
+            >
+              <img src={closeIcon} alt="닫기" className="w-full" />
+            </button>
+            <h2 className="text-xl font-bold">주문값 수정</h2>
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+              <div className="flex w-full items-center gap-4">
+                <span className="">매체명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      mediumName: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">정산업체명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      settlementCompanyName: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">상품명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      productName: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">수량</span>
+                <input
+                  type="number"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      quantity: Number(e.target.value),
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">발주일자</span>
+                <input
+                  type="date"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      orderDate: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매입처</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      purchasePlace: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매출처</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      salesPlace: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매입가</span>
+                <input
+                  type="number"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      purchasePrice: Number(e.target.value),
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">판매가</span>
+                <input
+                  type="number"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      salesPrice: Number(e.target.value),
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매입 배송비</span>
+                <input
+                  type="number"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      purchaseShippingFee: Number(e.target.value),
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매출 배송비</span>
+                <input
+                  type="number"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      salesShippingFee: Number(e.target.value),
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">과세 여부</span>
+                <select
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateOrder({
+                      ...updateOrder,
+                      taxType: Number(e.target.value),
+                    });
+                  }}
+                >
+                  <option value="11">과세</option>
+                  <option value="12">면세</option>
+                </select>
+              </div>
+            </div>
+
+            <button
+              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              onClick={handleUpdateOrderButtonClick}
+            >
+              수정
             </button>
           </div>
         </div>

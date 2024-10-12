@@ -18,10 +18,26 @@ export interface OrderList {
   shippingDifference: number;
 }
 
+interface UpdateOrderList {
+  mediumName: string;
+  settlementCompanyName: string;
+  productName: string;
+  quantity: number;
+  orderDate: string;
+  purchasePlace: string;
+  salesPlace: string;
+  purchasePrice: number;
+  salesPrice: number;
+  purchaseShippingFee: number;
+  salesShippingFee: number;
+  taxType: number;
+}
+
 export interface fetchOrderListAllResponse {
   items: OrderList[];
 }
 
+// 주문값 엑셀 파일 업로드 API
 export const uploadOrder = async (
   excelFile: File,
   productNameIndex: string,
@@ -65,6 +81,24 @@ export const uploadOrder = async (
 export const fetchOrderListAll = async () => {
   try {
     const response = await api.get<fetchOrderListAllResponse>("/order");
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 주문값 수정 API
+export const updateOrderListOne = async (
+  id: number,
+  updateOrderList: UpdateOrderList,
+) => {
+  try {
+    const response = await api.patch<OrderList>(
+      `/order/${id}`,
+      updateOrderList,
+    );
     console.log("response", response.data);
 
     return response.data;
