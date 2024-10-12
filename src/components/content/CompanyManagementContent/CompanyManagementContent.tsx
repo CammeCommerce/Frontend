@@ -4,6 +4,7 @@ import {
   deleteCompanyOne,
   fetchCompanyAll,
   FetchCompanyAllResponse,
+  fetchCompanySearch,
   updateCompanyOne,
 } from "../../../api/medium/medium";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
@@ -20,6 +21,10 @@ function CompanyManagementContent() {
 
   const [companyNameInput, setCompanyNameInput] = useState<string>(""); // 매체명 입력값
   const [companyNameToUpdate, setCompanyNameToUpdate] = useState<string>(""); // 수정할 매체명
+  const [startDate, setStartDate] = useState<string>(""); // 검색 시작일
+  const [inputQuery, setInputQuery] = useState<string>(""); // 검색 입력값
+  const [endDate, setEndDate] = useState<string>(""); // 검색 종료일
+  const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
 
   const [companyIdToUpdate, setCompanyIdToUpdate] = useState<number>(-1); // 수정할 매체 ID
   const [companyIdToDelete, setCompanyIdToDelete] = useState<number>(-1); // 삭제할 매체 ID
@@ -36,6 +41,32 @@ function CompanyManagementContent() {
     e: React.ChangeEvent<HTMLInputElement>,
   ) {
     setCompanyNameToUpdate(e.target.value);
+  }
+
+  // 검색 입력값 변경 함수
+  function handleInputQueryChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setInputQuery(e.target.value);
+  }
+
+  // 시작일 변경 함수
+  function handleStartDateChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setStartDate(e.target.value);
+  }
+
+  // 종료일 변경 함수
+  function handleEndDateChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setEndDate(e.target.value);
+  }
+
+  // 검색 버튼 클릭 핸들러
+  function handleSearchButtonClick() {
+    fetchCompanySearch(inputQuery, startDate, endDate, periodType)
+      .then((response) => {
+        setCompanyList(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // 등록 모달 버튼 클릭 함수
@@ -79,50 +110,69 @@ function CompanyManagementContent() {
             <div className="flex items-center gap-5">
               <span className="">등록일자검색</span>
               <div className="flex items-center gap-2">
-                <input type="date" className="" />
+                <input
+                  type="date"
+                  className=""
+                  onChange={(e) => {
+                    handleStartDateChange(e);
+                  }}
+                />
                 <span className="">~</span>
-                <input type="date" className="" />
+                <input
+                  type="date"
+                  className=""
+                  onChange={(e) => {
+                    handleEndDateChange(e);
+                  }}
+                />
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("전체")}
                 >
                   전체
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("어제")}
                 >
                   어제
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("지난 3일")}
                 >
                   지난 3일
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("일주일")}
                 >
                   일주일
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("1개월")}
                 >
                   1개월
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("3개월")}
                 >
                   3개월
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("6개월")}
                 >
                   6개월
                 </button>
@@ -131,12 +181,19 @@ function CompanyManagementContent() {
             <div className="flex items-center gap-5">
               <span className="">검색</span>
               <div className="h-10 w-96 rounded-md border border-solid border-black px-3">
-                <input type="text" className="h-full w-full" />
+                <input
+                  type="text"
+                  className="h-full w-full"
+                  onChange={(e) => {
+                    handleInputQueryChange(e);
+                  }}
+                />
               </div>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={handleSearchButtonClick}
                 >
                   검색하기
                 </button>
