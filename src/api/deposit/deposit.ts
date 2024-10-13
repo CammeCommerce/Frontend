@@ -20,6 +20,20 @@ export interface FetchDepositListAllResponse {
   items: DepositList[];
 }
 
+export interface UpdateDepositListRequest {
+  mediumName: string;
+  depositDate: string;
+  accountAlias: string;
+  depositAmount: number;
+  accountDescription: string;
+  transactionMethod1: string;
+  transactionMethod2: string;
+  accountMemo: string;
+  counterpartyName: string;
+  purpose: string;
+  clientName: string;
+}
+
 export interface UploadDepositListExcelRequest {
   file: File;
   depositDateIndex: string;
@@ -34,10 +48,38 @@ export interface UploadDepositListExcelRequest {
   clientNameIndex: string;
 }
 
+export interface FetchDepositListSearchRequest {
+  startDate: string;
+  endDate: string;
+  periodType: string;
+  mediumName: string;
+  isMediumMatched: string;
+  searchQuery: string;
+}
+
 // 입금값 조회 API
 export const fetchDepositListAll = async () => {
   try {
     const response = await api.get<FetchDepositListAllResponse>("/deposit");
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 입급값 검색 API
+export const fetchDepositListSearch = async (
+  fetchDepositListSearchRequest: FetchDepositListSearchRequest,
+) => {
+  try {
+    const response = await api.get<FetchDepositListAllResponse>(
+      "/deposit/search",
+      {
+        params: fetchDepositListSearchRequest,
+      },
+    );
     console.log("response", response.data);
 
     return response.data;
@@ -98,6 +140,41 @@ export const uploadDepositListExcel = async (
     });
 
     console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 입금값 수정 API
+export const updateDepositListOne = async (
+  id: number,
+  updateDeposit: UpdateDepositListRequest,
+) => {
+  try {
+    const response = await api.patch(`/deposit/${id}`, updateDeposit);
+    console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 입금값 엑셀 파일 다운로드 API
+export const downloadDepositListExcel = async (
+  params: FetchDepositListSearchRequest,
+) => {
+  try {
+    const response = await api.get("/deposit/excel/download", {
+      params,
+      responseType: "blob",
+    });
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "입금리스트.xlsx");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   } catch (e) {
     console.error(e);
   }

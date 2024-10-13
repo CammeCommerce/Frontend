@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import {
+  downloadDepositListExcel,
   fetchDepositListAll,
   FetchDepositListAllResponse,
+  fetchDepositListSearch,
+  updateDepositListOne,
   uploadDepositListExcel,
 } from "../../../api/deposit/deposit";
 import { useDropzone } from "react-dropzone";
@@ -14,6 +17,14 @@ const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
 
 function DepositListContent() {
   const [depositList, setDepositList] = useState<FetchDepositListAllResponse>(); // 입금 리스트
+
+  // 검색 관련 상태
+  const [startDate, setStartDate] = useState<string>(""); // 검색 시작일자
+  const [endDate, setEndDate] = useState<string>(""); // 검색 종료일자
+  const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
+  const [mediumName, setMediumName] = useState<string>(""); // 매체명
+  const [isMediumMatched, setIsMediumMatched] = useState<string>("전체"); // 매체명 매칭여부
+  const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
   // 엑셀 모달 관련 상태
   const [excelFile, setExcelFile] = useState<File>(); // 엑셀 파일
@@ -32,8 +43,28 @@ function DepositListContent() {
   const [purposeIndex, setPurposeIndex] = useState<string>(""); // 용도
   const [clientNameIndex, setClientNameIndex] = useState<string>(""); // 거래처
 
+  // 수정할 입금값 관련 상태
+  const [depositIdToUpdate, setDepositIdToUpdate] = useState<number>(-1); // 수정할 입금값 ID
+
+  // 수정할 입금값
+  const [updateDeposit, setUpdateDeposit] = useState({
+    mediumName: "",
+    depositDate: "",
+    accountAlias: "",
+    depositAmount: 0,
+    accountDescription: "",
+    transactionMethod1: "",
+    transactionMethod2: "",
+    accountMemo: "",
+    counterpartyName: "",
+    purpose: "",
+    clientName: "",
+  });
+
   const [isCreateDepositModalOpen, setIsCreateDepositModalOpen] =
     useState<boolean>(false); // 입금값 등록 모달 오픈 상태
+  const [isUpdateDepositModalOpen, setIsUpdateDepositModalOpen] =
+    useState<boolean>(false); // 입금값 수정 모달 오픈 상태
 
   // 엑셀 파일 드롭 이벤트
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -87,6 +118,49 @@ function DepositListContent() {
     }
   }
 
+  // 주문값 수정 버튼 클릭 이벤트
+  function handleUpdateDepositButtonClick() {
+    updateDepositListOne(depositIdToUpdate, updateDeposit)
+      .then(() => {
+        setIsUpdateDepositModalOpen(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  // 검색 버튼 클릭 이벤트
+  function handleSearchButtonClick() {
+    fetchDepositListSearch({
+      startDate,
+      endDate,
+      periodType,
+      mediumName,
+      isMediumMatched,
+      searchQuery,
+    })
+      .then((response) => {
+        setDepositList(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  // 엑셀 다운로드 버튼 클릭 이벤트
+  function handleExcelDownloadButtonClick() {
+    downloadDepositListExcel({
+      startDate,
+      endDate,
+      periodType,
+      mediumName,
+      isMediumMatched,
+      searchQuery,
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
   // 마운트 시 실행
   useEffect(() => {
     fetchDepositListAll()
@@ -107,50 +181,65 @@ function DepositListContent() {
             <div className="flex items-center gap-5">
               <span className="">발주일자검색</span>
               <div className="flex items-center gap-2">
-                <input type="date" className="" />
+                <input
+                  type="date"
+                  className=""
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
                 <span className="">~</span>
-                <input type="date" className="" />
+                <input
+                  type="date"
+                  className=""
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("")}
                 >
                   전체
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("어제")}
                 >
                   어제
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("지난 3일")}
                 >
                   지난 3일
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("일주일")}
                 >
                   일주일
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("1개월")}
                 >
                   1개월
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("3개월")}
                 >
                   3개월
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("6개월")}
                 >
                   6개월
                 </button>
@@ -160,7 +249,10 @@ function DepositListContent() {
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-3">
                   <span className="">매체명</span>
-                  <select className="h-8 w-60 border border-solid border-black text-center">
+                  <select
+                    className="h-8 w-60 border border-solid border-black text-center"
+                    onChange={(e) => setMediumName(e.target.value)}
+                  >
                     <option value="">전체</option>
                     <option value="">매체명_1</option>
                     <option value="">매체명_2</option>
@@ -174,27 +266,33 @@ function DepositListContent() {
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="companyMatching"
                         value="전체"
                         className=""
+                        checked={isMediumMatched === "전체"}
+                        onChange={(e) => setIsMediumMatched(e.target.value)}
                       />
                       전체
                     </label>
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="companyMatching"
                         value="완료"
                         className=""
+                        checked={isMediumMatched === "완료"}
+                        onChange={(e) => setIsMediumMatched(e.target.value)}
                       />
                       완료
                     </label>
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="companyMatching"
                         value="미매칭"
                         className=""
+                        checked={isMediumMatched === "미매칭"}
+                        onChange={(e) => setIsMediumMatched(e.target.value)}
                       />
                       미매칭
                     </label>
@@ -205,12 +303,17 @@ function DepositListContent() {
             <div className="flex items-center gap-5">
               <span className="">검색</span>
               <div className="h-10 w-96 rounded-md border border-solid border-black px-3">
-                <input type="text" className="h-full w-full" />
+                <input
+                  type="text"
+                  className="h-full w-full"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={handleSearchButtonClick}
                 >
                   검색하기
                 </button>
@@ -244,6 +347,7 @@ function DepositListContent() {
             <button
               type="button"
               className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+              onClick={handleExcelDownloadButtonClick}
             >
               엑셀 다운로드
             </button>
@@ -267,6 +371,7 @@ function DepositListContent() {
                   <th className="border border-black">상대계좌예금주명</th>
                   <th className="border border-black">용도</th>
                   <th className="border border-black">거래처</th>
+                  <th className="border border-black">관리</th>
                 </tr>
               </thead>
               <tbody>
@@ -310,6 +415,31 @@ function DepositListContent() {
                     </td>
                     <td className="border border-black text-center">
                       {deposit.clientName}
+                    </td>
+                    <td className="border border-black text-center">
+                      <div className="flex w-full items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          className="border border-solid border-black bg-gray-300"
+                          onClick={() => {
+                            setIsUpdateDepositModalOpen(true);
+                            setDepositIdToUpdate(deposit.id);
+                          }}
+                        >
+                          수정
+                        </button>
+                        {/* <button
+                          type="button"
+                          className="border border-solid border-black bg-gray-300"
+                          onClick={() => {
+                            setAccountAliasToMatch(deposit.accountAlias);
+                            setPurposeToMatch(deposit.purpose);
+                            // setIsRegisterDepositMatchingModalOpen(true);
+                          }}
+                        >
+                          등록
+                        </button> */}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -487,6 +617,173 @@ function DepositListContent() {
               onClick={handleCreateDepositButtonClick}
             >
               등록
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isUpdateDepositModalOpen && (
+        <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
+          <div className="relative flex h-updateModal w-updateModal flex-col items-center rounded-md bg-white px-10 py-4">
+            <button
+              type="button"
+              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
+              onClick={() => setIsUpdateDepositModalOpen(false)}
+            >
+              <img src={closeIcon} alt="닫기" className="w-full" />
+            </button>
+            <h2 className="text-xl font-bold">입금값 수정</h2>
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+              <div className="flex w-full items-center gap-4">
+                <span className="">매체명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      mediumName: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">입금일자</span>
+                <input
+                  type="date"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      depositDate: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">계좌별칭</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      accountAlias: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">입금액</span>
+                <input
+                  type="number"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      depositAmount: Number(e.target.value),
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">계좌적요</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      accountDescription: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">거래수단1</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      transactionMethod1: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">거래수단2</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      transactionMethod2: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">계좌메모</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      accountMemo: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">상대계좌예금주명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      counterpartyName: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">용도</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      purpose: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">거래처</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setUpdateDeposit({
+                      ...updateDeposit,
+                      clientName: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            </div>
+
+            <button
+              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              onClick={handleUpdateDepositButtonClick}
+            >
+              수정
             </button>
           </div>
         </div>
