@@ -33,6 +33,17 @@ interface UpdateOrderList {
   taxType: number;
 }
 
+export interface OrderListSearchQueryParams {
+  startDate: string;
+  endDate: string;
+  periodType: string;
+  mediumName: string;
+  isMediumMatched: string;
+  settlementCompanyName: string;
+  isSettlementCompanyMatched: string;
+  searchQuery: string;
+}
+
 export interface fetchOrderListAllResponse {
   items: OrderList[];
 }
@@ -81,6 +92,22 @@ export const uploadOrder = async (
 export const fetchOrderListAll = async () => {
   try {
     const response = await api.get<fetchOrderListAllResponse>("/order");
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 주문값 검색 API
+export const fetchOrderListSearch = async (
+  searchQueryParams: OrderListSearchQueryParams,
+) => {
+  try {
+    const response = await api.get<fetchOrderListAllResponse>("/order/search", {
+      params: searchQueryParams,
+    });
     console.log("response", response.data);
 
     return response.data;

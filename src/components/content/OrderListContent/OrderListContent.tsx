@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   fetchOrderListAll,
   fetchOrderListAllResponse,
+  fetchOrderListSearch,
   updateOrderListOne,
   uploadOrder,
 } from "../../../api/order/order";
@@ -16,12 +17,22 @@ function OrderListContent() {
   const [orderList, setOrderList] = useState<fetchOrderListAllResponse>(); // 주문 리스트
 
   const [orderIdToUpdate, setOrderIdToUpdate] = useState<number>(-1); // 수정할 주문값의 ID
-  const [orderIdToDelete, setOrderIdToDelete] = useState<number>(-1); // 삭제할 주문값의 ID
 
   const [isCreateOrderModalOpen, setIsCreateOrderModalOpen] =
     useState<boolean>(false); // 주문값 등록 모달 오픈 상태
   const [isUpdateOrderModalOpen, setIsUpdateOrderModalOpen] =
     useState<boolean>(false); // 주문값 수정 모달 오픈 상태
+
+  const [startDate, setStartDate] = useState<string>(""); // 검색 시작일
+  const [endDate, setEndDate] = useState<string>(""); // 검색 종료일
+  const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
+  const [mediumName, setMediumName] = useState<string>(""); // 매체명
+  const [isMediumMatched, setIsMediumMatched] = useState<string>("전체"); // 매체명 매칭여부
+  const [settlementCompanyName, setSettlementCompanyName] =
+    useState<string>(""); // 정산업체명
+  const [isSettlementCompanyMatched, setIsSettlementCompanyMatched] =
+    useState<string>("전체"); // 정산업체명 매칭여부
+  const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
   const [excelFile, setExcelFile] = useState<File>(); // 엑셀 파일
 
@@ -119,6 +130,26 @@ function OrderListContent() {
       });
   }
 
+  // 검색 버튼 클릭 이벤트
+  function handleSearchButtonClick() {
+    fetchOrderListSearch({
+      startDate,
+      endDate,
+      periodType,
+      mediumName,
+      isMediumMatched,
+      settlementCompanyName,
+      isSettlementCompanyMatched,
+      searchQuery,
+    })
+      .then((response) => {
+        setOrderList(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   // 마운트 시 실행
   useEffect(() => {
     fetchOrderListAll()
@@ -139,50 +170,69 @@ function OrderListContent() {
             <div className="flex items-center gap-5">
               <span className="">발주일자검색</span>
               <div className="flex items-center gap-2">
-                <input type="date" className="" />
+                <input
+                  type="date"
+                  className=""
+                  onChange={(e) => {
+                    setStartDate(e.target.value);
+                  }}
+                />
                 <span className="">~</span>
-                <input type="date" className="" />
+                <input
+                  type="date"
+                  className=""
+                  onChange={(e) => {
+                    setEndDate(e.target.value);
+                  }}
+                />
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("")}
                 >
                   전체
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("어제")}
                 >
                   어제
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("지난 3일")}
                 >
                   지난 3일
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("일주일")}
                 >
                   일주일
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("1개월")}
                 >
                   1개월
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("3개월")}
                 >
                   3개월
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("6개월")}
                 >
                   6개월
                 </button>
@@ -192,7 +242,12 @@ function OrderListContent() {
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-3">
                   <span className="">매체명</span>
-                  <select className="h-8 w-60 border border-solid border-black text-center">
+                  <select
+                    className="h-8 w-60 border border-solid border-black text-center"
+                    onChange={(e) => {
+                      setMediumName(e.target.value);
+                    }}
+                  >
                     <option value="">전체</option>
                     <option value="">매체명_1</option>
                     <option value="">매체명_2</option>
@@ -206,27 +261,39 @@ function OrderListContent() {
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="mediumMatching"
                         value="전체"
                         className=""
+                        checked={isMediumMatched === "전체"}
+                        onChange={(e) => {
+                          setIsMediumMatched(e.target.value);
+                        }}
                       />
                       전체
                     </label>
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="mediumMatching"
                         value="완료"
                         className=""
+                        checked={isMediumMatched === "완료"}
+                        onChange={(e) => {
+                          setIsMediumMatched(e.target.value);
+                        }}
                       />
                       완료
                     </label>
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="mediumMatching"
                         value="미매칭"
                         className=""
+                        checked={isMediumMatched === "미매칭"}
+                        onChange={(e) => {
+                          setIsMediumMatched(e.target.value);
+                        }}
                       />
                       미매칭
                     </label>
@@ -236,7 +303,12 @@ function OrderListContent() {
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-3">
                   <span className="">정산업체명</span>
-                  <select className="h-8 w-60 border border-solid border-black text-center">
+                  <select
+                    className="h-8 w-60 border border-solid border-black text-center"
+                    onChange={(e) => {
+                      setSettlementCompanyName(e.target.value);
+                    }}
+                  >
                     <option value="">전체</option>
                     <option value="">정산업체명_1</option>
                     <option value="">정산업체명_2</option>
@@ -250,27 +322,39 @@ function OrderListContent() {
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="settlementCompanyMatching"
                         value="전체"
                         className=""
+                        checked={isSettlementCompanyMatched === "전체"}
+                        onChange={(e) => {
+                          setIsSettlementCompanyMatched(e.target.value);
+                        }}
                       />
                       전체
                     </label>
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="settlementCompanyMatching"
                         value="완료"
                         className=""
+                        checked={isSettlementCompanyMatched === "완료"}
+                        onChange={(e) => {
+                          setIsSettlementCompanyMatched(e.target.value);
+                        }}
                       />
                       완료
                     </label>
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="settlementCompanyMatching"
                         value="미매칭"
                         className=""
+                        checked={isSettlementCompanyMatched === "미매칭"}
+                        onChange={(e) => {
+                          setIsSettlementCompanyMatched(e.target.value);
+                        }}
                       />
                       미매칭
                     </label>
@@ -281,12 +365,19 @@ function OrderListContent() {
             <div className="flex items-center gap-5">
               <span className="">검색</span>
               <div className="h-10 w-96 rounded-md border border-solid border-black px-3">
-                <input type="text" className="h-full w-full" />
+                <input
+                  type="text"
+                  className="h-full w-full"
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                  }}
+                />
               </div>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={handleSearchButtonClick}
                 >
                   검색하기
                 </button>
@@ -423,7 +514,7 @@ function OrderListContent() {
 
       {isCreateOrderModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
-          <div className="w-excelModal h-excelModal relative flex flex-col items-center rounded-md bg-white px-10 py-4">
+          <div className="relative flex h-excelModal w-excelModal flex-col items-center rounded-md bg-white px-10 py-4">
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
@@ -596,7 +687,7 @@ function OrderListContent() {
 
       {isUpdateOrderModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
-          <div className="w-updateModal h-updateModal relative flex flex-col items-center rounded-md bg-white px-10 py-4">
+          <div className="relative flex h-updateModal w-updateModal flex-col items-center rounded-md bg-white px-10 py-4">
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
