@@ -3,20 +3,46 @@ import {
   fetchOrderListAll,
   fetchOrderListAllResponse,
   fetchOrderListSearch,
+  sortOrderList,
   updateOrderListOne,
   uploadOrder,
 } from "../../../api/order/order";
 import { useDropzone } from "react-dropzone";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
+import arrowDropUpEmptyIcon from "/assets/icon/svg/Arrow_drop_up.svg";
+import arrowDropDownEmptyIcon from "/assets/icon/svg/Arrow_drop_down.svg";
+import arrowDropUpFilledIcon from "/assets/icon/svg/Arrow_drop_up_fill.svg";
+import arrowDropDownFilledIcon from "/assets/icon/svg/Arrow_drop_down_fill.svg";
 
 /* prettier-ignore */
 const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]; // 알파벳 배열
+
+const ORDERLIST_HEADER = [
+  { No: "id" },
+  { 매체명: "mediumName" },
+  { 정산업체명: "settlementCompanyName" },
+  { 상품명: "productName" },
+  { 수량: "quantity" },
+  { 발주일자: "orderDate" },
+  { 매입처: "purchasePlace" },
+  { 매출처: "salesPlace" },
+  { 매입가: "purchasePrice" },
+  { 판매가: "salesPrice" },
+  { "매입 배송비": "purchaseShippingFee" },
+  { "매출 배송비": "salesShippingFee" },
+  { 과세여부: "taxType" },
+  { 마진액: "marginAmount" },
+  { 배송차액: "shippingDifference" },
+  { 관리: "management" },
+]; // 주문 리스트 테이블 헤더
 
 function OrderListContent() {
   const [orderList, setOrderList] = useState<fetchOrderListAllResponse>(); // 주문 리스트
 
   const [orderIdToUpdate, setOrderIdToUpdate] = useState<number>(-1); // 수정할 주문값의 ID
+  const [fieldToSort, setFieldToSort] = useState<string>(""); // 정렬할 필드
+  const [isDescend, setIsDescend] = useState<string>(""); // 내림차순 여부
 
   const [isCreateOrderModalOpen, setIsCreateOrderModalOpen] =
     useState<boolean>(false); // 주문값 등록 모달 오픈 상태
@@ -160,6 +186,18 @@ function OrderListContent() {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    if (fieldToSort && isDescend) {
+      sortOrderList(fieldToSort, isDescend)
+        .then((response) => {
+          setOrderList(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [fieldToSort, isDescend]);
 
   return (
     <>
@@ -407,6 +445,33 @@ function OrderListContent() {
               >
                 선택 삭제
               </button>
+              <select
+                name="fieldToSort"
+                id=""
+                className="border border-solid border-black text-center"
+                onChange={(e) => {
+                  setFieldToSort(e.target.value);
+                }}
+              >
+                <option value="">리스트명</option>
+                {ORDERLIST_HEADER.map((header, index) => (
+                  <option key={index} value={Object.values(header)[0]}>
+                    {Object.keys(header)[0]}
+                  </option>
+                ))}
+              </select>
+              <select
+                name="isDescend"
+                id=""
+                className="border border-solid border-black text-center"
+                onChange={(e) => {
+                  setIsDescend(e.target.value);
+                }}
+              >
+                <option value="">정렬방식</option>
+                <option value="asc">오름차순</option>
+                <option value="desc">내림차순</option>
+              </select>
             </div>
             <button
               type="button"
@@ -422,22 +487,11 @@ function OrderListContent() {
                   <th className="border border-black">
                     <input type="checkbox" className="" />
                   </th>
-                  <th className="border border-black">No</th>
-                  <th className="border border-black">매체명</th>
-                  <th className="border border-black">정산업체명</th>
-                  <th className="border border-black">상품명</th>
-                  <th className="border border-black">수량</th>
-                  <th className="border border-black">발주일자</th>
-                  <th className="border border-black">매입처</th>
-                  <th className="border border-black">매출처</th>
-                  <th className="border border-black">매입가</th>
-                  <th className="border border-black">판매가</th>
-                  <th className="border border-black">매입 배송비</th>
-                  <th className="border border-black">매출 배송비</th>
-                  <th className="border border-black">과세여부</th>
-                  <th className="border border-black">마진액</th>
-                  <th className="border border-black">배송차액</th>
-                  <th className="border border-black">관리</th>
+                  {ORDERLIST_HEADER.map((header, index) => (
+                    <th key={index} className="border border-black">
+                      {Object.keys(header)[0]}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>

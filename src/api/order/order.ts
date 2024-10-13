@@ -116,6 +116,23 @@ export const fetchOrderListSearch = async (
   }
 };
 
+// 주문값 정렬 API
+export const sortOrderList = async (field: string, order: string) => {
+  try {
+    const response = await api.get<fetchOrderListAllResponse>("/order/sort", {
+      params: {
+        field,
+        order,
+      },
+    });
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 주문값 수정 API
 export const updateOrderListOne = async (
   id: number,
