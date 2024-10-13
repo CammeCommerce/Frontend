@@ -4,6 +4,7 @@ import {
   fetchDepositListAll,
   FetchDepositListAllResponse,
   fetchDepositListSearch,
+  registerDepositMatching,
   updateDepositListOne,
   uploadDepositListExcel,
 } from "../../../api/deposit/deposit";
@@ -60,6 +61,15 @@ function DepositListContent() {
     purpose: "",
     clientName: "",
   });
+
+  // 등록할 매칭 관련 상태
+  const [mediumNameToMatch, setMediumNameToMatch] = useState<string>(""); // 등록할 매체명
+  const [accountAliasToMatch, setAccountAliasToMatch] = useState<string>(""); // 등록할 계좌별칭
+  const [purposeToMatch, setPurposeToMatch] = useState<string>(""); // 등록할 용도
+  const [
+    isRegisterDepositMatchingModalOpen,
+    setIsRegisterDepositMatchingModalOpen,
+  ] = useState<boolean>(false); // 매칭 등록 모달 오픈 상태
 
   const [isCreateDepositModalOpen, setIsCreateDepositModalOpen] =
     useState<boolean>(false); // 입금값 등록 모달 오픈 상태
@@ -159,6 +169,24 @@ function DepositListContent() {
     }).catch((error) => {
       console.error(error);
     });
+  }
+
+  // 매칭 등록 버튼 클릭 이벤트
+  function handleRegisterDepositMatchingButtonClick() {
+    registerDepositMatching({
+      mediumName: mediumNameToMatch,
+      accountAlias: accountAliasToMatch,
+      purpose: purposeToMatch,
+    })
+      .then(() => {
+        setMediumNameToMatch("");
+        setAccountAliasToMatch("");
+        setPurposeToMatch("");
+        setIsRegisterDepositMatchingModalOpen(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // 마운트 시 실행
@@ -428,17 +456,17 @@ function DepositListContent() {
                         >
                           수정
                         </button>
-                        {/* <button
+                        <button
                           type="button"
                           className="border border-solid border-black bg-gray-300"
                           onClick={() => {
                             setAccountAliasToMatch(deposit.accountAlias);
                             setPurposeToMatch(deposit.purpose);
-                            // setIsRegisterDepositMatchingModalOpen(true);
+                            setIsRegisterDepositMatchingModalOpen(true);
                           }}
                         >
                           등록
-                        </button> */}
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -784,6 +812,58 @@ function DepositListContent() {
               onClick={handleUpdateDepositButtonClick}
             >
               수정
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isRegisterDepositMatchingModalOpen && (
+        <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
+          <div className="h-registerModal w-registerModal relative flex flex-col items-center rounded-md bg-white px-10 py-4">
+            <button
+              type="button"
+              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
+              onClick={() => setIsRegisterDepositMatchingModalOpen(false)}
+            >
+              <img src={closeIcon} alt="닫기" className="w-full" />
+            </button>
+            <h2 className="text-xl font-bold">입금 매칭 등록</h2>
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+              <div className="flex w-full items-center gap-4">
+                <span className="">매체명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setMediumNameToMatch(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매입처</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  value={accountAliasToMatch}
+                  disabled
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매출처</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  value={purposeToMatch}
+                  disabled
+                />
+              </div>
+            </div>
+
+            <button
+              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              onClick={handleRegisterDepositMatchingButtonClick}
+            >
+              등록
             </button>
           </div>
         </div>

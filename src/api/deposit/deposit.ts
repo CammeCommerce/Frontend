@@ -57,6 +57,12 @@ export interface FetchDepositListSearchRequest {
   searchQuery: string;
 }
 
+export interface RegisterDepositMatchingRequest {
+  mediumName: string;
+  accountAlias: string;
+  purpose: string;
+}
+
 // 입금값 조회 API
 export const fetchDepositListAll = async () => {
   try {
@@ -175,6 +181,21 @@ export const downloadDepositListExcel = async (
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 입금 매칭 등록 API
+export const registerDepositMatching = async (
+  registerDepositMatchingRequest: RegisterDepositMatchingRequest,
+) => {
+  try {
+    const response = await api.post(
+      "/deposit-matching",
+      registerDepositMatchingRequest,
+    );
+    console.log("response", response.data);
   } catch (e) {
     console.error(e);
   }
