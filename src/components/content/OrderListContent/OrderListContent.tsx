@@ -12,10 +12,7 @@ import {
 import { useDropzone } from "react-dropzone";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
-import arrowDropUpEmptyIcon from "/assets/icon/svg/Arrow_drop_up.svg";
-import arrowDropDownEmptyIcon from "/assets/icon/svg/Arrow_drop_down.svg";
-import arrowDropUpFilledIcon from "/assets/icon/svg/Arrow_drop_up_fill.svg";
-import arrowDropDownFilledIcon from "/assets/icon/svg/Arrow_drop_down_fill.svg";
+import { AxiosError } from "axios";
 
 /* prettier-ignore */
 const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]; // 알파벳 배열
@@ -146,7 +143,7 @@ function OrderListContent() {
           setIsCreateOrderModalOpen(false);
           setExcelFile(undefined);
         })
-        .catch((error) => {
+        .catch((error: AxiosError) => {
           console.error(error);
         });
     } else {
