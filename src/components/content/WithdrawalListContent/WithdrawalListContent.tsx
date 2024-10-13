@@ -3,8 +3,10 @@ import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
 import { useDropzone } from "react-dropzone";
 import {
+  downloadWithdrawalListExcel,
   fetchWithdrawalListAll,
   FetchWithdrawalListAllResponse,
+  fetchWithdrawalListSearch,
   updateWithdrawalOne,
   uploadWithdrawal,
 } from "../../../api/withdrawal/withdrawal";
@@ -19,6 +21,14 @@ function WithdrawalListContent() {
 
   const [isCreateWithdrawalModalOpen, setIsCreateWithdrawalModalOpen] =
     useState<boolean>(false); // 출금값 등록 모달 오픈 상태
+
+  // 검색 관련 상태
+  const [startDate, setStartDate] = useState<string>(""); // 검색 시작일자
+  const [endDate, setEndDate] = useState<string>(""); // 검색 종료일자
+  const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
+  const [mediumName, setMediumName] = useState<string>(""); // 매체명
+  const [isMediumMatched, setIsMediumMatched] = useState<string>("전체"); // 매체명 매칭여부
+  const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
   // 수정 모달 관련 상태
   const [isUpdateWithdrawalModalOpen, setIsUpdateWithdrawalModalOpen] =
@@ -104,6 +114,24 @@ function WithdrawalListContent() {
     }
   }
 
+  // 검색 버튼 클릭 이벤트
+  function handleSearchButtonClick() {
+    fetchWithdrawalListSearch({
+      startDate,
+      endDate,
+      periodType,
+      mediumName,
+      isMediumMatched,
+      searchQuery,
+    })
+      .then((response) => {
+        setWithdrawalList(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   // 출금값 수정 버튼 클릭 이벤트
   function handleUpdateWithdrawalButtonClick() {
     updateWithdrawalOne(withdrawalIdToUpdate, updateWithdrawal)
@@ -113,6 +141,20 @@ function WithdrawalListContent() {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  // 엑셀 다운로드 버튼 클릭 이벤트
+  function handleExcelDownloadButtonClick() {
+    downloadWithdrawalListExcel({
+      startDate,
+      endDate,
+      periodType,
+      mediumName,
+      isMediumMatched,
+      searchQuery,
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
   // 마운트 시 실행
@@ -135,50 +177,65 @@ function WithdrawalListContent() {
             <div className="flex items-center gap-5">
               <span className="">발주일자검색</span>
               <div className="flex items-center gap-2">
-                <input type="date" className="" />
+                <input
+                  type="date"
+                  className=""
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
                 <span className="">~</span>
-                <input type="date" className="" />
+                <input
+                  type="date"
+                  className=""
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("")}
                 >
                   전체
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("어제")}
                 >
                   어제
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("지난 3일")}
                 >
                   지난 3일
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("일주일")}
                 >
                   일주일
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("1개월")}
                 >
                   1개월
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("3개월")}
                 >
                   3개월
                 </button>
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={() => setPeriodType("6개월")}
                 >
                   6개월
                 </button>
@@ -188,7 +245,10 @@ function WithdrawalListContent() {
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-3">
                   <span className="">매체명</span>
-                  <select className="h-8 w-60 border border-solid border-black text-center">
+                  <select
+                    className="h-8 w-60 border border-solid border-black text-center"
+                    onChange={(e) => setMediumName(e.target.value)}
+                  >
                     <option value="">전체</option>
                     <option value="">매체명_1</option>
                     <option value="">매체명_2</option>
@@ -202,27 +262,33 @@ function WithdrawalListContent() {
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="companyMatching"
                         value="전체"
                         className=""
+                        checked={isMediumMatched === "전체"}
+                        onChange={() => setIsMediumMatched("전체")}
                       />
                       전체
                     </label>
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="companyMatching"
                         value="완료"
                         className=""
+                        checked={isMediumMatched === "완료"}
+                        onChange={() => setIsMediumMatched("완료")}
                       />
                       완료
                     </label>
                     <label className="flex items-center gap-1">
                       <input
                         type="radio"
-                        name="matching"
+                        name="companyMatching"
                         value="미매칭"
                         className=""
+                        checked={isMediumMatched === "미매칭"}
+                        onChange={() => setIsMediumMatched("미매칭")}
                       />
                       미매칭
                     </label>
@@ -233,12 +299,17 @@ function WithdrawalListContent() {
             <div className="flex items-center gap-5">
               <span className="">검색</span>
               <div className="h-10 w-96 rounded-md border border-solid border-black px-3">
-                <input type="text" className="h-full w-full" />
+                <input
+                  type="text"
+                  className="h-full w-full"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </div>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  onClick={handleSearchButtonClick}
                 >
                   검색하기
                 </button>
@@ -272,6 +343,7 @@ function WithdrawalListContent() {
             <button
               type="button"
               className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+              onClick={handleExcelDownloadButtonClick}
             >
               엑셀 다운로드
             </button>

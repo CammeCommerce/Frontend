@@ -45,6 +45,15 @@ export interface UpdateWithdrawalRequest {
   clientName: string;
 }
 
+export interface WithdrawalListSearchQueryParams {
+  startDate: string;
+  endDate: string;
+  periodType: string;
+  mediumName: string;
+  isMediumMatched: string;
+  searchQuery: string;
+}
+
 // 출금값 엑셀 파일 업로드 API
 export const uploadWithdrawal = async (
   uploadWithdrawalRequest: UploadWithdrawalRequest,
@@ -108,6 +117,25 @@ export const fetchWithdrawalListAll = async () => {
   }
 };
 
+// 출금값 검색 API
+export const fetchWithdrawalListSearch = async (
+  searchQueryParams: WithdrawalListSearchQueryParams,
+) => {
+  try {
+    const response = await api.get<FetchWithdrawalListAllResponse>(
+      "/withdrawal/search",
+      {
+        params: searchQueryParams,
+      },
+    );
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 출금값 수정 API
 export const updateWithdrawalOne = async (
   id: number,
@@ -119,6 +147,28 @@ export const updateWithdrawalOne = async (
       updateWithdrawalRequest,
     );
     console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 출금값 엑셀 파일 다운로드 API
+export const downloadWithdrawalListExcel = async (
+  params: WithdrawalListSearchQueryParams,
+) => {
+  try {
+    const response = await api.get("/withdrawal/excel/download", {
+      params,
+      responseType: "blob",
+    });
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "출금리스트.xlsx");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   } catch (e) {
     console.error(e);
   }
