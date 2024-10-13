@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import {
+  deleteOrderListMany,
   downloadOrderListExcel,
   fetchOrderListAll,
   FetchOrderListAllResponse,
@@ -220,6 +221,17 @@ function OrderListContent() {
     }).catch((error) => {
       console.error(error);
     });
+  }
+
+  // 주문값 선택 삭제 버튼 클릭 이벤트
+  function handleDeleteOrderButtonClick() {
+    deleteOrderListMany(orderIdsToDelete)
+      .then(() => {
+        setOrderIdsToDelete([]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // 주문 매칭 등록 버튼 클릭 이벤트
@@ -509,6 +521,8 @@ function OrderListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                disabled={orderIdsToDelete.length === 0}
+                onClick={handleDeleteOrderButtonClick}
               >
                 선택 삭제
               </button>

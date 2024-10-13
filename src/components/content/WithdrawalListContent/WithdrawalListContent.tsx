@@ -3,6 +3,7 @@ import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
 import { useDropzone } from "react-dropzone";
 import {
+  deleteWithdrawalListMany,
   downloadWithdrawalListExcel,
   fetchWithdrawalListAll,
   FetchWithdrawalListAllResponse,
@@ -191,6 +192,17 @@ function WithdrawalListContent() {
     }).catch((error) => {
       console.error(error);
     });
+  }
+
+  // 선택 삭제 버튼 클릭 이벤트
+  function handleDeleteSelectedButtonClick() {
+    deleteWithdrawalListMany(withdrawalIdsToDelete)
+      .then(() => {
+        setWithdrawalIdsToDelete([]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // 출금 매칭 등록 버튼 클릭 이벤트
@@ -390,6 +402,8 @@ function WithdrawalListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                disabled={withdrawalIdsToDelete.length === 0}
+                onClick={handleDeleteSelectedButtonClick}
               >
                 선택 삭제
               </button>

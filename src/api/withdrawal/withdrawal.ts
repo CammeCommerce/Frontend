@@ -199,6 +199,20 @@ export const downloadWithdrawalListExcel = async (
   }
 };
 
+// 출금값 삭제 API
+export const deleteWithdrawalListMany = async (ids: number[]) => {
+  try {
+    const response = await api.delete("/withdrawal", {
+      data: {
+        ids,
+      },
+    });
+    console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 출금 매칭 등록 API
 export const registerWithdrawalMatching = async (
   registerWithdrawalMatchingRequest: RegisterWithdrawalMatchingRequest,
@@ -242,6 +256,20 @@ export const fetchWithdrawalMatchingListSearch = async (
     console.log("response", response.data);
 
     return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 출금 매칭 삭제 API
+export const deleteWithdrawalMatchingListMany = async (ids: number[]) => {
+  try {
+    const response = await api.delete("/withdrawal-matching", {
+      data: {
+        ids,
+      },
+    });
+    console.log("response", response.data);
   } catch (e) {
     console.error(e);
   }

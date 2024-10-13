@@ -205,6 +205,20 @@ export const downloadDepositListExcel = async (
   }
 };
 
+// 입금값 삭제 API
+export const deleteDepositListMany = async (ids: number[]) => {
+  try {
+    const response = await api.delete("/deposit", {
+      data: {
+        ids,
+      },
+    });
+    console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 입금 매칭 등록 API
 export const registerDepositMatching = async (
   registerDepositMatchingRequest: RegisterDepositMatchingRequest,
@@ -247,6 +261,20 @@ export const fetchDepositMatchingListSearch = async (
     console.log("response", response.data);
 
     return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 입금 매칭 삭제 API
+export const deleteDepositMatchingListMany = async (ids: number[]) => {
+  try {
+    const response = await api.delete("/deposit-matching", {
+      data: {
+        ids,
+      },
+    });
+    console.log("response", response.data);
   } catch (e) {
     console.error(e);
   }

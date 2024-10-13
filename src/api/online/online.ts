@@ -92,3 +92,17 @@ export const updateOnlineListOne = async (
     console.error(e);
   }
 };
+
+// 온라인리스트 삭제 API
+export const deleteOnlineListMany = async (ids: number[]) => {
+  try {
+    const response = await api.delete("/online", {
+      data: {
+        ids,
+      },
+    });
+    console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};

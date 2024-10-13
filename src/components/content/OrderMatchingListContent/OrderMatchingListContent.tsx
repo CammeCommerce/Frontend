@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  deleteOrderMatchingListMany,
   fetchOrderMatchingListAll,
   FetchOrderMatchingListAllResponse,
   fetchOrderMatchingListSearch,
@@ -60,6 +61,17 @@ function OrderMatchingListContent() {
         return [...prevOrderMatchingIds, orderMatchingId];
       }
     });
+  }
+
+  // 선택 삭제 버튼 클릭 이벤트
+  function handleDeleteButtonClick() {
+    deleteOrderMatchingListMany(orderMatchingIdsToDelete)
+      .then(() => {
+        setOrderMatchingIdsToDelete([]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // 마운트 시 실행
@@ -209,6 +221,8 @@ function OrderMatchingListContent() {
           <button
             type="button"
             className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+            disabled={orderMatchingIdsToDelete.length === 0}
+            onClick={handleDeleteButtonClick}
           >
             선택 삭제
           </button>

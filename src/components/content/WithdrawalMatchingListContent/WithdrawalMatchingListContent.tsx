@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  deleteWithdrawalMatchingListMany,
   fetchWithdrawalMatchingListAll,
   fetchWithdrawalMatchingListSearch,
   WithdrawalMatchingList,
@@ -63,6 +64,17 @@ function WithdrawalMatchingListContent() {
         return [...prevWithdrawalMatchingIds, withdrawalMatchingId];
       }
     });
+  }
+
+  // 선택 삭제 버튼 클릭 핸들러
+  function handleDeleteButtonClick() {
+    deleteWithdrawalMatchingListMany(withdrawalMatchingIdsToDelete)
+      .then(() => {
+        setWithdrawalMatchingIdsToDelete([]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // 마운트 시 실행
@@ -198,6 +210,8 @@ function WithdrawalMatchingListContent() {
             <button
               type="button"
               className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+              disabled={withdrawalMatchingIdsToDelete.length === 0}
+              onClick={handleDeleteButtonClick}
             >
               선택 삭제
             </button>

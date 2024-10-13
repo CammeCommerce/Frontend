@@ -192,6 +192,20 @@ export const downloadOrderListExcel = async (
   }
 };
 
+// 주문값 삭제 API
+export const deleteOrderListMany = async (ids: number[]) => {
+  try {
+    const response = await api.delete("/order", {
+      data: {
+        ids,
+      },
+    });
+    console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 주문 매칭 등록 API
 export const registerOrderMatching = async (
   registerOrderMatchingRequest: RegisterOrderMatchingRequest,
@@ -252,6 +266,20 @@ export const fetchOrderMatchingListSearch = async (
     console.log("response", response.data);
 
     return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 주문 매칭 삭제 API
+export const deleteOrderMatchingListMany = async (ids: number[]) => {
+  try {
+    const response = await api.delete("/order-matching", {
+      data: {
+        ids,
+      },
+    });
+    console.log("response", response.data);
   } catch (e) {
     console.error(e);
   }

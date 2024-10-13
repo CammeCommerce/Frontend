@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import {
+  deleteDepositListMany,
   downloadDepositListExcel,
   fetchDepositListAll,
   FetchDepositListAllResponse,
@@ -193,6 +194,17 @@ function DepositListContent() {
     }).catch((error) => {
       console.error(error);
     });
+  }
+
+  // 선택 삭제 버튼 클릭 이벤트
+  function handleDeleteDepositButtonClick() {
+    deleteDepositListMany(depositIdsToDelete)
+      .then(() => {
+        setDepositIdsToDelete([]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // 매칭 등록 버튼 클릭 이벤트
@@ -392,6 +404,8 @@ function DepositListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                disabled={depositIdsToDelete.length === 0}
+                onClick={handleDeleteDepositButtonClick}
               >
                 선택 삭제
               </button>

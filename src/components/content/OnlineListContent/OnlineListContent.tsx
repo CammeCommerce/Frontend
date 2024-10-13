@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   createOnlineListOne,
+  deleteOnlineListMany,
   fetchOnlineListAll,
   fetchOnlineListSearch,
   OnlineListResponse,
@@ -154,6 +155,17 @@ function OnlineListContent() {
     setMarginAmountToUpdate(salesAmountToUpdate - value); // 마진 계산
   }
 
+  // 선택 삭제 버튼 클릭 이벤트
+  function handleDeleteOnlineListButtonClick() {
+    deleteOnlineListMany(onlineListIdsToDelete)
+      .then(() => {
+        setOnlineListIdsToDelete([]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   // 마운트 시 실행
   useEffect(() => {
     fetchOnlineListAll()
@@ -295,6 +307,8 @@ function OnlineListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                disabled={onlineListIdsToDelete.length === 0}
+                onClick={handleDeleteOnlineListButtonClick}
               >
                 선택 삭제
               </button>
