@@ -18,6 +18,10 @@ function OrderMatchingListContent() {
     useState<string>(""); // 정산업체명
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
+  const [orderMatchingIdsToDelete, setOrderMatchingIdsToDelete] = useState<
+    number[]
+  >([]); // 삭제할 주문 매칭 ID 목록
+
   // 검색 버튼 클릭 시 호출되는 함수
   const handleSearchButtonClick = () => {
     fetchOrderMatchingListSearch(
@@ -35,6 +39,28 @@ function OrderMatchingListContent() {
         console.error(error);
       });
   };
+
+  // 체크박스 전체 선택 이벤트
+  function handleSelectAllCheckboxChange() {
+    if (orderMatchingIdsToDelete.length === orderMatchingList?.items.length) {
+      setOrderMatchingIdsToDelete([]);
+    } else {
+      const allOrderMatchingIds =
+        orderMatchingList?.items.map((orderMatching) => orderMatching.id) || [];
+      setOrderMatchingIdsToDelete(allOrderMatchingIds);
+    }
+  }
+
+  // 개별 체크박스 선택 이벤트
+  function handleCheckboxChange(orderMatchingId: number) {
+    setOrderMatchingIdsToDelete((prevOrderMatchingIds) => {
+      if (prevOrderMatchingIds.includes(orderMatchingId)) {
+        return prevOrderMatchingIds.filter((id) => id !== orderMatchingId);
+      } else {
+        return [...prevOrderMatchingIds, orderMatchingId];
+      }
+    });
+  }
 
   // 마운트 시 실행
   useEffect(() => {
@@ -192,7 +218,17 @@ function OrderMatchingListContent() {
             <thead className="bg-gray-200">
               <tr className="h-10">
                 <th className="border border-black">
-                  <input type="checkbox" className="" />
+                  <input
+                    type="checkbox"
+                    className=""
+                    onChange={handleSelectAllCheckboxChange}
+                    checked={
+                      orderMatchingList?.items &&
+                      orderMatchingList.items.length > 0 &&
+                      orderMatchingIdsToDelete.length ===
+                        orderMatchingList.items.length
+                    }
+                  />
                 </th>
                 <th className="border border-black">No</th>
                 <th className="border border-black">매체명</th>
@@ -205,7 +241,14 @@ function OrderMatchingListContent() {
               {orderMatchingList?.items.map((orderMatching, index) => (
                 <tr key={index} className="h-10">
                   <td className="border border-black text-center">
-                    <input type="checkbox" className="" />
+                    <input
+                      type="checkbox"
+                      className=""
+                      onChange={() => handleCheckboxChange(orderMatching.id)}
+                      checked={orderMatchingIdsToDelete.includes(
+                        orderMatching.id,
+                      )}
+                    />
                   </td>
                   <td className="border border-black text-center">
                     {orderMatching.id}

@@ -16,6 +16,10 @@ function WithdrawalMatchingListContent() {
   const [mediumName, setMediumName] = useState<string>(""); // 매체명
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
+  const [withdrawalMatchingIdsToDelete, setWithdrawalMatchingIdsToDelete] =
+    useState<number[]>([]); // 삭제할 출금 매칭리스트 ID 배열
+
+  // 검색 버튼 클릭 핸들러
   function handleSearchButtonClick() {
     fetchWithdrawalMatchingListSearch({
       startDate: startDate,
@@ -30,6 +34,35 @@ function WithdrawalMatchingListContent() {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  // 체크박스 전체 선택 이벤트
+  function handleSelectAllCheckboxChange() {
+    if (
+      withdrawalMatchingIdsToDelete.length ===
+      withdrawalMatchingList?.items.length
+    ) {
+      setWithdrawalMatchingIdsToDelete([]);
+    } else {
+      const allWithdrawalMatchingIds =
+        withdrawalMatchingList?.items.map(
+          (withdrawalMatching) => withdrawalMatching.id,
+        ) || [];
+      setWithdrawalMatchingIdsToDelete(allWithdrawalMatchingIds);
+    }
+  }
+
+  // 개별 체크박스 선택 이벤트
+  function handleCheckboxChange(withdrawalMatchingId: number) {
+    setWithdrawalMatchingIdsToDelete((prevWithdrawalMatchingIds) => {
+      if (prevWithdrawalMatchingIds.includes(withdrawalMatchingId)) {
+        return prevWithdrawalMatchingIds.filter(
+          (id) => id !== withdrawalMatchingId,
+        );
+      } else {
+        return [...prevWithdrawalMatchingIds, withdrawalMatchingId];
+      }
+    });
   }
 
   // 마운트 시 실행
@@ -175,7 +208,17 @@ function WithdrawalMatchingListContent() {
             <thead className="bg-gray-200">
               <tr className="h-10">
                 <th className="border border-black">
-                  <input type="checkbox" className="" />
+                  <input
+                    type="checkbox"
+                    className=""
+                    onChange={handleSelectAllCheckboxChange}
+                    checked={
+                      withdrawalMatchingList?.items &&
+                      withdrawalMatchingList.items.length > 0 &&
+                      withdrawalMatchingIdsToDelete.length ===
+                        withdrawalMatchingList.items.length
+                    }
+                  />
                 </th>
                 <th className="border border-black">No</th>
                 <th className="border border-black">매체명</th>
@@ -187,7 +230,12 @@ function WithdrawalMatchingListContent() {
               {withdrawalMatchingList?.items.map((item, index) => (
                 <tr key={index} className="h-10">
                   <td className="border border-black text-center">
-                    <input type="checkbox" className="" />
+                    <input
+                      type="checkbox"
+                      className=""
+                      onChange={() => handleCheckboxChange(item.id)}
+                      checked={withdrawalMatchingIdsToDelete.includes(item.id)}
+                    />
                   </td>
                   <td className="border border-black text-center">{item.id}</td>
                   <td className="border border-black text-center">

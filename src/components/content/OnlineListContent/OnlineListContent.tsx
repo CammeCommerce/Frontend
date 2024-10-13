@@ -44,6 +44,32 @@ function OnlineListContent() {
   const [marginAmountToUpdate, setMarginAmountToUpdate] = useState<number>(0); // 마진
   const [memoToUpdate, setMemoToUpdate] = useState<string>(""); // 메모
 
+  const [onlineListIdsToDelete, setOnlineListIdsToDelete] = useState<number[]>(
+    [],
+  ); // 삭제할 온라인 리스트 ID 배열
+
+  // 체크박스 전체 선택 이벤트
+  function handleSelectAllCheckboxChange() {
+    if (onlineListIdsToDelete.length === onlineList?.items.length) {
+      setOnlineListIdsToDelete([]);
+    } else {
+      const allOnlineListIds =
+        onlineList?.items.map((onelineList) => onelineList.id) || [];
+      setOnlineListIdsToDelete(allOnlineListIds);
+    }
+  }
+
+  // 개별 체크박스 선택 이벤트
+  function handleCheckboxChange(onelineListId: number) {
+    setOnlineListIdsToDelete((prevOnlineListIds) => {
+      if (prevOnlineListIds.includes(onelineListId)) {
+        return prevOnlineListIds.filter((id) => id !== onelineListId);
+      } else {
+        return [...prevOnlineListIds, onelineListId];
+      }
+    });
+  }
+
   // 주문값 등록 모달 닫기 버튼 클릭 이벤트
   function handleCreateOnlineListModalCloseButtonClick() {
     setIsCreateOnlineListModalOpen(false);
@@ -279,7 +305,16 @@ function OnlineListContent() {
               <thead className="bg-gray-200">
                 <tr className="h-10">
                   <th className="border border-black">
-                    <input type="checkbox" className="" />
+                    <input
+                      type="checkbox"
+                      className=""
+                      onChange={handleSelectAllCheckboxChange}
+                      checked={
+                        onlineList?.items &&
+                        onlineList.items.length > 0 &&
+                        onlineListIdsToDelete.length === onlineList.items.length
+                      }
+                    />
                   </th>
                   <th className="border border-black">No</th>
                   <th className="border border-black">매출 발생 월</th>
@@ -296,7 +331,12 @@ function OnlineListContent() {
                 {onlineList?.items.map((item, index) => (
                   <tr key={index} className="h-10">
                     <td className="border border-black text-center">
-                      <input type="checkbox" className="" />
+                      <input
+                        type="checkbox"
+                        className=""
+                        onChange={() => handleCheckboxChange(item.id)}
+                        checked={onlineListIdsToDelete.includes(item.id)}
+                      />
                     </td>
                     <td className="border border-black text-center">
                       {item.id}

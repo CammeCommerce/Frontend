@@ -99,6 +99,8 @@ function OrderListContent() {
     taxType: 0,
   });
 
+  const [orderIdsToDelete, setOrderIdsToDelete] = useState<number[]>([]); // 삭제할 주문값의 ID 배열
+
   // 엑셀 파일 드롭 이벤트
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -116,6 +118,27 @@ function OrderListContent() {
     }, // 엑셀 파일만 허용
     multiple: false, // 하나의 파일만 받음
   });
+
+  // 체크박스 전체 선택 이벤트
+  function handleSelectAllCheckboxChange() {
+    if (orderIdsToDelete.length === orderList?.items.length) {
+      setOrderIdsToDelete([]);
+    } else {
+      const allOrderIds = orderList?.items.map((order) => order.id) || [];
+      setOrderIdsToDelete(allOrderIds);
+    }
+  }
+
+  // 개별 체크박스 선택 이벤트
+  function handleCheckboxChange(orderId: number) {
+    setOrderIdsToDelete((prevOrderIds) => {
+      if (prevOrderIds.includes(orderId)) {
+        return prevOrderIds.filter((id) => id !== orderId);
+      } else {
+        return [...prevOrderIds, orderId];
+      }
+    });
+  }
 
   // 주문값 등록 모달 닫기 버튼 클릭 이벤트
   function handleExcelModalCloseButtonClick() {
@@ -530,7 +553,16 @@ function OrderListContent() {
               <thead className="bg-gray-200">
                 <tr className="h-10">
                   <th className="border border-black">
-                    <input type="checkbox" className="" />
+                    <input
+                      type="checkbox"
+                      className=""
+                      onChange={handleSelectAllCheckboxChange}
+                      checked={
+                        orderList?.items &&
+                        orderList.items.length > 0 &&
+                        orderIdsToDelete.length === orderList.items.length
+                      }
+                    />
                   </th>
                   {ORDERLIST_HEADER.map((header, index) => (
                     <th key={index} className="border border-black">
@@ -543,7 +575,12 @@ function OrderListContent() {
                 {orderList?.items.map((order, index) => (
                   <tr key={index} className="h-10">
                     <td className="border border-black text-center">
-                      <input type="checkbox" className="" />
+                      <input
+                        type="checkbox"
+                        className=""
+                        onChange={() => handleCheckboxChange(order.id)}
+                        checked={orderIdsToDelete.includes(order.id)}
+                      />
                     </td>
                     <td className="border border-black text-center">
                       {order.id}

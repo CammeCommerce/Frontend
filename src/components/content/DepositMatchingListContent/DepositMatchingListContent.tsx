@@ -16,6 +16,10 @@ function DepositMatchingListContent() {
   const [mediumName, setMediumName] = useState<string>(""); // 매체명
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
+  const [depositMatchingIdsToDelete, setDepositMatchingIdsToDelete] = useState<
+    number[]
+  >([]); // 삭제할 입금 매칭리스트 ID 배열
+
   // 검색 버튼 클릭 핸들러
   function handleSearchButtonClick() {
     fetchDepositMatchingListSearch({
@@ -31,6 +35,32 @@ function DepositMatchingListContent() {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  // 체크박스 전체 선택 이벤트
+  function handleSelectAllCheckboxChange() {
+    if (
+      depositMatchingIdsToDelete.length === depositMatchingList?.items.length
+    ) {
+      setDepositMatchingIdsToDelete([]);
+    } else {
+      const allDepositMatchingIds =
+        depositMatchingList?.items.map(
+          (depositMatching) => depositMatching.id,
+        ) || [];
+      setDepositMatchingIdsToDelete(allDepositMatchingIds);
+    }
+  }
+
+  // 개별 체크박스 선택 이벤트
+  function handleCheckboxChange(depositMatchingId: number) {
+    setDepositMatchingIdsToDelete((prevDepositMatchingIds) => {
+      if (prevDepositMatchingIds.includes(depositMatchingId)) {
+        return prevDepositMatchingIds.filter((id) => id !== depositMatchingId);
+      } else {
+        return [...prevDepositMatchingIds, depositMatchingId];
+      }
+    });
   }
 
   // 마운트 시 실행
@@ -176,7 +206,17 @@ function DepositMatchingListContent() {
             <thead className="bg-gray-200">
               <tr className="h-10">
                 <th className="border border-black">
-                  <input type="checkbox" className="" />
+                  <input
+                    type="checkbox"
+                    className=""
+                    onChange={handleSelectAllCheckboxChange}
+                    checked={
+                      depositMatchingList?.items &&
+                      depositMatchingList.items.length > 0 &&
+                      depositMatchingIdsToDelete.length ===
+                        depositMatchingList.items.length
+                    }
+                  />
                 </th>
                 <th className="border border-black">No</th>
                 <th className="border border-black">매체명</th>
@@ -188,7 +228,12 @@ function DepositMatchingListContent() {
               {depositMatchingList?.items.map((item, index) => (
                 <tr key={index} className="h-10">
                   <td className="border border-black text-center">
-                    <input type="checkbox" className="" />
+                    <input
+                      type="checkbox"
+                      className=""
+                      onChange={() => handleCheckboxChange(item.id)}
+                      checked={depositMatchingIdsToDelete.includes(item.id)}
+                    />
                   </td>
                   <td className="border border-black text-center">{item.id}</td>
                   <td className="border border-black text-center">

@@ -76,6 +76,8 @@ function DepositListContent() {
   const [isUpdateDepositModalOpen, setIsUpdateDepositModalOpen] =
     useState<boolean>(false); // 입금값 수정 모달 오픈 상태
 
+  const [depositIdsToDelete, setDepositIdsToDelete] = useState<number[]>([]); // 삭제할 입금값 ID 배열
+
   // 엑셀 파일 드롭 이벤트
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -93,6 +95,28 @@ function DepositListContent() {
     }, // 엑셀 파일만 허용
     multiple: false, // 하나의 파일만 받음
   });
+
+  // 체크박스 전체 선택 이벤트
+  function handleSelectAllCheckboxChange() {
+    if (depositIdsToDelete.length === depositList?.items.length) {
+      setDepositIdsToDelete([]);
+    } else {
+      const allDepositIds =
+        depositList?.items.map((deposit) => deposit.id) || [];
+      setDepositIdsToDelete(allDepositIds);
+    }
+  }
+
+  // 개별 체크박스 선택 이벤트
+  function handleCheckboxChange(depositId: number) {
+    setDepositIdsToDelete((prevDepositIds) => {
+      if (prevDepositIds.includes(depositId)) {
+        return prevDepositIds.filter((id) => id !== depositId);
+      } else {
+        return [...prevDepositIds, depositId];
+      }
+    });
+  }
 
   // 입금값 등록 모달 닫기 버튼 클릭 이벤트
   function handleExcelModalCloseButtonClick() {
@@ -385,7 +409,16 @@ function DepositListContent() {
               <thead className="bg-gray-200">
                 <tr className="h-10">
                   <th className="border border-black">
-                    <input type="checkbox" className="" />
+                    <input
+                      type="checkbox"
+                      className=""
+                      onChange={handleSelectAllCheckboxChange}
+                      checked={
+                        depositList?.items &&
+                        depositList.items.length > 0 &&
+                        depositIdsToDelete.length === depositList.items.length
+                      }
+                    />
                   </th>
                   <th className="border border-black">No</th>
                   <th className="border border-black">매체명</th>
@@ -406,7 +439,12 @@ function DepositListContent() {
                 {depositList?.items.map((deposit, index) => (
                   <tr key={index} className="h-10">
                     <td className="border border-black text-center">
-                      <input type="checkbox" className="" />
+                      <input
+                        type="checkbox"
+                        className=""
+                        onChange={() => handleCheckboxChange(deposit.id)}
+                        checked={depositIdsToDelete.includes(deposit.id)}
+                      />
                     </td>
                     <td className="border border-black text-center">
                       {deposit.id}

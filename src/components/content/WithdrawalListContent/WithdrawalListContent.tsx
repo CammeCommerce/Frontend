@@ -73,6 +73,10 @@ function WithdrawalListContent() {
   const [purposeIndex, setPurposeIndex] = useState<string>(""); // 용도
   const [clientNameIndex, setClientNameIndex] = useState<string>(""); // 거래처
 
+  const [withdrawalIdsToDelete, setWithdrawalIdsToDelete] = useState<number[]>(
+    [],
+  ); // 삭제할 출금값 ID 배열
+
   // 엑셀 파일 드롭 이벤트
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -90,6 +94,28 @@ function WithdrawalListContent() {
     }, // 엑셀 파일만 허용
     multiple: false, // 하나의 파일만 받음
   });
+
+  // 체크박스 전체 선택 이벤트
+  function handleSelectAllCheckboxChange() {
+    if (withdrawalIdsToDelete.length === withdrawalList?.items.length) {
+      setWithdrawalIdsToDelete([]);
+    } else {
+      const allWithdrawalIds =
+        withdrawalList?.items.map((withdrawal) => withdrawal.id) || [];
+      setWithdrawalIdsToDelete(allWithdrawalIds);
+    }
+  }
+
+  // 개별 체크박스 선택 이벤트
+  function handleCheckboxChange(withdrawalId: number) {
+    setWithdrawalIdsToDelete((prevWithdrawalIds) => {
+      if (prevWithdrawalIds.includes(withdrawalId)) {
+        return prevWithdrawalIds.filter((id) => id !== withdrawalId);
+      } else {
+        return [...prevWithdrawalIds, withdrawalId];
+      }
+    });
+  }
 
   // 출금값 등록 모달 닫기 버튼 클릭 이벤트
   function handleExcelModalCloseButtonClick() {
@@ -381,7 +407,17 @@ function WithdrawalListContent() {
               <thead className="bg-gray-200">
                 <tr className="h-10">
                   <th className="border border-black">
-                    <input type="checkbox" className="" />
+                    <input
+                      type="checkbox"
+                      className=""
+                      onChange={handleSelectAllCheckboxChange}
+                      checked={
+                        withdrawalList?.items &&
+                        withdrawalList.items.length > 0 &&
+                        withdrawalIdsToDelete.length ===
+                          withdrawalList.items.length
+                      }
+                    />
                   </th>
                   <th className="border border-black">No</th>
                   <th className="border border-black">매체명</th>
@@ -401,7 +437,12 @@ function WithdrawalListContent() {
                 {withdrawalList?.items.map((item, index) => (
                   <tr key={index} className="h-10">
                     <td className="border border-black text-center">
-                      <input type="checkbox" className="" />
+                      <input
+                        type="checkbox"
+                        className=""
+                        onChange={() => handleCheckboxChange(item.id)}
+                        checked={withdrawalIdsToDelete.includes(item.id)}
+                      />
                     </td>
                     <td className="border border-black text-center">
                       {item.id}
