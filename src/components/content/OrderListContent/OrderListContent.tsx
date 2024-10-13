@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import {
+  downloadOrderListExcel,
   fetchOrderListAll,
   fetchOrderListAllResponse,
   fetchOrderListSearch,
@@ -174,6 +175,22 @@ function OrderListContent() {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  // 엑셀 다운로드 버튼 클릭 이벤트
+  function handleExcelDownloadButtonClick() {
+    downloadOrderListExcel({
+      startDate,
+      endDate,
+      periodType,
+      mediumName,
+      isMediumMatched,
+      settlementCompanyName,
+      isSettlementCompanyMatched,
+      searchQuery,
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
   // 마운트 시 실행
@@ -476,12 +493,13 @@ function OrderListContent() {
             <button
               type="button"
               className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+              onClick={handleExcelDownloadButtonClick}
             >
               엑셀 다운로드
             </button>
           </div>
           <div className="mt-2 h-fit w-full">
-            <table className="mb-10 w-full table-fixed border-collapse border border-black">
+            <table className="w-full table-fixed border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
                   <th className="border border-black">
@@ -561,6 +579,9 @@ function OrderListContent() {
                   </tr>
                 ))}
               </tbody>
+            </table>
+            <table className="mb-10 flex w-full table-fixed border border-t-0 border-solid border-black">
+              <tbody className="h-10"></tbody>
             </table>
           </div>
         </div>

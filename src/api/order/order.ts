@@ -150,3 +150,25 @@ export const updateOrderListOne = async (
     console.error(e);
   }
 };
+
+// 주문값 엑셀 파일 다운로드 API
+export const downloadOrderListExcel = async (
+  params: OrderListSearchQueryParams,
+) => {
+  try {
+    const response = await api.get("/order/excel/download", {
+      params,
+      responseType: "blob",
+    });
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "주문리스트.xlsx");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (e) {
+    console.error(e);
+  }
+};
