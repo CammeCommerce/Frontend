@@ -44,8 +44,27 @@ export interface OrderListSearchQueryParams {
   searchQuery: string;
 }
 
-export interface fetchOrderListAllResponse {
+export interface RegisterOrderMatchingRequest {
+  mediumName: string;
+  settlementCompanyName: string;
+  purchasePlace: string;
+  salesPlace: string;
+}
+
+export interface OrderMatchingList {
+  id: number;
+  mediumName: string;
+  settlementCompanyName: string;
+  purchasePlace: string;
+  salesPlace: string;
+}
+
+export interface FetchOrderListAllResponse {
   items: OrderList[];
+}
+
+export interface FetchOrderMatchingListAllResponse {
+  items: OrderMatchingList[];
 }
 
 // 주문값 엑셀 파일 업로드 API
@@ -91,7 +110,7 @@ export const uploadOrder = async (
 // 주문값 조회 API
 export const fetchOrderListAll = async () => {
   try {
-    const response = await api.get<fetchOrderListAllResponse>("/order");
+    const response = await api.get<FetchOrderListAllResponse>("/order");
     console.log("response", response.data);
 
     return response.data;
@@ -105,7 +124,7 @@ export const fetchOrderListSearch = async (
   searchQueryParams: OrderListSearchQueryParams,
 ) => {
   try {
-    const response = await api.get<fetchOrderListAllResponse>("/order/search", {
+    const response = await api.get<FetchOrderListAllResponse>("/order/search", {
       params: searchQueryParams,
     });
     console.log("response", response.data);
@@ -119,7 +138,7 @@ export const fetchOrderListSearch = async (
 // 주문값 정렬 API
 export const sortOrderList = async (field: string, order: string) => {
   try {
-    const response = await api.get<fetchOrderListAllResponse>("/order/sort", {
+    const response = await api.get<FetchOrderListAllResponse>("/order/sort", {
       params: {
         field,
         order,
@@ -168,6 +187,71 @@ export const downloadOrderListExcel = async (
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 주문 매칭 등록 API
+export const registerOrderMatching = async (
+  registerOrderMatchingRequest: RegisterOrderMatchingRequest,
+) => {
+  try {
+    const response = await api.post(
+      "/order-matching",
+      registerOrderMatchingRequest,
+    );
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 주문 매칭 조회 API
+export const fetchOrderMatchingListAll = async () => {
+  try {
+    const response =
+      await api.get<FetchOrderMatchingListAllResponse>("/order-matching");
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 주문 매칭 검색 API
+export const fetchOrderMatchingListSearch = async (
+  startDate: string = "",
+  endDate: string = "",
+  periodType: string = "",
+  mediumName: string = "",
+  settlementCompanyName: string = "",
+  searchQuery: string = "",
+) => {
+  try {
+    // 빈 문자열인 경우 해당 필드를 params에서 제외
+    const params: { [key: string]: string } = {};
+
+    if (startDate) params.startDate = startDate;
+    if (endDate) params.endDate = endDate;
+    if (periodType) params.periodType = periodType;
+    if (mediumName) params.mediumName = mediumName;
+    if (settlementCompanyName)
+      params.settlementCompanyName = settlementCompanyName;
+    if (searchQuery) params.searchQuery = searchQuery;
+
+    const response = await api.get<FetchOrderMatchingListAllResponse>(
+      "/order-matching/search",
+      {
+        params: params,
+      },
+    );
+    console.log("response", response.data);
+
+    return response.data;
   } catch (e) {
     console.error(e);
   }

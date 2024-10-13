@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import {
   downloadOrderListExcel,
   fetchOrderListAll,
-  fetchOrderListAllResponse,
+  FetchOrderListAllResponse,
   fetchOrderListSearch,
+  registerOrderMatching,
   sortOrderList,
   updateOrderListOne,
   uploadOrder,
@@ -39,9 +40,14 @@ const ORDERLIST_HEADER = [
 ]; // 주문 리스트 테이블 헤더
 
 function OrderListContent() {
-  const [orderList, setOrderList] = useState<fetchOrderListAllResponse>(); // 주문 리스트
+  const [orderList, setOrderList] = useState<FetchOrderListAllResponse>(); // 주문 리스트
 
   const [orderIdToUpdate, setOrderIdToUpdate] = useState<number>(-1); // 수정할 주문값의 ID
+  const [mediumNameToMatch, setMediumNameToMatch] = useState<string>(""); // 매칭할 매체명
+  const [settlementCompanyNameToMatch, setSettlementCompanyNameToMatch] =
+    useState<string>(""); // 매칭할 정산업체명
+  const [purchasePlaceToMatch, setPurchasePlaceToMatch] = useState<string>(""); // 매칭할 매입처
+  const [salesPlaceToMatch, setSalesPlaceToMatch] = useState<string>(""); // 매칭할 매출처
   const [fieldToSort, setFieldToSort] = useState<string>(""); // 정렬할 필드
   const [isDescend, setIsDescend] = useState<string>(""); // 내림차순 여부
 
@@ -49,6 +55,10 @@ function OrderListContent() {
     useState<boolean>(false); // 주문값 등록 모달 오픈 상태
   const [isUpdateOrderModalOpen, setIsUpdateOrderModalOpen] =
     useState<boolean>(false); // 주문값 수정 모달 오픈 상태
+  const [
+    isRegisterOrderMatchingModalOpen,
+    setIsRegisterOrderMatchingModalOpen,
+  ] = useState<boolean>(false); // 주문 매칭 등록 모달 오픈 상태
 
   const [startDate, setStartDate] = useState<string>(""); // 검색 시작일
   const [endDate, setEndDate] = useState<string>(""); // 검색 종료일
@@ -61,9 +71,8 @@ function OrderListContent() {
     useState<string>("전체"); // 정산업체명 매칭여부
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
+  // 엑셀 파일 관련 상태
   const [excelFile, setExcelFile] = useState<File>(); // 엑셀 파일
-
-  // 드롭다운에서 선택된 값을 저장할 상태들
   const [productNameIndex, setProductNameIndex] = useState<string>(""); // 상품명
   const [quantityIndex, setQuantityIndex] = useState<string>(""); // 수량
   const [orderDateIndex, setOrderDateIndex] = useState<string>(""); // 발주일자
@@ -193,6 +202,25 @@ function OrderListContent() {
     });
   }
 
+  function handleRegisterOrderMatchingButtonClick() {
+    registerOrderMatching({
+      mediumName: mediumNameToMatch,
+      settlementCompanyName: settlementCompanyNameToMatch,
+      purchasePlace: purchasePlaceToMatch,
+      salesPlace: salesPlaceToMatch,
+    })
+      .then(() => {
+        setMediumNameToMatch("");
+        setSettlementCompanyNameToMatch("");
+        setPurchasePlaceToMatch("");
+        setSalesPlaceToMatch("");
+        setIsRegisterOrderMatchingModalOpen(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   // 마운트 시 실행
   useEffect(() => {
     fetchOrderListAll()
@@ -204,6 +232,7 @@ function OrderListContent() {
       });
   }, []);
 
+  // 정렬 필드 변경 시 실행
   useEffect(() => {
     if (fieldToSort && isDescend) {
       sortOrderList(fieldToSort, isDescend)
@@ -565,16 +594,29 @@ function OrderListContent() {
                       {order.shippingDifference}
                     </td>
                     <td className="border border-black text-center">
-                      <button
-                        type="button"
-                        className="border border-solid border-black bg-gray-300"
-                        onClick={() => {
-                          setIsUpdateOrderModalOpen(true);
-                          setOrderIdToUpdate(order.id);
-                        }}
-                      >
-                        수정
-                      </button>
+                      <div className="flex w-full items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          className="border border-solid border-black bg-gray-300"
+                          onClick={() => {
+                            setIsUpdateOrderModalOpen(true);
+                            setOrderIdToUpdate(order.id);
+                          }}
+                        >
+                          수정
+                        </button>
+                        <button
+                          type="button"
+                          className="border border-solid border-black bg-gray-300"
+                          onClick={() => {
+                            setPurchasePlaceToMatch(order.purchasePlace);
+                            setSalesPlaceToMatch(order.salesPlace);
+                            setIsRegisterOrderMatchingModalOpen(true);
+                          }}
+                        >
+                          등록
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -937,6 +979,68 @@ function OrderListContent() {
               onClick={handleUpdateOrderButtonClick}
             >
               수정
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isRegisterOrderMatchingModalOpen && (
+        <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
+          <div className="h-registerModal w-registerModal relative flex flex-col items-center rounded-md bg-white px-10 py-4">
+            <button
+              type="button"
+              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
+              onClick={() => setIsRegisterOrderMatchingModalOpen(false)}
+            >
+              <img src={closeIcon} alt="닫기" className="w-full" />
+            </button>
+            <h2 className="text-xl font-bold">주문 매칭 등록</h2>
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+              <div className="flex w-full items-center gap-4">
+                <span className="">매체명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setMediumNameToMatch(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">정산업체명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setSettlementCompanyNameToMatch(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매입처</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  value={purchasePlaceToMatch}
+                  disabled
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">매출처</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  value={salesPlaceToMatch}
+                  disabled
+                />
+              </div>
+            </div>
+
+            <button
+              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              onClick={handleRegisterOrderMatchingButtonClick}
+            >
+              등록
             </button>
           </div>
         </div>

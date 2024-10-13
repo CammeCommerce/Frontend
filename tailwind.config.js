@@ -13,11 +13,13 @@ export default {
         content: "calc(100% - 14rem)",
         excelModal: "800px",
         updateModal: "700px",
+        registerModal: "600px",
       },
       height: {
         main: "calc(100% - 4rem)",
         excelModal: "600px",
         updateModal: "800px",
+        registerModal: "400px",
       },
     },
   },
