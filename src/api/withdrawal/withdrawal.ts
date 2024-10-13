@@ -60,6 +60,25 @@ export interface RegisterWithdrawalMatchingRequest {
   purpose: string;
 }
 
+export interface WithdrawalMatching {
+  id: number;
+  mediumName: string;
+  accountAlias: string;
+  purpose: string;
+}
+
+export interface WithdrawalMatchingList {
+  items: WithdrawalMatching[];
+}
+
+export interface WithdrawalMatchingListSearchQueryParams {
+  startDate: string;
+  endDate: string;
+  periodType: string;
+  mediumName: string;
+  searchQuery: string;
+}
+
 // 출금값 엑셀 파일 업로드 API
 export const uploadWithdrawal = async (
   uploadWithdrawalRequest: UploadWithdrawalRequest,
@@ -190,6 +209,39 @@ export const registerWithdrawalMatching = async (
       registerWithdrawalMatchingRequest,
     );
     console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 출금 매칭 조회 API
+export const fetchWithdrawalMatchingListAll = async () => {
+  try {
+    const response = await api.get<WithdrawalMatchingList>(
+      "/withdrawal-matching",
+    );
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 출금 매칭 검색 API
+export const fetchWithdrawalMatchingListSearch = async (
+  searchQueryParams: WithdrawalMatchingListSearchQueryParams,
+) => {
+  try {
+    const response = await api.get<WithdrawalMatchingList>(
+      "/withdrawal-matching/search",
+      {
+        params: searchQueryParams,
+      },
+    );
+    console.log("response", response.data);
+
+    return response.data;
   } catch (e) {
     console.error(e);
   }
