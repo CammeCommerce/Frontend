@@ -7,6 +7,7 @@ import {
   fetchWithdrawalListAll,
   FetchWithdrawalListAllResponse,
   fetchWithdrawalListSearch,
+  registerWithdrawalMatching,
   updateWithdrawalOne,
   uploadWithdrawal,
 } from "../../../api/withdrawal/withdrawal";
@@ -29,6 +30,15 @@ function WithdrawalListContent() {
   const [mediumName, setMediumName] = useState<string>(""); // 매체명
   const [isMediumMatched, setIsMediumMatched] = useState<string>("전체"); // 매체명 매칭여부
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
+
+  // 등록 모달 관련 상태
+  const [accountAliasToMatch, setAccountAliasToMatch] = useState<string>(""); // 매칭할 계좌별칭
+  const [purposeToMatch, setPurposeToMatch] = useState<string>(""); // 매칭할 용도
+  const [mediumNameToMatch, setMediumNameToMatch] = useState<string>(""); // 매칭할 매체명
+  const [
+    isRegisterWithdrawalMatchingModalOpen,
+    setIsRegisterWithdrawalMatchingModalOpen,
+  ] = useState<boolean>(false); // 등록 모달 오픈 상태
 
   // 수정 모달 관련 상태
   const [isUpdateWithdrawalModalOpen, setIsUpdateWithdrawalModalOpen] =
@@ -155,6 +165,24 @@ function WithdrawalListContent() {
     }).catch((error) => {
       console.error(error);
     });
+  }
+
+  // 출금 매칭 등록 버튼 클릭 이벤트
+  function handleRegisterWithdrawalMatchingButtonClick() {
+    registerWithdrawalMatching({
+      mediumName: mediumNameToMatch,
+      accountAlias: accountAliasToMatch,
+      purpose: purposeToMatch,
+    })
+      .then(() => {
+        setMediumNameToMatch("");
+        setAccountAliasToMatch("");
+        setPurposeToMatch("");
+        setIsRegisterWithdrawalMatchingModalOpen(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // 마운트 시 실행
@@ -420,17 +448,17 @@ function WithdrawalListContent() {
                         >
                           수정
                         </button>
-                        {/* <button
+                        <button
                           type="button"
                           className="border border-solid border-black bg-gray-300"
                           onClick={() => {
-                            setPurchasePlaceToMatch(order.purchasePlace);
-                            setSalesPlaceToMatch(order.salesPlace);
-                            setIsRegisterOrderMatchingModalOpen(true);
+                            setAccountAliasToMatch(item.accountAlias);
+                            setPurposeToMatch(item.purpose);
+                            setIsRegisterWithdrawalMatchingModalOpen(true);
                           }}
                         >
                           등록
-                        </button> */}
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -750,6 +778,58 @@ function WithdrawalListContent() {
               onClick={handleUpdateWithdrawalButtonClick}
             >
               수정
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isRegisterWithdrawalMatchingModalOpen && (
+        <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
+          <div className="h-registerModal w-registerModal relative flex flex-col items-center rounded-md bg-white px-10 py-4">
+            <button
+              type="button"
+              className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
+              onClick={() => setIsRegisterWithdrawalMatchingModalOpen(false)}
+            >
+              <img src={closeIcon} alt="닫기" className="w-full" />
+            </button>
+            <h2 className="text-xl font-bold">출금 매칭 등록</h2>
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+              <div className="flex w-full items-center gap-4">
+                <span className="">매체명</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  onChange={(e) => {
+                    setMediumNameToMatch(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">계좌별칭</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  value={accountAliasToMatch}
+                  disabled
+                />
+              </div>
+              <div className="flex w-full items-center gap-4">
+                <span className="">용도</span>
+                <input
+                  type="text"
+                  className="w-96 border border-solid border-black"
+                  value={purposeToMatch}
+                  disabled
+                />
+              </div>
+            </div>
+
+            <button
+              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              onClick={handleRegisterWithdrawalMatchingButtonClick}
+            >
+              등록
             </button>
           </div>
         </div>

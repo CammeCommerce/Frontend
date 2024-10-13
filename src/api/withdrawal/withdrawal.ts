@@ -54,6 +54,12 @@ export interface WithdrawalListSearchQueryParams {
   searchQuery: string;
 }
 
+export interface RegisterWithdrawalMatchingRequest {
+  mediumName: string;
+  accountAlias: string;
+  purpose: string;
+}
+
 // 출금값 엑셀 파일 업로드 API
 export const uploadWithdrawal = async (
   uploadWithdrawalRequest: UploadWithdrawalRequest,
@@ -169,6 +175,21 @@ export const downloadWithdrawalListExcel = async (
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 출금 매칭 등록 API
+export const registerWithdrawalMatching = async (
+  registerWithdrawalMatchingRequest: RegisterWithdrawalMatchingRequest,
+) => {
+  try {
+    const response = await api.post(
+      "/withdrawal-matching",
+      registerWithdrawalMatchingRequest,
+    );
+    console.log("response", response.data);
   } catch (e) {
     console.error(e);
   }
