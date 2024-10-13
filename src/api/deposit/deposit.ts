@@ -63,6 +63,25 @@ export interface RegisterDepositMatchingRequest {
   purpose: string;
 }
 
+export interface DepositMatchingList {
+  id: number;
+  mediumName: string;
+  accountAlias: string;
+  purpose: string;
+}
+
+export interface FetchDepositMatchingListAllResponse {
+  items: DepositMatchingList[];
+}
+
+export interface FetchDepositMatchingListSearchRequest {
+  startDate: string;
+  endDate: string;
+  periodType: string;
+  mediumName: string;
+  searchQuery: string;
+}
+
 // 입금값 조회 API
 export const fetchDepositListAll = async () => {
   try {
@@ -196,6 +215,38 @@ export const registerDepositMatching = async (
       registerDepositMatchingRequest,
     );
     console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 입금 매칭 조회 API
+export const fetchDepositMatchingListAll = async () => {
+  try {
+    const response =
+      await api.get<FetchDepositMatchingListAllResponse>("/deposit-matching");
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 입금 매칭 검색 API
+export const fetchDepositMatchingListSearch = async (
+  fetchDepositMatchingListSearchRequest: FetchDepositMatchingListSearchRequest,
+) => {
+  try {
+    const response = await api.get<FetchDepositMatchingListAllResponse>(
+      "/deposit-matching/search",
+      {
+        params: fetchDepositMatchingListSearchRequest,
+      },
+    );
+    console.log("response", response.data);
+
+    return response.data;
   } catch (e) {
     console.error(e);
   }
