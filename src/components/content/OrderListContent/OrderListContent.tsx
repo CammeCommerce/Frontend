@@ -671,8 +671,40 @@ function OrderListContent() {
                 ))}
               </tbody>
             </table>
-            <table className="mb-10 flex w-full table-fixed border border-t-0 border-solid border-black">
-              <tbody className="h-10"></tbody>
+            <table className="w-full table-fixed bg-gray-200">
+              <tbody>
+                <tr className="h-10">
+                  <td className="border border-black text-center">합계</td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center">
+                    {orderList?.totalPurchasePrice}
+                  </td>
+                  <td className="border border-black text-center">
+                    {orderList?.totalSalesPrice}
+                  </td>
+                  <td className="border border-black text-center">
+                    {orderList?.totalPurchaseShippingFee}
+                  </td>
+                  <td className="border border-black text-center">
+                    {orderList?.totalSalesShippingFee}
+                  </td>
+                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center">
+                    {orderList?.totalMarginAmount}
+                  </td>
+                  <td className="border border-black text-center">
+                    {orderList?.totalShippingDifference}
+                  </td>
+                  <td className="border border-black text-center"></td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -1035,7 +1067,7 @@ function OrderListContent() {
 
       {isRegisterOrderMatchingModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
-          <div className="h-registerModal w-registerModal relative flex flex-col items-center rounded-md bg-white px-10 py-4">
+          <div className="relative flex h-registerModal w-registerModal flex-col items-center rounded-md bg-white px-10 py-4">
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"

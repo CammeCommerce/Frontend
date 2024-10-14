@@ -61,6 +61,12 @@ export interface OrderMatchingList {
 
 export interface FetchOrderListAllResponse {
   items: OrderList[];
+  totalMarginAmount: number;
+  totalPurchasePrice: number;
+  totalPurchaseShippingFee: number;
+  totalSalesPrice: number;
+  totalSalesShippingFee: number;
+  totalShippingDifference: number;
 }
 
 export interface FetchOrderMatchingListAllResponse {
