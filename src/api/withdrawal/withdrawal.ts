@@ -79,6 +79,23 @@ export interface WithdrawalMatchingListSearchQueryParams {
   searchQuery: string;
 }
 
+export interface FetchWithdrawalExcelColumnIndexResponse {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  isDeleted: boolean;
+  withdrawalDateIdx: string;
+  accountAliasIdx: string;
+  withdrawalAmountIdx: string;
+  accountDescriptionIdx: string;
+  transactionMethod1Idx: string;
+  transactionMethod2Idx: string;
+  accountMemoIdx: string;
+  purposeIdx: string;
+  clientNameIdx: string;
+}
+
 // 출금값 엑셀 파일 업로드 API
 export const uploadWithdrawal = async (
   uploadWithdrawalRequest: UploadWithdrawalRequest,
@@ -270,6 +287,20 @@ export const deleteWithdrawalMatchingListMany = async (ids: number[]) => {
       },
     });
     console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 출금값 엑셀 저장된 열 인덱스 조회 API
+export const fetchWithdrawalExcelColumnIndex = async () => {
+  try {
+    const response = await api.get<FetchWithdrawalExcelColumnIndexResponse>(
+      "/withdrawal/column-index",
+    );
+    console.log("response", response.data);
+
+    return response.data;
   } catch (e) {
     console.error(e);
   }

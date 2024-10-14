@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import {
   deleteWithdrawalListMany,
   downloadWithdrawalListExcel,
+  fetchWithdrawalExcelColumnIndex,
   fetchWithdrawalListAll,
   FetchWithdrawalListAllResponse,
   fetchWithdrawalListSearch,
@@ -225,6 +226,25 @@ function WithdrawalListContent() {
       });
   }
 
+  // 출금값 등록 모달 열기 버튼 클릭 이벤트
+  function handleCreateWithdrawalModalOpenButtonClick() {
+    fetchWithdrawalExcelColumnIndex().then((response) => {
+      if (response) {
+        setWithdrawalDateIndex(response.withdrawalDateIdx);
+        setAccountAliasIndex(response.accountAliasIdx);
+        setWithdrawalAmountIndex(response.withdrawalAmountIdx);
+        setAccountDescriptionIndex(response.accountDescriptionIdx);
+        setTransactionMethod1Index(response.transactionMethod1Idx);
+        setTransactionMethod2Index(response.transactionMethod2Idx);
+        setAccountMemoIndex(response.accountMemoIdx);
+        setPurposeIndex(response.purposeIdx);
+        setClientNameIndex(response.clientNameIdx);
+      }
+
+      setIsCreateWithdrawalModalOpen(true);
+    });
+  }
+
   // 마운트 시 실행
   useEffect(() => {
     fetchWithdrawalListAll()
@@ -409,13 +429,13 @@ function WithdrawalListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
-                onClick={() => setIsCreateWithdrawalModalOpen(true)}
+                onClick={handleCreateWithdrawalModalOpenButtonClick}
               >
                 출금값 등록
               </button>
               <button
                 type="button"
-                className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
                 disabled={withdrawalIdsToDelete.length === 0}
                 onClick={handleDeleteSelectedButtonClick}
               >
@@ -509,7 +529,7 @@ function WithdrawalListContent() {
                       <div className="flex w-full items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="bg-editButton flex items-center justify-center whitespace-nowrap rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center whitespace-nowrap rounded-md bg-editButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setWithdrawalIdToUpdate(item.id);
                             setIsUpdateWithdrawalModalOpen(true);
@@ -519,7 +539,7 @@ function WithdrawalListContent() {
                         </button>
                         <button
                           type="button"
-                          className="bg-registerButton flex items-center justify-center whitespace-nowrap rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setAccountAliasToMatch(item.accountAlias);
                             setPurposeToMatch(item.purpose);
@@ -554,6 +574,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setWithdrawalDateIndex(e.target.value)}
+                value={withdrawalDateIndex}
               >
                 <option value="">출금일자</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -567,6 +588,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setAccountAliasIndex(e.target.value)}
+                value={accountAliasIndex}
               >
                 <option value="">계좌별칭</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -580,6 +602,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setWithdrawalAmountIndex(e.target.value)}
+                value={withdrawalAmountIndex}
               >
                 <option value="">출금액</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -593,6 +616,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setAccountDescriptionIndex(e.target.value)}
+                value={accountDescriptionIndex}
               >
                 <option value="">계좌적요</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -606,6 +630,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setTransactionMethod1Index(e.target.value)}
+                value={transactionMethod1Index}
               >
                 <option value="">거래수단1</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -619,6 +644,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setTransactionMethod2Index(e.target.value)}
+                value={transactionMethod2Index}
               >
                 <option value="">거래수단2</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -632,6 +658,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setAccountMemoIndex(e.target.value)}
+                value={accountMemoIndex}
               >
                 <option value="">계좌메모</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -645,6 +672,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setPurposeIndex(e.target.value)}
+                value={purposeIndex}
               >
                 <option value="">용도</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -658,6 +686,7 @@ function WithdrawalListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setClientNameIndex(e.target.value)}
+                value={clientNameIndex}
               >
                 <option value="">거래처</option>
                 {ALPHABET.map((alphabet, index) => (

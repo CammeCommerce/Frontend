@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   deleteOrderListMany,
   downloadOrderListExcel,
+  fetchOrderExcelColumnIndex,
   fetchOrderListAll,
   FetchOrderListAllResponse,
   fetchOrderListSearch,
@@ -258,6 +259,26 @@ function OrderListContent() {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  // 주문값 등록 모달 열기 버튼 클릭 이벤트
+  function handleCreateOrderModalOpenButtonClick() {
+    fetchOrderExcelColumnIndex().then((response) => {
+      if (response) {
+        setProductNameIndex(response.productNameIndex);
+        setQuantityIndex(response.quantityIndex);
+        setOrderDateIndex(response.orderDateIndex);
+        setPurchasePlaceIndex(response.purchasePlaceIndex);
+        setSalesPlaceIndex(response.salesPlaceIndex);
+        setPurchasePriceIndex(response.purchasePriceIndex);
+        setSalesPriceIndex(response.salesPriceIndex);
+        setPurchaseShippingFeeIndex(response.purchaseShippingFeeIndex);
+        setSalesShippingFeeIndex(response.salesShippingFeeIndex);
+        setTaxTypeIndex(response.taxTypeIndex);
+      }
+
+      setIsCreateOrderModalOpen(true);
+    });
   }
 
   // 마운트 시 실행
@@ -543,13 +564,13 @@ function OrderListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
-                onClick={() => setIsCreateOrderModalOpen(true)}
+                onClick={handleCreateOrderModalOpenButtonClick}
               >
                 주문값 등록
               </button>
               <button
                 type="button"
-                className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
                 disabled={orderIdsToDelete.length === 0}
                 onClick={handleDeleteOrderButtonClick}
               >
@@ -679,7 +700,7 @@ function OrderListContent() {
                       <div className="flex w-full items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="bg-editButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center rounded-md bg-editButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setIsUpdateOrderModalOpen(true);
                             setOrderIdToUpdate(order.id);
@@ -689,7 +710,7 @@ function OrderListContent() {
                         </button>
                         <button
                           type="button"
-                          className="bg-registerButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setPurchasePlaceToMatch(order.purchasePlace);
                             setSalesPlaceToMatch(order.salesPlace);
@@ -761,6 +782,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setProductNameIndex(e.target.value)}
+                value={productNameIndex}
               >
                 <option value="">상품명</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -774,6 +796,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setQuantityIndex(e.target.value)}
+                value={quantityIndex}
               >
                 <option value="">수량</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -787,6 +810,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setOrderDateIndex(e.target.value)}
+                value={orderDateIndex}
               >
                 <option value="">발주일자</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -800,6 +824,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setPurchasePlaceIndex(e.target.value)}
+                value={purchasePlaceIndex}
               >
                 <option value="">매입처</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -813,6 +838,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setSalesPlaceIndex(e.target.value)}
+                value={salesPlaceIndex}
               >
                 <option value="">매출처</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -826,6 +852,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setTaxTypeIndex(e.target.value)}
+                value={taxTypeIndex}
               >
                 <option value="">과세 여부</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -839,6 +866,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setPurchasePriceIndex(e.target.value)}
+                value={purchasePriceIndex}
               >
                 <option value="">매입가</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -852,6 +880,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setSalesPriceIndex(e.target.value)}
+                value={salesPriceIndex}
               >
                 <option value="">판매가</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -865,6 +894,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setPurchaseShippingFeeIndex(e.target.value)}
+                value={purchaseShippingFeeIndex}
               >
                 <option value="">매입 배송비</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -878,6 +908,7 @@ function OrderListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setSalesShippingFeeIndex(e.target.value)}
+                value={salesShippingFeeIndex}
               >
                 <option value="">매출 배송비</option>
                 {ALPHABET.map((alphabet, index) => (

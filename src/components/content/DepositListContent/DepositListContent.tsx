@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   deleteDepositListMany,
   downloadDepositListExcel,
+  fetchDepositExcelColumnIndex,
   fetchDepositListAll,
   FetchDepositListAllResponse,
   fetchDepositListSearch,
@@ -227,6 +228,26 @@ function DepositListContent() {
       });
   }
 
+  // 입금값 등록 모달 열기 버튼 클릭 이벤트
+  function handleCreateDepositModalOpenButtonClick() {
+    fetchDepositExcelColumnIndex().then((response) => {
+      if (response) {
+        setDepositDateIndex(response.depositDateIdx);
+        setAccountAliasIndex(response.accountAliasIdx);
+        setDepositAmountIndex(response.depositAmountIdx);
+        setAccountDescriptionIndex(response.accountDescriptionIdx);
+        setTransactionMethod1Index(response.transactionMethod1Idx);
+        setTransactionMethod2Index(response.transactionMethod2Idx);
+        setAccountMemoIndex(response.accountMemoIdx);
+        setCounterpartyNameIndex(response.counterpartyNameIdx);
+        setPurposeIndex(response.purposeIdx);
+        setClientNameIndex(response.clientNameIdx);
+      }
+
+      setIsCreateDepositModalOpen(true);
+    });
+  }
+
   // 마운트 시 실행
   useEffect(() => {
     fetchDepositListAll()
@@ -411,13 +432,13 @@ function DepositListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
-                onClick={() => setIsCreateDepositModalOpen(true)}
+                onClick={handleCreateDepositModalOpenButtonClick}
               >
                 입금값 등록
               </button>
               <button
                 type="button"
-                className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
                 disabled={depositIdsToDelete.length === 0}
                 onClick={handleDeleteDepositButtonClick}
               >
@@ -514,7 +535,7 @@ function DepositListContent() {
                       <div className="flex w-full items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="bg-editButton flex items-center justify-center whitespace-nowrap rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center whitespace-nowrap rounded-md bg-editButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setIsUpdateDepositModalOpen(true);
                             setDepositIdToUpdate(deposit.id);
@@ -524,7 +545,7 @@ function DepositListContent() {
                         </button>
                         <button
                           type="button"
-                          className="bg-registerButton flex items-center justify-center whitespace-nowrap rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setAccountAliasToMatch(deposit.accountAlias);
                             setPurposeToMatch(deposit.purpose);
@@ -559,6 +580,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setDepositDateIndex(e.target.value)}
+                value={depositDateIndex}
               >
                 <option value="">입금일자</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -572,6 +594,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setAccountAliasIndex(e.target.value)}
+                value={accountAliasIndex}
               >
                 <option value="">계좌별칭</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -585,6 +608,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setDepositAmountIndex(e.target.value)}
+                value={depositAmountIndex}
               >
                 <option value="">입금액</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -598,6 +622,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setAccountDescriptionIndex(e.target.value)}
+                value={accountDescriptionIndex}
               >
                 <option value="">계좌적요</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -611,6 +636,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setTransactionMethod1Index(e.target.value)}
+                value={transactionMethod1Index}
               >
                 <option value="">거래수단1</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -624,6 +650,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setTransactionMethod2Index(e.target.value)}
+                value={transactionMethod2Index}
               >
                 <option value="">거래수단2</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -637,6 +664,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setAccountMemoIndex(e.target.value)}
+                value={accountMemoIndex}
               >
                 <option value="">계좌메모</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -650,6 +678,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setCounterpartyNameIndex(e.target.value)}
+                value={counterpartyNameIndex}
               >
                 <option value="">상대계좌예금주명</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -663,6 +692,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setPurposeIndex(e.target.value)}
+                value={purposeIndex}
               >
                 <option value="">용도</option>
                 {ALPHABET.map((alphabet, index) => (
@@ -676,6 +706,7 @@ function DepositListContent() {
               <select
                 className="border border-solid border-black"
                 onChange={(e) => setClientNameIndex(e.target.value)}
+                value={clientNameIndex}
               >
                 <option value="">거래처</option>
                 {ALPHABET.map((alphabet, index) => (

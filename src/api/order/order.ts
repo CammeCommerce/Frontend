@@ -73,6 +73,24 @@ export interface FetchOrderMatchingListAllResponse {
   items: OrderMatchingList[];
 }
 
+export interface FetchOrderExcelColumnIndexResponse {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  isDeleted: boolean;
+  productNameIndex: string;
+  quantityIndex: string;
+  orderDateIndex: string;
+  purchasePlaceIndex: string;
+  salesPlaceIndex: string;
+  purchasePriceIndex: string;
+  salesPriceIndex: string;
+  purchaseShippingFeeIndex: string;
+  salesShippingFeeIndex: string;
+  taxTypeIndex: string;
+}
+
 // 주문값 엑셀 파일 업로드 API
 export const uploadOrder = async (
   excelFile: File,
@@ -286,6 +304,20 @@ export const deleteOrderMatchingListMany = async (ids: number[]) => {
       },
     });
     console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 주문값 엑셀 저장된 열 인덱스 조회
+export const fetchOrderExcelColumnIndex = async () => {
+  try {
+    const response = await api.get<FetchOrderExcelColumnIndexResponse>(
+      "/order/column-index",
+    );
+    console.log("response", response.data);
+
+    return response.data;
   } catch (e) {
     console.error(e);
   }

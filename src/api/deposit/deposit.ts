@@ -82,6 +82,24 @@ export interface FetchDepositMatchingListSearchRequest {
   searchQuery: string;
 }
 
+export interface FetchDepositExcelColumnIndexResponse {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  isDeleted: boolean;
+  depositDateIdx: string;
+  accountAliasIdx: string;
+  depositAmountIdx: string;
+  accountDescriptionIdx: string;
+  transactionMethod1Idx: string;
+  transactionMethod2Idx: string;
+  accountMemoIdx: string;
+  counterpartyNameIdx: string;
+  purposeIdx: string;
+  clientNameIdx: string;
+}
+
 // 입금값 조회 API
 export const fetchDepositListAll = async () => {
   try {
@@ -275,6 +293,20 @@ export const deleteDepositMatchingListMany = async (ids: number[]) => {
       },
     });
     console.log("response", response.data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 입금값 엑셀 저장된 열 인덱스 조회 API
+export const fetchDepositExcelColumnIndex = async () => {
+  try {
+    const response = await api.get<FetchDepositExcelColumnIndexResponse>(
+      "/deposit/column-index",
+    );
+    console.log("response", response.data);
+
+    return response.data;
   } catch (e) {
     console.error(e);
   }
