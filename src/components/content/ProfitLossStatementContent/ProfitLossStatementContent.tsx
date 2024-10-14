@@ -29,10 +29,10 @@ function ProfitLossStatementContent() {
   return (
     <div className="flex h-full w-full flex-col bg-primaryBackground p-5">
       <div className="flex h-fit w-full flex-col bg-white px-10 py-6 shadow-md">
-        <h2 className="text-xl font-semibold">온라인 리스트</h2>
+        <h2 className="text-xl font-semibold">손익 계산서</h2>
         <div className="mt-4 flex w-full flex-col gap-6 rounded-lg border border-solid border-gray-400 p-5">
           <div className="flex items-center gap-5">
-            <span className="">매출발생월검색</span>
+            <span className="font-semibold">매출발생월검색</span>
             <div className="flex items-center gap-2">
               <input
                 type="month"
@@ -94,7 +94,7 @@ function ProfitLossStatementContent() {
           <div className="flex items-center gap-20">
             <div className="flex flex-col gap-5">
               <div className="flex items-center gap-3">
-                <span className="">매체명</span>
+                <span className="font-semibold">매체명</span>
                 <select
                   className="h-8 w-60 border border-solid border-black text-center"
                   onChange={(e) => setMediumName(e.target.value)}
@@ -109,7 +109,7 @@ function ProfitLossStatementContent() {
             </div>
           </div>
           <div className="flex items-center gap-5">
-            <span className="">검색</span>
+            <span className="font-semibold">검색</span>
             <div className="h-10 w-96 rounded-md border border-solid border-black px-3">
               <input type="text" className="h-full w-full" />
             </div>

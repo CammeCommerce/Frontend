@@ -243,7 +243,7 @@ function DepositListContent() {
           <h2 className="text-xl font-semibold">입금 리스트</h2>
           <div className="mt-4 flex w-full flex-col gap-6 rounded-lg border border-solid border-gray-400 p-5">
             <div className="flex items-center gap-5">
-              <span className="">발주일자검색</span>
+              <span className="font-semibold">발주일자검색</span>
               <div className="flex items-center gap-2">
                 <input
                   type="date"
@@ -260,49 +260,49 @@ function DepositListContent() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  className={`${periodType === "" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                  className={`${periodType === "" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("")}
                 >
                   전체
                 </button>
                 <button
                   type="button"
-                  className={`${periodType === "어제" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                  className={`${periodType === "어제" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("어제")}
                 >
                   어제
                 </button>
                 <button
                   type="button"
-                  className={`${periodType === "지난 3일" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                  className={`${periodType === "지난 3일" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("지난 3일")}
                 >
                   지난 3일
                 </button>
                 <button
                   type="button"
-                  className={`${periodType === "일주일" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                  className={`${periodType === "일주일" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("일주일")}
                 >
                   일주일
                 </button>
                 <button
                   type="button"
-                  className={`${periodType === "1개월" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                  className={`${periodType === "1개월" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("1개월")}
                 >
                   1개월
                 </button>
                 <button
                   type="button"
-                  className={`${periodType === "3개월" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                  className={`${periodType === "3개월" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("3개월")}
                 >
                   3개월
                 </button>
                 <button
                   type="button"
-                  className={`${periodType === "6개월" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                  className={`${periodType === "6개월" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("6개월")}
                 >
                   6개월
@@ -312,7 +312,7 @@ function DepositListContent() {
             <div className="flex items-center gap-20">
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-3">
-                  <span className="">매체명</span>
+                  <span className="font-semibold">매체명</span>
                   <select
                     className="h-8 w-60 border border-solid border-black text-center"
                     onChange={(e) => setMediumName(e.target.value)}
@@ -325,7 +325,7 @@ function DepositListContent() {
                   </select>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="">매체명 매칭여부</span>
+                  <span className="font-semibold">매체명 매칭여부</span>
                   <div className="flex items-center gap-3">
                     <label className="flex items-center gap-1">
                       <input
@@ -365,7 +365,7 @@ function DepositListContent() {
               </div>
             </div>
             <div className="flex items-center gap-5">
-              <span className="">검색</span>
+              <span className="font-semibold">검색</span>
               <div className="h-10 w-96 rounded-md border border-solid border-black px-3">
                 <input
                   type="text"
