@@ -5,10 +5,16 @@ import {
   FetchOrderMatchingListAllResponse,
   fetchOrderMatchingListSearch,
 } from "../../../api/order/order";
+import { fetchCompanyAll } from "../../../api/medium/medium";
+import { fetchSettlementCompanyAll } from "../../../api/settlement-company/settlement-company";
 
 function OrderMatchingListContent() {
   const [orderMatchingList, setOrderMatchingList] =
     useState<FetchOrderMatchingListAllResponse>();
+  const [companyList, setCompanyList] = useState<string[]>([]); // 매체명 목록
+  const [settlementCompanyList, setSettlementCompanyList] = useState<string[]>(
+    [],
+  ); // 정산업체명 목록
 
   // 검색 관련 상태
   const [startDate, setStartDate] = useState<string>(""); // 검색 시작일자
@@ -83,6 +89,27 @@ function OrderMatchingListContent() {
       .catch((error) => {
         console.error(error);
       });
+
+    // 매체명 조회
+    fetchCompanyAll()
+      .then((response) => {
+        if (response) {
+          const companyNames = response.items.map((company) => company.name);
+          setCompanyList(companyNames);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // 정산업체명 조회
+    fetchSettlementCompanyAll().then((response) => {
+      if (response) {
+        const settlementCompanyNames = response.items.map(
+          (settlementCompany) => settlementCompany.name,
+        );
+        setSettlementCompanyList(settlementCompanyNames);
+      }
+    });
   }, []);
 
   return (
@@ -95,13 +122,13 @@ function OrderMatchingListContent() {
             <div className="flex items-center gap-2">
               <input
                 type="date"
-                className=""
+                className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                 onChange={(e) => setStartDate(e.target.value)}
               />
-              <span className="">~</span>
+              <span className="font-semibold">~</span>
               <input
                 type="date"
-                className=""
+                className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
@@ -166,10 +193,11 @@ function OrderMatchingListContent() {
                   onChange={(e) => setMediumName(e.target.value)}
                 >
                   <option value="">전체</option>
-                  <option value="">매체명_1</option>
-                  <option value="">매체명_2</option>
-                  <option value="">매체명_3</option>
-                  <option value="">매체명_4</option>
+                  {companyList.map((company, index) => (
+                    <option key={index} value={company}>
+                      {company}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -181,10 +209,11 @@ function OrderMatchingListContent() {
                   onChange={(e) => setSettlementCompanyName(e.target.value)}
                 >
                   <option value="">전체</option>
-                  <option value="">정산업체명_1</option>
-                  <option value="">정산업체명_2</option>
-                  <option value="">정산업체명_3</option>
-                  <option value="">정산업체명_4</option>
+                  {settlementCompanyList.map((settlementCompany, index) => (
+                    <option key={index} value={settlementCompany}>
+                      {settlementCompany}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

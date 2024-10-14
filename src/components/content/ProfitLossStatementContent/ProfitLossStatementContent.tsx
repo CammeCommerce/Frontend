@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchProfitLossSearch,
   ProfitLoss,
 } from "../../../api/profit-loss/profit-loss";
+import { fetchCompanyAll } from "../../../api/medium/medium";
 
 function ProfitLossStatementContent() {
   const [profitLoss, setProfitLoss] = useState<ProfitLoss>(); // 손익계산서
+  const [companyList, setCompanyList] = useState<string[]>([]); // 매체명 목록
 
   // 검색 관련 상태
   const [startDate, setStartDate] = useState(""); // 검색 시작일자
@@ -26,6 +28,20 @@ function ProfitLossStatementContent() {
       });
   }
 
+  useEffect(() => {
+    // 매체명 조회
+    fetchCompanyAll()
+      .then((response) => {
+        if (response) {
+          const companyNames = response.items.map((company) => company.name);
+          setCompanyList(companyNames);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <div className="flex h-full w-full flex-col bg-primaryBackground p-5">
       <div className="flex h-fit w-full flex-col bg-white px-10 py-6 shadow-md">
@@ -36,13 +52,13 @@ function ProfitLossStatementContent() {
             <div className="flex items-center gap-2">
               <input
                 type="month"
-                className=""
+                className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                 onChange={(e) => setStartDate(e.target.value)}
               />
-              <span className="">~</span>
+              <span className="font-semibold">~</span>
               <input
                 type="month"
-                className=""
+                className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
@@ -100,10 +116,11 @@ function ProfitLossStatementContent() {
                   onChange={(e) => setMediumName(e.target.value)}
                 >
                   <option value="">전체</option>
-                  <option value="">매체명_1</option>
-                  <option value="">매체명_2</option>
-                  <option value="">매체명_3</option>
-                  <option value="">매체명_4</option>
+                  {companyList.map((companyName) => (
+                    <option key={companyName} value={companyName}>
+                      {companyName}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

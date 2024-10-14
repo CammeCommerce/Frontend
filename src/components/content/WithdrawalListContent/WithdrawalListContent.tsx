@@ -13,6 +13,7 @@ import {
   uploadWithdrawal,
 } from "../../../api/withdrawal/withdrawal";
 import { AxiosError } from "axios";
+import { fetchCompanyAll } from "../../../api/medium/medium";
 
 /* prettier-ignore */
 const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]; // 알파벳 배열
@@ -20,6 +21,7 @@ const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
 function WithdrawalListContent() {
   const [withdrawalList, setWithdrawalList] =
     useState<FetchWithdrawalListAllResponse>(); // 출금 리스트
+  const [companyList, setCompanyList] = useState<string[]>(); // 매체명 리스트
 
   const [isCreateWithdrawalModalOpen, setIsCreateWithdrawalModalOpen] =
     useState<boolean>(false); // 출금값 등록 모달 오픈 상태
@@ -232,6 +234,17 @@ function WithdrawalListContent() {
       .catch((error: AxiosError) => {
         console.error(error);
       });
+    // 매체명 조회
+    fetchCompanyAll()
+      .then((response) => {
+        if (response) {
+          const companyNames = response.items.map((company) => company.name);
+          setCompanyList(companyNames);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   return (
@@ -245,13 +258,13 @@ function WithdrawalListContent() {
               <div className="flex items-center gap-2">
                 <input
                   type="date"
-                  className=""
+                  className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                   onChange={(e) => setStartDate(e.target.value)}
                 />
-                <span className="">~</span>
+                <span className="font-semibold">~</span>
                 <input
                   type="date"
-                  className=""
+                  className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </div>
@@ -316,10 +329,11 @@ function WithdrawalListContent() {
                     onChange={(e) => setMediumName(e.target.value)}
                   >
                     <option value="">전체</option>
-                    <option value="">매체명_1</option>
-                    <option value="">매체명_2</option>
-                    <option value="">매체명_3</option>
-                    <option value="">매체명_4</option>
+                    {companyList?.map((company, index) => (
+                      <option key={index} value={company}>
+                        {company}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="flex items-center gap-3">

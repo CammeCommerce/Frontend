@@ -112,15 +112,15 @@ function CompanyManagementContent() {
               <div className="flex items-center gap-2">
                 <input
                   type="date"
-                  className=""
+                  className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                   onChange={(e) => {
                     handleStartDateChange(e);
                   }}
                 />
-                <span className="">~</span>
+                <span className="font-semibold">~</span>
                 <input
                   type="date"
-                  className=""
+                  className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                   onChange={(e) => {
                     handleEndDateChange(e);
                   }}
@@ -239,7 +239,7 @@ function CompanyManagementContent() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="flex items-center justify-center rounded-md bg-gray-500 px-5 py-1 font-semibold text-white"
+                          className="bg-editButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setIsUpdateCompanyModalOpen(true);
                             setCompanyIdToUpdate(company.id);

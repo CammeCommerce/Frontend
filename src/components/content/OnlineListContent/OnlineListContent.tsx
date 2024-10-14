@@ -8,9 +8,11 @@ import {
   updateOnlineListOne,
 } from "../../../api/online/online";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
+import { fetchCompanyAll } from "../../../api/medium/medium";
 
 function OnlineListContent() {
   const [onlineList, setOnlineList] = useState<OnlineListResponse>(); // 온라인 리스트
+  const [companyList, setCompanyList] = useState<string[]>([]); // 매체명 리스트
 
   const [isCreateOnlineListModalOpen, setIsCreateOnlineListModalOpen] =
     useState<boolean>(false); // 주문값 등록 모달 오픈 상태
@@ -175,6 +177,17 @@ function OnlineListContent() {
       .catch((error) => {
         console.error(error);
       });
+    // 매체명 조회
+    fetchCompanyAll()
+      .then((response) => {
+        if (response) {
+          const companyNames = response.items.map((company) => company.name);
+          setCompanyList(companyNames);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   return (
@@ -188,13 +201,13 @@ function OnlineListContent() {
               <div className="flex items-center gap-2">
                 <input
                   type="month"
-                  className=""
+                  className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                   onChange={(e) => setStartDate(e.target.value)}
                 />
-                <span className="">~</span>
+                <span className="font-semibold">~</span>
                 <input
                   type="month"
-                  className=""
+                  className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </div>
@@ -259,10 +272,11 @@ function OnlineListContent() {
                     onChange={(e) => setMediumNameToSearch(e.target.value)}
                   >
                     <option value="">전체</option>
-                    <option value="">매체명_1</option>
-                    <option value="">매체명_2</option>
-                    <option value="">매체명_3</option>
-                    <option value="">매체명_4</option>
+                    {companyList.map((companyName, index) => (
+                      <option key={index} value={companyName}>
+                        {companyName}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

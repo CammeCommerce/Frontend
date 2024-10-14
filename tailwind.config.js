@@ -10,6 +10,7 @@ export default {
         primaryBackground: "#F8FAFB",
         primaryButton: "#7749F8",
         primaryButtonHover: "#5227CC",
+        editButton: "#6C757D",
       },
       borderColor: {
         primaryButton: "#7749F8",

@@ -14,6 +14,14 @@ import { useDropzone } from "react-dropzone";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
 import { AxiosError } from "axios";
+import {
+  fetchCompanyAll,
+  FetchCompanyAllResponse,
+} from "../../../api/medium/medium";
+import {
+  fetchSettlementCompanyAll,
+  FetchSettlementCompanyAllResponse,
+} from "../../../api/settlement-company/settlement-company";
 
 /* prettier-ignore */
 const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]; // 알파벳 배열
@@ -39,6 +47,10 @@ const ORDERLIST_HEADER = [
 
 function OrderListContent() {
   const [orderList, setOrderList] = useState<FetchOrderListAllResponse>(); // 주문 리스트
+  const [companyList, setCompanyList] = useState<string[]>([]); // 매체 리스트
+  const [settlementCompanyList, setSettlementCompanyList] = useState<string[]>(
+    [],
+  ); // 정산업체 리스트
 
   const [orderIdToUpdate, setOrderIdToUpdate] = useState<number>(-1); // 수정할 주문값의 ID
   const [mediumNameToMatch, setMediumNameToMatch] = useState<string>(""); // 매칭할 매체명
@@ -256,6 +268,7 @@ function OrderListContent() {
 
   // 마운트 시 실행
   useEffect(() => {
+    // 주문 리스트 조회
     fetchOrderListAll()
       .then((response) => {
         setOrderList(response);
@@ -263,6 +276,26 @@ function OrderListContent() {
       .catch((error) => {
         console.error(error);
       });
+    // 매체명 조회
+    fetchCompanyAll()
+      .then((response) => {
+        if (response) {
+          const companyNames = response.items.map((company) => company.name);
+          setCompanyList(companyNames);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // 정산업체명 조회
+    fetchSettlementCompanyAll().then((response) => {
+      if (response) {
+        const settlementCompanyNames = response.items.map(
+          (settlementCompany) => settlementCompany.name,
+        );
+        setSettlementCompanyList(settlementCompanyNames);
+      }
+    });
   }, []);
 
   // 정렬 필드 변경 시 실행
@@ -289,15 +322,15 @@ function OrderListContent() {
               <div className="flex items-center gap-2">
                 <input
                   type="date"
-                  className=""
+                  className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                   onChange={(e) => {
                     setStartDate(e.target.value);
                   }}
                 />
-                <span className="">~</span>
+                <span className="font-semibold">~</span>
                 <input
                   type="date"
-                  className=""
+                  className="h-9 w-40 border border-solid border-gray-400 bg-gray-200 px-4 text-center"
                   onChange={(e) => {
                     setEndDate(e.target.value);
                   }}
@@ -366,10 +399,11 @@ function OrderListContent() {
                     }}
                   >
                     <option value="">전체</option>
-                    <option value="">매체명_1</option>
-                    <option value="">매체명_2</option>
-                    <option value="">매체명_3</option>
-                    <option value="">매체명_4</option>
+                    {companyList.map((company, index) => (
+                      <option key={index} value={company}>
+                        {company}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="flex items-center gap-3">
@@ -427,10 +461,11 @@ function OrderListContent() {
                     }}
                   >
                     <option value="">전체</option>
-                    <option value="">정산업체명_1</option>
-                    <option value="">정산업체명_2</option>
-                    <option value="">정산업체명_3</option>
-                    <option value="">정산업체명_4</option>
+                    {settlementCompanyList.map((settlementCompany, index) => (
+                      <option key={index} value={settlementCompany}>
+                        {settlementCompany}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="flex items-center gap-3">
