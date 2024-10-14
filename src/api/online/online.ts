@@ -60,6 +60,18 @@ export const fetchOnlineListAll = async () => {
   }
 };
 
+// 온라인리스트 상세 조회 API
+export const fetchOnlineListOne = async (id: number) => {
+  try {
+    const response = await api.get<OnlineList>(`/online/${id}`);
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 온라인리스트 검색 API
 export const fetchOnlineListSearch = async (
   fetchOnlineListSearchParams: FetchOnlineListSearchParams,

@@ -9,6 +9,7 @@ import {
   fetchWithdrawalListAll,
   FetchWithdrawalListAllResponse,
   fetchWithdrawalListSearch,
+  fetchWithdrawalOne,
   registerWithdrawalMatching,
   updateWithdrawalOne,
   uploadWithdrawal,
@@ -266,6 +267,26 @@ function WithdrawalListContent() {
         console.error(error);
       });
   }, []);
+
+  // 수정 모달 열기 시 실행
+  useEffect(() => {
+    fetchWithdrawalOne(withdrawalIdToUpdate).then((response) => {
+      if (response) {
+        setUpdateWithdrawal({
+          mediumName: response.mediumName,
+          withdrawalDate: response.withdrawalDate,
+          accountAlias: response.accountAlias,
+          withdrawalAmount: response.withdrawalAmount,
+          accountDescription: response.accountDescription,
+          transactionMethod1: response.transactionMethod1,
+          transactionMethod2: response.transactionMethod2,
+          accountMemo: response.accountMemo,
+          purpose: response.purpose,
+          clientName: response.clientName,
+        });
+      }
+    });
+  }, [withdrawalIdToUpdate]);
 
   return (
     <>
@@ -744,6 +765,7 @@ function WithdrawalListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.mediumName}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -757,6 +779,7 @@ function WithdrawalListContent() {
                 <input
                   type="date"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.withdrawalDate}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -770,6 +793,7 @@ function WithdrawalListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.accountAlias}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -783,6 +807,7 @@ function WithdrawalListContent() {
                 <input
                   type="number"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.withdrawalAmount}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -796,6 +821,7 @@ function WithdrawalListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.accountDescription}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -809,6 +835,7 @@ function WithdrawalListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.transactionMethod1}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -822,6 +849,7 @@ function WithdrawalListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.transactionMethod2}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -835,6 +863,7 @@ function WithdrawalListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.accountMemo}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -848,6 +877,7 @@ function WithdrawalListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.purpose}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,
@@ -861,6 +891,7 @@ function WithdrawalListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateWithdrawal.clientName}
                   onChange={(e) => {
                     setUpdateWithdrawal({
                       ...updateWithdrawal,

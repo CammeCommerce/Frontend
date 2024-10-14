@@ -112,6 +112,18 @@ export const fetchDepositListAll = async () => {
   }
 };
 
+// 입금값 상세 조회 API
+export const fetchDepositListOne = async (id: number) => {
+  try {
+    const response = await api.get<DepositList>(`/deposit/${id}`);
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 입급값 검색 API
 export const fetchDepositListSearch = async (
   fetchDepositListSearchRequest: FetchDepositListSearchRequest,

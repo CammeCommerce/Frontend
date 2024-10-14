@@ -159,6 +159,18 @@ export const fetchWithdrawalListAll = async () => {
   }
 };
 
+// 출금값 상제 조회 API
+export const fetchWithdrawalOne = async (id: number) => {
+  try {
+    const response = await api.get<WithdrawalList>(`/withdrawal/${id}`);
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 출금값 검색 API
 export const fetchWithdrawalListSearch = async (
   searchQueryParams: WithdrawalListSearchQueryParams,

@@ -5,6 +5,7 @@ import {
   fetchOrderExcelColumnIndex,
   fetchOrderListAll,
   FetchOrderListAllResponse,
+  fetchOrderListOne,
   fetchOrderListSearch,
   registerOrderMatching,
   sortOrderList,
@@ -325,6 +326,30 @@ function OrderListContent() {
         });
     }
   }, [fieldToSort, isDescend]);
+
+  // orderIdToUpdate가 변경될 때 API 호출
+  useEffect(() => {
+    if (orderIdToUpdate !== -1) {
+      fetchOrderListOne(orderIdToUpdate).then((response) => {
+        if (response) {
+          setUpdateOrder({
+            mediumName: response.mediumName,
+            settlementCompanyName: response.settlementCompanyName,
+            productName: response.productName,
+            quantity: response.quantity,
+            orderDate: response.orderDate,
+            purchasePlace: response.purchasePlace,
+            salesPlace: response.salesPlace,
+            purchasePrice: response.purchasePrice,
+            salesPrice: response.salesPrice,
+            purchaseShippingFee: response.purchaseShippingFee,
+            salesShippingFee: response.salesShippingFee,
+            taxType: Number(response.taxType),
+          });
+        }
+      });
+    }
+  }, [orderIdToUpdate]);
 
   return (
     <>
@@ -966,6 +991,7 @@ function OrderListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.mediumName}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -979,6 +1005,7 @@ function OrderListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.settlementCompanyName}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -992,6 +1019,7 @@ function OrderListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.productName}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1005,6 +1033,7 @@ function OrderListContent() {
                 <input
                   type="number"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.quantity}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1018,6 +1047,7 @@ function OrderListContent() {
                 <input
                   type="date"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.orderDate}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1031,6 +1061,7 @@ function OrderListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.purchasePlace}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1044,6 +1075,7 @@ function OrderListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.salesPlace}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1057,6 +1089,7 @@ function OrderListContent() {
                 <input
                   type="number"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.purchasePrice}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1070,6 +1103,7 @@ function OrderListContent() {
                 <input
                   type="number"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.salesPrice}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1083,6 +1117,7 @@ function OrderListContent() {
                 <input
                   type="number"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.purchaseShippingFee}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1096,6 +1131,7 @@ function OrderListContent() {
                 <input
                   type="number"
                   className="w-96 border border-solid border-black"
+                  value={updateOrder.salesShippingFee}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,
@@ -1108,6 +1144,7 @@ function OrderListContent() {
                 <span className="">과세 여부</span>
                 <select
                   className="w-96 border border-solid border-black"
+                  value={Number(updateOrder.taxType)}
                   onChange={(e) => {
                     setUpdateOrder({
                       ...updateOrder,

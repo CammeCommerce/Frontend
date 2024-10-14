@@ -5,6 +5,7 @@ import {
   fetchDepositExcelColumnIndex,
   fetchDepositListAll,
   FetchDepositListAllResponse,
+  fetchDepositListOne,
   fetchDepositListSearch,
   registerDepositMatching,
   updateDepositListOne,
@@ -269,6 +270,27 @@ function DepositListContent() {
         console.error(error);
       });
   }, []);
+
+  // 수정 모달 열기 시 실행
+  useEffect(() => {
+    fetchDepositListOne(depositIdToUpdate).then((response) => {
+      if (response) {
+        setUpdateDeposit({
+          mediumName: response.mediumName,
+          depositDate: response.depositDate,
+          accountAlias: response.accountAlias,
+          depositAmount: response.depositAmount,
+          accountDescription: response.accountDescription,
+          transactionMethod1: response.transactionMethod1,
+          transactionMethod2: response.transactionMethod2,
+          accountMemo: response.accountMemo,
+          counterpartyName: response.counterpartyName,
+          purpose: response.purpose,
+          clientName: response.clientName,
+        });
+      }
+    });
+  }, [depositIdToUpdate]);
 
   return (
     <>
@@ -764,6 +786,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.mediumName}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -777,6 +800,7 @@ function DepositListContent() {
                 <input
                   type="date"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.depositDate}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -790,6 +814,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.accountAlias}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -803,6 +828,7 @@ function DepositListContent() {
                 <input
                   type="number"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.depositAmount}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -816,6 +842,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.accountDescription}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -829,6 +856,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.transactionMethod1}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -842,6 +870,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.transactionMethod2}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -855,6 +884,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.accountMemo}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -868,6 +898,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.counterpartyName}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -881,6 +912,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.purpose}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,
@@ -894,6 +926,7 @@ function DepositListContent() {
                 <input
                   type="text"
                   className="w-96 border border-solid border-black"
+                  value={updateDeposit.clientName}
                   onChange={(e) => {
                     setUpdateDeposit({
                       ...updateDeposit,

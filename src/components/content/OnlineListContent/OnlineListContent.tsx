@@ -3,6 +3,7 @@ import {
   createOnlineListOne,
   deleteOnlineListMany,
   fetchOnlineListAll,
+  fetchOnlineListOne,
   fetchOnlineListSearch,
   OnlineListResponse,
   updateOnlineListOne,
@@ -190,6 +191,20 @@ function OnlineListContent() {
       });
   }, []);
 
+  useEffect(() => {
+    fetchOnlineListOne(onlineListIdToUpdate).then((response) => {
+      if (response) {
+        setSalesMonthToUpdate(response.salesMonth);
+        setMediumNameToUpdate(response.mediumName);
+        setOnlineCompanyNameToUpdate(response.onlineCompanyName);
+        setSalesAmountToUpdate(response.salesAmount);
+        setPurchaseAmountToUpdate(response.purchaseAmount);
+        setMarginAmountToUpdate(response.marginAmount);
+        setMemoToUpdate(response.memo);
+      }
+    });
+  }, [onlineListIdToUpdate]);
+
   return (
     <>
       <div className="flex h-main w-full flex-col bg-primaryBackground p-5">
@@ -320,7 +335,7 @@ function OnlineListContent() {
               </button>
               <button
                 type="button"
-                className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
                 disabled={onlineListIdsToDelete.length === 0}
                 onClick={handleDeleteOnlineListButtonClick}
               >
@@ -394,7 +409,7 @@ function OnlineListContent() {
                       <div className="flex items-center justify-center">
                         <button
                           type="button"
-                          className="bg-editButton flex items-center justify-center whitespace-nowrap rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center whitespace-nowrap rounded-md bg-editButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setOnlineListIdToUpdate(item.id);
                             setIsUpdateOnlineListModalOpen(true);
@@ -513,6 +528,7 @@ function OnlineListContent() {
                 <input
                   type="month"
                   className="w-full border border-solid border-black"
+                  value={salesMonthToUpdate}
                   onChange={(e) => setSalesMonthToUpdate(e.target.value)}
                 />
               </div>
@@ -521,6 +537,7 @@ function OnlineListContent() {
                 <input
                   type="text"
                   className="w-full border border-solid border-black"
+                  value={mediumNameToUpdate}
                   onChange={(e) => setMediumNameToUpdate(e.target.value)}
                 />
               </div>
@@ -529,6 +546,7 @@ function OnlineListContent() {
                 <input
                   type="text"
                   className="w-full border border-solid border-black"
+                  value={onlineCompanyNameToUpdate}
                   onChange={(e) => setOnlineCompanyNameToUpdate(e.target.value)}
                 />
               </div>
@@ -537,6 +555,7 @@ function OnlineListContent() {
                 <input
                   type="number"
                   className="w-full border border-solid border-black"
+                  value={salesAmountToUpdate}
                   onChange={(e) =>
                     handleSalesAmountToUpdateChange(Number(e.target.value))
                   }
@@ -547,6 +566,7 @@ function OnlineListContent() {
                 <input
                   type="number"
                   className="w-full border border-solid border-black"
+                  value={purchaseAmountToUpdate}
                   onChange={(e) =>
                     handlePurchaseAmountToUpdateChange(Number(e.target.value))
                   }
@@ -566,6 +586,7 @@ function OnlineListContent() {
                 <input
                   type="text"
                   className="w-full border border-solid border-black"
+                  value={memoToUpdate}
                   onChange={(e) => setMemoToUpdate(e.target.value)}
                 />
               </div>

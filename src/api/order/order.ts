@@ -143,6 +143,18 @@ export const fetchOrderListAll = async () => {
   }
 };
 
+// 주문값 상세 조회 API
+export const fetchOrderListOne = async (id: number) => {
+  try {
+    const response = await api.get<OrderList>(`/order/${id}`);
+    console.log("response", response.data);
+
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 // 주문값 검색 API
 export const fetchOrderListSearch = async (
   searchQueryParams: OrderListSearchQueryParams,
