@@ -417,7 +417,7 @@ function DepositListContent() {
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
                 disabled={depositIdsToDelete.length === 0}
                 onClick={handleDeleteDepositButtonClick}
               >
@@ -514,7 +514,7 @@ function DepositListContent() {
                       <div className="flex w-full items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="border border-solid border-black bg-gray-300"
+                          className="bg-editButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setIsUpdateDepositModalOpen(true);
                             setDepositIdToUpdate(deposit.id);
@@ -524,7 +524,7 @@ function DepositListContent() {
                         </button>
                         <button
                           type="button"
-                          className="border border-solid border-black bg-gray-300"
+                          className="bg-registerButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setAccountAliasToMatch(deposit.accountAlias);
                             setPurposeToMatch(deposit.purpose);

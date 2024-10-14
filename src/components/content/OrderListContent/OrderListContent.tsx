@@ -555,7 +555,7 @@ function OrderListContent() {
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
                 disabled={orderIdsToDelete.length === 0}
                 onClick={handleDeleteOrderButtonClick}
               >
@@ -597,7 +597,7 @@ function OrderListContent() {
               엑셀 다운로드
             </button>
           </div>
-          <div className="mt-2 h-fit w-full">
+          <div className="mt-2 h-fit w-full overflow-x-auto">
             <table className="w-full table-fixed border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
@@ -681,7 +681,7 @@ function OrderListContent() {
                       <div className="flex w-full items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="border border-solid border-black bg-gray-300"
+                          className="bg-editButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setIsUpdateOrderModalOpen(true);
                             setOrderIdToUpdate(order.id);
@@ -691,7 +691,7 @@ function OrderListContent() {
                         </button>
                         <button
                           type="button"
-                          className="border border-solid border-black bg-gray-300"
+                          className="bg-registerButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setPurchasePlaceToMatch(order.purchasePlace);
                             setSalesPlaceToMatch(order.salesPlace);

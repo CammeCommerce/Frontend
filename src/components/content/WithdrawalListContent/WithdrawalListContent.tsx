@@ -415,7 +415,7 @@ function WithdrawalListContent() {
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
                 disabled={withdrawalIdsToDelete.length === 0}
                 onClick={handleDeleteSelectedButtonClick}
               >
@@ -509,7 +509,7 @@ function WithdrawalListContent() {
                       <div className="flex w-full items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="border border-solid border-black bg-gray-300"
+                          className="bg-editButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setWithdrawalIdToUpdate(item.id);
                             setIsUpdateWithdrawalModalOpen(true);
@@ -519,7 +519,7 @@ function WithdrawalListContent() {
                         </button>
                         <button
                           type="button"
-                          className="border border-solid border-black bg-gray-300"
+                          className="bg-registerButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setAccountAliasToMatch(item.accountAlias);
                             setPurposeToMatch(item.purpose);

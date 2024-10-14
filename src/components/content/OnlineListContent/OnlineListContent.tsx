@@ -320,7 +320,7 @@ function OnlineListContent() {
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
                 disabled={onlineListIdsToDelete.length === 0}
                 onClick={handleDeleteOnlineListButtonClick}
               >
@@ -394,7 +394,7 @@ function OnlineListContent() {
                       <div className="flex items-center justify-center">
                         <button
                           type="button"
-                          className="flex items-center justify-center rounded-md bg-gray-500 px-5 py-1 font-semibold text-white"
+                          className="bg-editButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setOnlineListIdToUpdate(item.id);
                             setIsUpdateOnlineListModalOpen(true);

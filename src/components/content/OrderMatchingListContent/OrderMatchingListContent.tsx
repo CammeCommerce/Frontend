@@ -249,7 +249,7 @@ function OrderMatchingListContent() {
         <div className="flex w-full items-center justify-between">
           <button
             type="button"
-            className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+            className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
             disabled={orderMatchingIdsToDelete.length === 0}
             onClick={handleDeleteButtonClick}
           >

@@ -249,7 +249,7 @@ function CompanyManagementContent() {
                         </button>
                         <button
                           type="button"
-                          className="flex items-center justify-center rounded-md bg-gray-500 px-5 py-1 font-semibold text-white"
+                          className="bg-deleteButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setIsDeleteConfirmModalOpen(true);
                             setCompanyIdToDelete(company.id);

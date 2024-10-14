@@ -10,13 +10,17 @@ export default {
         primaryBackground: "#F8FAFB",
         primaryButton: "#7749F8",
         primaryButtonHover: "#5227CC",
-        editButton: "#6C757D",
+        editButton: "#17A2B8",
+        deleteButton: "#DC3545",
+        registerButton: "#28A745",
       },
       borderColor: {
         primaryButton: "#7749F8",
+        deleteButton: "#DC3545",
       },
       textColor: {
         primaryButton: "#6610F2",
+        deleteButton: "#DC3545",
       },
       width: {
         content: "calc(100% - 14rem)",
