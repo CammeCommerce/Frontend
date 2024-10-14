@@ -1,4 +1,31 @@
+import { useState } from "react";
+import {
+  fetchProfitLossSearch,
+  ProfitLoss,
+} from "../../../api/profit-loss/profit-loss";
+
 function ProfitLossStatementContent() {
+  const [profitLoss, setProfitLoss] = useState<ProfitLoss>(); // 손익계산서
+
+  // 검색 관련 상태
+  const [startDate, setStartDate] = useState(""); // 검색 시작일자
+  const [endDate, setEndDate] = useState(""); // 검색 종료일자
+  const [mediumName, setMediumName] = useState(""); // 매체명
+
+  function handleSearchButtonClick() {
+    fetchProfitLossSearch({
+      startDate: startDate,
+      endDate: endDate,
+      mediumName: mediumName,
+    })
+      .then((response) => {
+        setProfitLoss(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   return (
     <div className="flex h-full w-full flex-col bg-primaryBackground p-5">
       <div className="flex h-fit w-full flex-col bg-white px-10 py-6 shadow-md">
@@ -7,9 +34,17 @@ function ProfitLossStatementContent() {
           <div className="flex items-center gap-5">
             <span className="">매출발생월검색</span>
             <div className="flex items-center gap-2">
-              <input type="date" className="" />
+              <input
+                type="month"
+                className=""
+                onChange={(e) => setStartDate(e.target.value)}
+              />
               <span className="">~</span>
-              <input type="date" className="" />
+              <input
+                type="month"
+                className=""
+                onChange={(e) => setEndDate(e.target.value)}
+              />
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -60,7 +95,10 @@ function ProfitLossStatementContent() {
             <div className="flex flex-col gap-5">
               <div className="flex items-center gap-3">
                 <span className="">매체명</span>
-                <select className="h-8 w-60 border border-solid border-black text-center">
+                <select
+                  className="h-8 w-60 border border-solid border-black text-center"
+                  onChange={(e) => setMediumName(e.target.value)}
+                >
                   <option value="">전체</option>
                   <option value="">매체명_1</option>
                   <option value="">매체명_2</option>
@@ -78,13 +116,14 @@ function ProfitLossStatementContent() {
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primaryButton px-5 font-semibold text-white"
+                onClick={handleSearchButtonClick}
               >
                 검색하기
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-solid border-primaryButton px-5 font-semibold text-primaryButton"
               >
                 검색 초기화
               </button>
@@ -96,11 +135,11 @@ function ProfitLossStatementContent() {
         <div className="flex items-center gap-5">
           <div className="flex items-center justify-center gap-2 rounded-sm border border-solid border-black px-3 py-2">
             <span className="">매체 : </span>
-            <span className="">포앤서치</span>
+            <span className="">{profitLoss?.mediumName}</span>
           </div>
           <div className="flex items-center justify-center gap-2 rounded-sm border border-solid border-black px-3 py-2">
             <span className="">기간 : </span>
-            <span className="">24년 5월~6월</span>
+            <span className="">{profitLoss?.period}</span>
           </div>
         </div>
         <div className="mt-2 h-fit w-1/2">
@@ -117,11 +156,15 @@ function ProfitLossStatementContent() {
             <tbody>
               <tr className="h-10">
                 <th className="border border-black text-center">도매 매출</th>
-                <td className="border border-black text-center"></td>
+                <td className="border border-black text-center">
+                  {profitLoss?.wholesaleSales}
+                </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center">도매 배송비</th>
-                <td className="border border-black text-center"></td>
+                <td className="border border-black text-center">
+                  {profitLoss?.wholesaleShippingFee}
+                </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center">

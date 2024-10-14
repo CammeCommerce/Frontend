@@ -5,9 +5,17 @@ export default {
     extend: {
       colors: {
         sidenav: "#0E2238",
-        primaryButton: "#00bac7",
-        primaryButtonHover: "#009ea9",
+        signOutButton: "#00bac7",
+        signOutButtonHover: "#009ea9",
         primaryBackground: "#F8FAFB",
+        primaryButton: "#7749F8",
+        primaryButtonHover: "#5227CC",
+      },
+      borderColor: {
+        primaryButton: "#7749F8",
+      },
+      textColor: {
+        primaryButton: "#6610F2",
       },
       width: {
         content: "calc(100% - 14rem)",

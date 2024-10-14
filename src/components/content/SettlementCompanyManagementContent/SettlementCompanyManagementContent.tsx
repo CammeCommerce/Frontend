@@ -137,49 +137,49 @@ function SettlementCompanyManagementContent() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className={`${periodType === "" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("")}
                 >
                   전체
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className={`${periodType === "어제" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("어제")}
                 >
                   어제
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className={`${periodType === "지난 3일" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("지난 3일")}
                 >
                   지난 3일
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className={`${periodType === "일주일" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("일주일")}
                 >
                   일주일
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className={`${periodType === "1개월" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("1개월")}
                 >
                   1개월
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className={`${periodType === "3개월" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("3개월")}
                 >
                   3개월
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className={`${periodType === "6개월" ? "bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
                   onClick={() => setPeriodType("6개월")}
                 >
                   6개월
@@ -198,14 +198,14 @@ function SettlementCompanyManagementContent() {
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primaryButton px-5 font-semibold text-white"
                   onClick={handleSearchButtonClick}
                 >
                   검색하기
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-solid border-primaryButton px-5 font-semibold text-primaryButton"
                 >
                   검색 초기화
                 </button>
