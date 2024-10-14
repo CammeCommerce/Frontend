@@ -14,14 +14,8 @@ import { useDropzone } from "react-dropzone";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
 import { AxiosError } from "axios";
-import {
-  fetchCompanyAll,
-  FetchCompanyAllResponse,
-} from "../../../api/medium/medium";
-import {
-  fetchSettlementCompanyAll,
-  FetchSettlementCompanyAllResponse,
-} from "../../../api/settlement-company/settlement-company";
+import { fetchCompanyAll } from "../../../api/medium/medium";
+import { fetchSettlementCompanyAll } from "../../../api/settlement-company/settlement-company";
 
 /* prettier-ignore */
 const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]; // 알파벳 배열
@@ -528,14 +522,14 @@ function OrderListContent() {
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primaryButton px-5 font-semibold text-white"
+                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
                   onClick={handleSearchButtonClick}
                 >
                   검색하기
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-solid border-primaryButton px-5 font-semibold text-primaryButton"
+                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-solid border-gray-500 px-5 font-semibold text-gray-500"
                 >
                   검색 초기화
                 </button>
@@ -561,25 +555,29 @@ function OrderListContent() {
               >
                 선택 삭제
               </button>
+            </div>
+            <div className="flex items-center gap-3">
               <select
                 name="fieldToSort"
                 id=""
-                className="border border-solid border-black text-center"
+                className="h-10 rounded-md border border-solid border-black px-4 text-center font-medium"
                 onChange={(e) => {
                   setFieldToSort(e.target.value);
                 }}
               >
                 <option value="">리스트명</option>
-                {ORDERLIST_HEADER.map((header, index) => (
-                  <option key={index} value={Object.values(header)[0]}>
-                    {Object.keys(header)[0]}
-                  </option>
-                ))}
+                {ORDERLIST_HEADER.slice(0, ORDERLIST_HEADER.length - 1).map(
+                  (header, index) => (
+                    <option key={index} value={Object.values(header)[0]}>
+                      {Object.keys(header)[0]}
+                    </option>
+                  ),
+                )}
               </select>
               <select
                 name="isDescend"
                 id=""
-                className="border border-solid border-black text-center"
+                className="h-10 rounded-md border border-solid border-black px-4 text-center font-medium"
                 onChange={(e) => {
                   setIsDescend(e.target.value);
                 }}
@@ -588,14 +586,14 @@ function OrderListContent() {
                 <option value="asc">오름차순</option>
                 <option value="desc">내림차순</option>
               </select>
+              <button
+                type="button"
+                className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
+                onClick={handleExcelDownloadButtonClick}
+              >
+                엑셀 다운로드
+              </button>
             </div>
-            <button
-              type="button"
-              className="flex h-10 items-center justify-center rounded-md bg-gray-500 px-5 font-semibold text-white"
-              onClick={handleExcelDownloadButtonClick}
-            >
-              엑셀 다운로드
-            </button>
           </div>
           <div className="mt-2 h-fit w-full overflow-x-auto">
             <table className="w-full table-fixed border-collapse border border-black">
@@ -706,38 +704,40 @@ function OrderListContent() {
                 ))}
               </tbody>
             </table>
-            <table className="w-full table-fixed bg-gray-200">
+            <table className="w-full table-fixed bg-[#EBE5FC]">
               <tbody>
                 <tr className="h-10">
-                  <td className="border border-black text-center">합계</td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center">
+                  <td className="border border-black text-center font-semibold">
+                    합계
+                  </td>
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center font-semibold">
                     {orderList?.totalPurchasePrice}
                   </td>
-                  <td className="border border-black text-center">
+                  <td className="border border-black text-center font-semibold">
                     {orderList?.totalSalesPrice}
                   </td>
-                  <td className="border border-black text-center">
+                  <td className="border border-black text-center font-semibold">
                     {orderList?.totalPurchaseShippingFee}
                   </td>
-                  <td className="border border-black text-center">
+                  <td className="border border-black text-center font-semibold">
                     {orderList?.totalSalesShippingFee}
                   </td>
-                  <td className="border border-black text-center"></td>
-                  <td className="border border-black text-center">
+                  <td className="border border-black text-center">-</td>
+                  <td className="border border-black text-center font-semibold">
                     {orderList?.totalMarginAmount}
                   </td>
-                  <td className="border border-black text-center">
+                  <td className="border border-black text-center font-semibold">
                     {orderList?.totalShippingDifference}
                   </td>
-                  <td className="border border-black text-center"></td>
+                  <td className="border border-black text-center">-</td>
                 </tr>
               </tbody>
             </table>

@@ -293,14 +293,14 @@ function OnlineListContent() {
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primaryButton px-5 font-semibold text-white"
+                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
                   onClick={handleSearchButtonClick}
                 >
                   검색하기
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-solid border-primaryButton px-5 font-semibold text-primaryButton"
+                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-solid border-gray-500 px-5 font-semibold text-gray-500"
                 >
                   검색 초기화
                 </button>
@@ -328,7 +328,7 @@ function OnlineListContent() {
               </button>
             </div>
           </div>
-          <div className="mt-2 h-fit w-full">
+          <div className="scrollbar-thin mt-2 h-fit w-full overflow-x-auto">
             <table className="w-full table-fixed border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
@@ -394,7 +394,7 @@ function OnlineListContent() {
                       <div className="flex items-center justify-center">
                         <button
                           type="button"
-                          className="bg-editButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
+                          className="bg-editButton flex items-center justify-center whitespace-nowrap rounded-md px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setOnlineListIdToUpdate(item.id);
                             setIsUpdateOnlineListModalOpen(true);

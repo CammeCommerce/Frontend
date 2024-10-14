@@ -192,14 +192,14 @@ function CompanyManagementContent() {
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primaryButton px-5 font-semibold text-white"
+                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
                   onClick={handleSearchButtonClick}
                 >
                   검색하기
                 </button>
                 <button
                   type="button"
-                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-solid border-primaryButton px-5 font-semibold text-primaryButton"
+                  className="flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-solid border-gray-500 px-5 font-semibold text-gray-500"
                 >
                   검색 초기화
                 </button>
