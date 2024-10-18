@@ -1,4 +1,26 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../api/auth/auth";
+
 function Login() {
+  const navigation = useNavigate();
+  const [idInput, setIdInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+
+  // 로그인 버튼 핸들러
+  function handleLoginButtonClick() {
+    login(idInput, passwordInput)
+      .then((response) => {
+        if (response?.status === 201) {
+          navigation("/");
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+        alert("로그인에 실패했습니다.");
+      });
+  }
+
   return (
     <div className="flex h-full w-full items-center justify-center">
       <div className="flex flex-col items-center">
@@ -9,6 +31,7 @@ function Login() {
               type="text"
               placeholder="아이디를 입력해주세요."
               className="h-full w-full"
+              onChange={(e) => setIdInput(e.target.value)}
             />
           </div>
           <div className="flex h-10 w-96 rounded-md border border-solid border-black bg-white px-3">
@@ -16,11 +39,13 @@ function Login() {
               type="password"
               placeholder="비밀번호를 입력해주세요."
               className="h-full w-full"
+              onChange={(e) => setPasswordInput(e.target.value)}
             />
           </div>
           <button
             type="button"
             className="flex h-10 w-96 items-center justify-center rounded-md bg-gray-400"
+            onClick={handleLoginButtonClick}
           >
             확인
           </button>
