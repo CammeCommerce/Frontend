@@ -1,8 +1,11 @@
 import OrderMatchingListContent from "../../components/content/OrderMatchingListContent";
 import MainHeader from "../../components/header/MainHeader";
 import SideNav from "../../components/sidenav/SideNav";
+import useAuthCheck from "../../hooks/useAuthCheck/useAuthCheck";
 
 function OrderMatchingList() {
+  useAuthCheck();
+
   return (
     <>
       <SideNav />

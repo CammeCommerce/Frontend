@@ -1,8 +1,11 @@
 import DepositMatchingListContent from "../../components/content/DepositMatchingListContent";
 import MainHeader from "../../components/header/MainHeader";
 import SideNav from "../../components/sidenav/SideNav";
+import useAuthCheck from "../../hooks/useAuthCheck/useAuthCheck";
 
 function DepositMatchingList() {
+  useAuthCheck();
+
   return (
     <>
       <SideNav />

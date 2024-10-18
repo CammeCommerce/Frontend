@@ -1,8 +1,11 @@
 import OrderListContent from "../../components/content/OrderListContent";
 import MainHeader from "../../components/header/MainHeader";
 import SideNav from "../../components/sidenav/SideNav";
+import useAuthCheck from "../../hooks/useAuthCheck/useAuthCheck";
 
 function OrderList() {
+  useAuthCheck();
+
   return (
     <>
       <SideNav />
