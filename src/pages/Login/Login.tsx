@@ -17,7 +17,7 @@ function Login() {
       })
       .catch((e) => {
         console.error(e);
-        alert("로그인에 실패했습니다.");
+        alert("이메일 또는 비밀번호가 일치하지 않습니다.");
       });
   }
 
@@ -40,7 +40,7 @@ function Login() {
           <div className="flex h-10 w-96 rounded-md border border-solid border-black bg-white px-3">
             <input
               type="text"
-              placeholder="아이디를 입력해주세요."
+              placeholder="이메일을 입력해주세요."
               className="h-full w-full"
               onChange={(e) => setIdInput(e.target.value)}
             />

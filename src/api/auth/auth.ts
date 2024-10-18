@@ -25,7 +25,7 @@ export const login = async (email: string, password: string) => {
     return response;
   } catch (e) {
     console.error(e);
-    alert("로그인에 실패했습니다.");
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -58,6 +58,74 @@ export const checkLogin = async () => {
 
     return response;
   } catch (e) {
+    return Promise.reject(e as AxiosError);
+  }
+};
+
+// 이메일 발송 API
+export const sendEmail = async (email: string) => {
+  try {
+    const response = await api.post(
+      "/user/send",
+      {
+        email,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+
+    console.log(response.data);
+
+    return response;
+  } catch (e) {
+    console.error(e);
+    return Promise.reject(e as AxiosError);
+  }
+};
+
+// 이메일 검증 API
+export const verifyPassword = async (email: string, code: string) => {
+  try {
+    const response = await api.post(
+      "/user/verify",
+      {
+        email,
+        code,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+
+    console.log(response.data);
+
+    return response;
+  } catch (e) {
+    console.error(e);
+    return Promise.reject(e as AxiosError);
+  }
+};
+
+// 비밀번호 재설정 API
+export const updatePassword = async (email: string, newPassword: string) => {
+  try {
+    const response = await api.patch(
+      "/user/reset-password",
+      {
+        email,
+        newPassword,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+
+    console.log(response.data);
+
+    return response;
+  } catch (e) {
+    console.error(e);
     return Promise.reject(e as AxiosError);
   }
 };
