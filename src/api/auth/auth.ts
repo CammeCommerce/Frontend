@@ -32,9 +32,11 @@ export const login = async (email: string, password: string) => {
 // 로그아웃 API
 export const logout = async () => {
   try {
-    const response = await api.post("/user/logout", {
-      withCredentials: true,
-    });
+    const response = await api.post(
+      "/user/logout",
+      {},
+      { withCredentials: true },
+    );
 
     console.log(response.data);
 

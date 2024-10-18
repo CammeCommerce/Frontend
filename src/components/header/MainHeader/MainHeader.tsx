@@ -4,6 +4,7 @@ import { logout } from "../../../api/auth/auth";
 function MainHeader() {
   const navigate = useNavigate();
 
+  // 로그아웃 버튼 클릭 핸들러
   function handleLogoutButtonClick() {
     logout()
       .then((response) => {

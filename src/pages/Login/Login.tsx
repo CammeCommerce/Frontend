@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../api/auth/auth";
+import { checkLogin, login } from "../../api/auth/auth";
 
 function Login() {
   const navigation = useNavigate();
@@ -20,6 +20,17 @@ function Login() {
         alert("로그인에 실패했습니다.");
       });
   }
+
+  // useEffect(() => {
+  //   // 로그인 상태일 경우 메인 페이지로 이동
+  //   checkLogin().then((response) => {
+  //     if (response?.status === 200 && response.data.isLoggedIn === true) {
+  //       navigation("/");
+  //     } else {
+  //       return;
+  //     }
+  //   });
+  // }, []);
 
   return (
     <div className="flex h-full w-full items-center justify-center">

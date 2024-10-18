@@ -12,7 +12,7 @@ const useAuthCheck = () => {
         navigate("/login");
       }
     });
-  }, [navigate]);
+  }, []);
 };
 
 export default useAuthCheck;
