@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkLogin, login } from "../../api/auth/auth";
+import { login } from "../../api/auth/auth";
 
 function Login() {
   const navigation = useNavigate();
@@ -21,17 +21,6 @@ function Login() {
       });
   }
 
-  // useEffect(() => {
-  //   // 로그인 상태일 경우 메인 페이지로 이동
-  //   checkLogin().then((response) => {
-  //     if (response?.status === 200 && response.data.isLoggedIn === true) {
-  //       navigation("/");
-  //     } else {
-  //       return;
-  //     }
-  //   });
-  // }, []);
-
   return (
     <div className="flex h-full w-full items-center justify-center">
       <div className="flex flex-col items-center">
@@ -51,6 +40,11 @@ function Login() {
               placeholder="비밀번호를 입력해주세요."
               className="h-full w-full"
               onChange={(e) => setPasswordInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleLoginButtonClick();
+                }
+              }}
             />
           </div>
           <button
