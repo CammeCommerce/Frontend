@@ -344,7 +344,7 @@ function OnlineListContent() {
             </div>
           </div>
           <div className="scrollbar-thin mt-2 h-fit w-full overflow-x-auto">
-            <table className="w-full table-fixed border-collapse border border-black">
+            <table className="w-full border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
                   <th className="border border-black">

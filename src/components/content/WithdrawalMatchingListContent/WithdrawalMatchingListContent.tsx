@@ -223,7 +223,7 @@ function WithdrawalMatchingListContent() {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              className="bg-deleteButton flex h-10 items-center justify-center rounded-md px-5 font-semibold text-white"
+              className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
               disabled={withdrawalMatchingIdsToDelete.length === 0}
               onClick={handleDeleteButtonClick}
             >
@@ -232,7 +232,7 @@ function WithdrawalMatchingListContent() {
           </div>
         </div>
         <div className="mt-2 h-fit w-full">
-          <table className="w-full table-fixed border-collapse border border-black">
+          <table className="w-full border-collapse border border-black">
             <thead className="bg-gray-200">
               <tr className="h-10">
                 <th className="border border-black">
