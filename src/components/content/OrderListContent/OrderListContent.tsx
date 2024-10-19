@@ -642,10 +642,10 @@ function OrderListContent() {
             </div>
           </div>
           <div className="mt-2 h-fit w-full overflow-x-auto">
-            <table className="w-full table-fixed border-collapse border border-black">
+            <table className="w-full border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
-                  <th className="border border-black">
+                  <th className="w-9 border border-black">
                     <input
                       type="checkbox"
                       className=""
@@ -748,13 +748,9 @@ function OrderListContent() {
                     </td>
                   </tr>
                 ))}
-              </tbody>
-            </table>
-            <table className="w-full table-fixed bg-[#EBE5FC]">
-              <tbody>
-                <tr className="h-10">
+                <tr className="h-10 bg-[#EBE5FC]">
                   <td className="border border-black text-center font-semibold">
-                    합계
+                    합
                   </td>
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center">-</td>
