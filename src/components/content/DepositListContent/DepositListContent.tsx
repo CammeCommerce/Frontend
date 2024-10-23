@@ -21,7 +21,9 @@ import { fetchCompanyAll } from "../../../api/medium/medium";
 const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]; // 알파벳 배열
 
 function DepositListContent() {
-  const [depositList, setDepositList] = useState<FetchDepositListAllResponse>(); // 입금 리스트
+  const [depositList, setDepositList] = useState<FetchDepositListAllResponse>({
+    items: [],
+  }); // 입금 리스트
   const [companyList, setCompanyList] = useState<string[]>([]); // 매체명 리스트
 
   // 검색 관련 상태
@@ -207,6 +209,7 @@ function DepositListContent() {
     deleteDepositListMany(depositIdsToDelete)
       .then(() => {
         setDepositIdsToDelete([]);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -478,7 +481,7 @@ function DepositListContent() {
               엑셀 다운로드
             </button>
           </div>
-          <div className="mt-2 h-fit w-full overflow-x-auto">
+          <div className="mb-10 mt-2 h-fit w-full overflow-x-auto">
             <table className="w-full border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">

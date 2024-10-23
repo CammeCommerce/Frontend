@@ -22,7 +22,9 @@ const ALPHABET = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
 
 function WithdrawalListContent() {
   const [withdrawalList, setWithdrawalList] =
-    useState<FetchWithdrawalListAllResponse>(); // 출금 리스트
+    useState<FetchWithdrawalListAllResponse>({
+      items: [],
+    }); // 출금 리스트
   const [companyList, setCompanyList] = useState<string[]>(); // 매체명 리스트
 
   const [isCreateWithdrawalModalOpen, setIsCreateWithdrawalModalOpen] =
@@ -205,6 +207,7 @@ function WithdrawalListContent() {
     deleteWithdrawalListMany(withdrawalIdsToDelete)
       .then(() => {
         setWithdrawalIdsToDelete([]);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -474,7 +477,7 @@ function WithdrawalListContent() {
               엑셀 다운로드
             </button>
           </div>
-          <div className="mt-2 h-fit w-full overflow-x-auto">
+          <div className="mb-10 mt-2 h-fit w-full overflow-x-auto">
             <table className="w-full border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">

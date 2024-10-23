@@ -198,7 +198,7 @@ export const updateOrderListOne = async (
       `/order/${id}`,
       updateOrderList,
     );
-    console.log("response", response.data);
+    console.log("수정", response.data);
 
     return response.data;
   } catch (e) {

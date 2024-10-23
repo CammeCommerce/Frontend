@@ -42,11 +42,19 @@ const ORDERLIST_HEADER = [
 ]; // 주문 리스트 테이블 헤더
 
 function OrderListContent() {
-  const [orderList, setOrderList] = useState<FetchOrderListAllResponse>(); // 주문 리스트
-  const [companyList, setCompanyList] = useState<string[]>([]); // 매체 리스트
-  const [settlementCompanyList, setSettlementCompanyList] = useState<string[]>(
-    [],
-  ); // 정산업체 리스트
+  const [orderList, setOrderList] = useState<FetchOrderListAllResponse>({
+    items: [],
+    totalMarginAmount: 0,
+    totalPurchasePrice: 0,
+    totalPurchaseShippingFee: 0,
+    totalSalesPrice: 0,
+    totalSalesShippingFee: 0,
+    totalShippingDifference: 0,
+  }); // 주문 리스트
+  const [companyList, setCompanyList] = useState<string[]>([""]); // 매체 리스트
+  const [settlementCompanyList, setSettlementCompanyList] = useState<string[]>([
+    "",
+  ]); // 정산업체 리스트
 
   const [orderIdToUpdate, setOrderIdToUpdate] = useState<number>(-1); // 수정할 주문값의 ID
   const [mediumNameToMatch, setMediumNameToMatch] = useState<string>(""); // 매칭할 매체명
@@ -443,7 +451,7 @@ function OrderListContent() {
                   >
                     <option value="">전체</option>
                     {companyList.map((company, index) => (
-                      <option key={index} value={company}>
+                      <option key={index} value={company || ""}>
                         {company}
                       </option>
                     ))}
@@ -505,7 +513,7 @@ function OrderListContent() {
                   >
                     <option value="">전체</option>
                     {settlementCompanyList.map((settlementCompany, index) => (
-                      <option key={index} value={settlementCompany}>
+                      <option key={index} value={settlementCompany || ""}>
                         {settlementCompany}
                       </option>
                     ))}
@@ -617,7 +625,7 @@ function OrderListContent() {
                 <option value="">리스트명</option>
                 {ORDERLIST_HEADER.slice(0, ORDERLIST_HEADER.length - 1).map(
                   (header, index) => (
-                    <option key={index} value={Object.values(header)[0]}>
+                    <option key={index} value={Object.values(header)[0] || ""}>
                       {Object.keys(header)[0]}
                     </option>
                   ),
@@ -703,26 +711,26 @@ function OrderListContent() {
                       {order.salesPlace}
                     </td>
                     <td className="border border-black text-center">
-                      {order.purchasePrice.toLocaleString()}
+                      {order.purchasePrice}
                     </td>
                     <td className="border border-black text-center">
-                      {order.salesPrice.toLocaleString()}
+                      {order.salesPrice}
                     </td>
                     <td className="border border-black text-center">
-                      {order.purchaseShippingFee.toLocaleString()}
+                      {order.purchaseShippingFee}
                     </td>
                     <td className="border border-black text-center">
-                      {order.salesShippingFee.toLocaleString()}
+                      {order.salesShippingFee}
                     </td>
                     <td className="border border-black text-center">
                       {order.taxType === "11" && "과세"}
                       {order.taxType === "12" && "면세"}
                     </td>
                     <td className="border border-black text-center">
-                      {order.marginAmount.toLocaleString()}
+                      {order.marginAmount}
                     </td>
                     <td className="border border-black text-center">
-                      {order.shippingDifference.toLocaleString()}
+                      {order.shippingDifference}
                     </td>
                     <td className="border border-black text-center">
                       <div className="flex w-full items-center justify-center gap-2">
@@ -764,23 +772,23 @@ function OrderListContent() {
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalPurchasePrice.toLocaleString()}
+                    {orderList?.totalPurchasePrice}
                   </td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalSalesPrice.toLocaleString()}
+                    {orderList?.totalSalesPrice}
                   </td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalPurchaseShippingFee.toLocaleString()}
+                    {orderList?.totalPurchaseShippingFee}
                   </td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalSalesShippingFee.toLocaleString()}
+                    {orderList?.totalSalesShippingFee}
                   </td>
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalMarginAmount.toLocaleString()}
+                    {orderList?.totalMarginAmount}
                   </td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalShippingDifference.toLocaleString()}
+                    {orderList?.totalShippingDifference}
                   </td>
                   <td className="border border-black text-center">-</td>
                 </tr>
@@ -806,11 +814,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setProductNameIndex(e.target.value)}
-                value={productNameIndex}
+                value={productNameIndex || ""}
               >
                 <option value="">상품명</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -820,11 +828,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setQuantityIndex(e.target.value)}
-                value={quantityIndex}
+                value={quantityIndex || ""}
               >
                 <option value="">수량</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -834,11 +842,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setOrderDateIndex(e.target.value)}
-                value={orderDateIndex}
+                value={orderDateIndex || ""}
               >
                 <option value="">발주일자</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -848,11 +856,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setPurchasePlaceIndex(e.target.value)}
-                value={purchasePlaceIndex}
+                value={purchasePlaceIndex || ""}
               >
                 <option value="">매입처</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -862,11 +870,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setSalesPlaceIndex(e.target.value)}
-                value={salesPlaceIndex}
+                value={salesPlaceIndex || ""}
               >
                 <option value="">매출처</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -876,11 +884,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setTaxTypeIndex(e.target.value)}
-                value={taxTypeIndex}
+                value={taxTypeIndex || ""}
               >
                 <option value="">과세 여부</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -890,11 +898,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setPurchasePriceIndex(e.target.value)}
-                value={purchasePriceIndex}
+                value={purchasePriceIndex || ""}
               >
                 <option value="">매입가</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -904,11 +912,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setSalesPriceIndex(e.target.value)}
-                value={salesPriceIndex}
+                value={salesPriceIndex || ""}
               >
                 <option value="">판매가</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -918,11 +926,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setPurchaseShippingFeeIndex(e.target.value)}
-                value={purchaseShippingFeeIndex}
+                value={purchaseShippingFeeIndex || ""}
               >
                 <option value="">매입 배송비</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -932,11 +940,11 @@ function OrderListContent() {
               <select
                 className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setSalesShippingFeeIndex(e.target.value)}
-                value={salesShippingFeeIndex}
+                value={salesShippingFeeIndex || ""}
               >
                 <option value="">매출 배송비</option>
                 {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
+                  <option key={index} value={alphabet || ""}>
                     {alphabet}
                   </option>
                 ))}
@@ -997,7 +1005,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full"
-                    value={updateOrder.mediumName}
+                    value={updateOrder.mediumName || ""}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1015,7 +1023,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full"
-                    value={updateOrder.settlementCompanyName}
+                    value={updateOrder.settlementCompanyName || ""}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1033,7 +1041,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full"
-                    value={updateOrder.productName}
+                    value={updateOrder.productName || ""}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1051,7 +1059,7 @@ function OrderListContent() {
                   <input
                     type="number"
                     className="h-full w-full"
-                    value={updateOrder.quantity}
+                    value={updateOrder.quantity || 0}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1069,7 +1077,7 @@ function OrderListContent() {
                   <input
                     type="date"
                     className="h-full w-full"
-                    value={updateOrder.orderDate}
+                    value={updateOrder.orderDate || ""}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1087,7 +1095,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full"
-                    value={updateOrder.purchasePlace}
+                    value={updateOrder.purchasePlace || ""}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1105,7 +1113,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full"
-                    value={updateOrder.salesPlace}
+                    value={updateOrder.salesPlace || ""}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1123,7 +1131,7 @@ function OrderListContent() {
                   <input
                     type="number"
                     className="h-full w-full"
-                    value={updateOrder.purchasePrice}
+                    value={updateOrder.purchasePrice || 0}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1141,7 +1149,7 @@ function OrderListContent() {
                   <input
                     type="number"
                     className="h-full w-full"
-                    value={updateOrder.salesPrice}
+                    value={updateOrder.salesPrice || 0}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1159,7 +1167,7 @@ function OrderListContent() {
                   <input
                     type="number"
                     className="h-full w-full"
-                    value={updateOrder.purchaseShippingFee}
+                    value={updateOrder.purchaseShippingFee || 0}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1177,7 +1185,7 @@ function OrderListContent() {
                   <input
                     type="number"
                     className="h-full w-full"
-                    value={updateOrder.salesShippingFee}
+                    value={updateOrder.salesShippingFee || 0}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1194,7 +1202,7 @@ function OrderListContent() {
                 <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
                   <select
                     className="h-full w-full px-2"
-                    value={Number(updateOrder.taxType)}
+                    value={Number(updateOrder.taxType) || 0}
                     onChange={(e) => {
                       setUpdateOrder({
                         ...updateOrder,
@@ -1267,7 +1275,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full px-2"
-                    value={purchasePlaceToMatch}
+                    value={purchasePlaceToMatch || ""}
                     disabled
                   />
                 </div>
@@ -1280,7 +1288,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full px-2"
-                    value={salesPlaceToMatch}
+                    value={salesPlaceToMatch || ""}
                     disabled
                   />
                 </div>
