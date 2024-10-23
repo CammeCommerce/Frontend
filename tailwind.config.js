@@ -32,7 +32,7 @@ export default {
         main: "calc(100% - 4rem)",
         excelModal: "600px",
         updateModal: "800px",
-        registerModal: "400px",
+        registerModal: "350px",
       },
     },
   },

@@ -11,20 +11,13 @@ export interface ProfitLoss {
   period: string;
   wholesaleSales: number;
   wholesaleShippingFee: number;
-  depositByPurpose: {
-    [key: string]: number;
-  };
-  onlineSalesByMedia: {
-    [key: string]: number;
-  };
-  wholesalePurchase: number; // 도매 매입
+  depositByPurpose: Record<string, number>;
+  onlineSalesByMedia: Record<string, number>;
+  wholesalePurchase: number;
   wholesalePurchaseShippingFee: number;
-  withdrawalByPurpose: {
-    [key: string]: number;
-  };
-  onlinePurchaseByMedia: {
-    [key: string]: number;
-  };
+  withdrawalByPurpose: Record<string, number>;
+  onlinePurchaseByMedia: Record<string, number>;
+  netProfitOrLoss: number;
 }
 
 // 손익계산서 검색 API

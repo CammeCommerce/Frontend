@@ -92,6 +92,7 @@ function OnlineListContent() {
     })
       .then(() => {
         setIsCreateOnlineListModalOpen(false);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -111,6 +112,7 @@ function OnlineListContent() {
     })
       .then(() => {
         setIsUpdateOnlineListModalOpen(false);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -394,13 +396,13 @@ function OnlineListContent() {
                       {item.onlineCompanyName}
                     </td>
                     <td className="border border-black text-center">
-                      {item.salesAmount}
+                      {item.salesAmount.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
-                      {item.purchaseAmount}
+                      {item.purchaseAmount.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
-                      {item.marginAmount}
+                      {item.marginAmount.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
                       {item.memo}
@@ -438,70 +440,98 @@ function OnlineListContent() {
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
             <h2 className="text-xl font-bold">온라인 리스트 추가</h2>
-            <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-6">
+            <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-10">
               <div className="flex w-full items-center gap-3">
-                <span className="">매출 발생 월</span>
-                <input
-                  type="month"
-                  className="w-full border border-solid border-black"
-                  onChange={(e) => setSalesMonth(e.target.value)}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매출 발생 월
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="month"
+                    className="h-full w-full px-2"
+                    onChange={(e) => setSalesMonth(e.target.value)}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">매체명</span>
-                <input
-                  type="text"
-                  className="w-full border border-solid border-black"
-                  onChange={(e) => setMediumName(e.target.value)}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    onChange={(e) => setMediumName(e.target.value)}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">온라인 업체명</span>
-                <input
-                  type="text"
-                  className="w-full border border-solid border-black"
-                  onChange={(e) => setOnlineCompanyName(e.target.value)}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  온라인 업체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    onChange={(e) => setOnlineCompanyName(e.target.value)}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">매출액</span>
-                <input
-                  type="number"
-                  className="w-full border border-solid border-black"
-                  onChange={(e) =>
-                    handleSalesAmountChange(Number(e.target.value))
-                  }
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매출액
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="number"
+                    className="h-full w-full px-2"
+                    onChange={(e) =>
+                      handleSalesAmountChange(Number(e.target.value))
+                    }
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">매입액</span>
-                <input
-                  type="number"
-                  className="w-full border border-solid border-black"
-                  onChange={(e) =>
-                    handlePurchaseAmountChange(Number(e.target.value))
-                  }
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매입액
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="number"
+                    className="h-full w-full px-2"
+                    onChange={(e) =>
+                      handlePurchaseAmountChange(Number(e.target.value))
+                    }
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">마진</span>
-                <input
-                  type="number"
-                  className="w-full border border-solid border-black"
-                  value={marginAmount}
-                  readOnly
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  마진
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="number"
+                    className="h-full w-full px-2"
+                    value={marginAmount}
+                    readOnly
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">메모</span>
-                <input
-                  type="text"
-                  className="w-full border border-solid border-black"
-                  onChange={(e) => setMemo(e.target.value)}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  메모
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    onChange={(e) => setMemo(e.target.value)}
+                  />
+                </div>
               </div>
               <button
-                className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+                className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
                 onClick={handleCreateOnlineListButtonClick}
               >
                 추가
@@ -522,76 +552,108 @@ function OnlineListContent() {
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
             <h2 className="text-xl font-bold">온라인 리스트 수정</h2>
-            <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-6">
+            <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-10">
               <div className="flex w-full items-center gap-3">
-                <span className="">매출 발생 월</span>
-                <input
-                  type="month"
-                  className="w-full border border-solid border-black"
-                  value={salesMonthToUpdate}
-                  onChange={(e) => setSalesMonthToUpdate(e.target.value)}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매출 발생 월
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="month"
+                    className="h-full w-full px-2"
+                    value={salesMonthToUpdate}
+                    onChange={(e) => setSalesMonthToUpdate(e.target.value)}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">매체명</span>
-                <input
-                  type="text"
-                  className="w-full border border-solid border-black"
-                  value={mediumNameToUpdate}
-                  onChange={(e) => setMediumNameToUpdate(e.target.value)}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={mediumNameToUpdate}
+                    onChange={(e) => setMediumNameToUpdate(e.target.value)}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">온라인 업체명</span>
-                <input
-                  type="text"
-                  className="w-full border border-solid border-black"
-                  value={onlineCompanyNameToUpdate}
-                  onChange={(e) => setOnlineCompanyNameToUpdate(e.target.value)}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  온라인
+                  <br />
+                  업체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={onlineCompanyNameToUpdate}
+                    onChange={(e) =>
+                      setOnlineCompanyNameToUpdate(e.target.value)
+                    }
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">매출액</span>
-                <input
-                  type="number"
-                  className="w-full border border-solid border-black"
-                  value={salesAmountToUpdate}
-                  onChange={(e) =>
-                    handleSalesAmountToUpdateChange(Number(e.target.value))
-                  }
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매출액
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="number"
+                    className="h-full w-full px-2"
+                    value={salesAmountToUpdate}
+                    onChange={(e) =>
+                      handleSalesAmountToUpdateChange(Number(e.target.value))
+                    }
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">매입액</span>
-                <input
-                  type="number"
-                  className="w-full border border-solid border-black"
-                  value={purchaseAmountToUpdate}
-                  onChange={(e) =>
-                    handlePurchaseAmountToUpdateChange(Number(e.target.value))
-                  }
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매입액
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="number"
+                    className="h-full w-full px-2"
+                    value={purchaseAmountToUpdate}
+                    onChange={(e) =>
+                      handlePurchaseAmountToUpdateChange(Number(e.target.value))
+                    }
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">마진</span>
-                <input
-                  type="number"
-                  className="w-full border border-solid border-black"
-                  value={marginAmountToUpdate}
-                  readOnly
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  마진
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="number"
+                    className="h-full w-full px-2"
+                    value={marginAmountToUpdate}
+                    readOnly
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="">메모</span>
-                <input
-                  type="text"
-                  className="w-full border border-solid border-black"
-                  value={memoToUpdate}
-                  onChange={(e) => setMemoToUpdate(e.target.value)}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  메모
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={memoToUpdate}
+                    onChange={(e) => setMemoToUpdate(e.target.value)}
+                  />
+                </div>
               </div>
               <button
-                className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+                className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
                 onClick={handleUpdateOnlineListButtonClick}
               >
                 수정

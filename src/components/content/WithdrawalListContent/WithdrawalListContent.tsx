@@ -146,6 +146,7 @@ function WithdrawalListContent() {
         .then(() => {
           setIsCreateWithdrawalModalOpen(false);
           setExcelFile(undefined);
+          window.location.reload();
         })
         .catch((error: AxiosError) => {
           console.error(error);
@@ -178,6 +179,7 @@ function WithdrawalListContent() {
     updateWithdrawalOne(withdrawalIdToUpdate, updateWithdrawal)
       .then(() => {
         setIsUpdateWithdrawalModalOpen(false);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -221,6 +223,7 @@ function WithdrawalListContent() {
         setAccountAliasToMatch("");
         setPurposeToMatch("");
         setIsRegisterWithdrawalMatchingModalOpen(false);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -526,7 +529,7 @@ function WithdrawalListContent() {
                       {item.accountAlias}
                     </td>
                     <td className="border border-black text-center">
-                      {item.withdrawalAmount}
+                      {item.withdrawalAmount.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
                       {item.accountDescription}
@@ -593,7 +596,7 @@ function WithdrawalListContent() {
             <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-6">
               {/* 출금일자 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setWithdrawalDateIndex(e.target.value)}
                 value={withdrawalDateIndex}
               >
@@ -607,7 +610,7 @@ function WithdrawalListContent() {
 
               {/* 계좌별칭 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setAccountAliasIndex(e.target.value)}
                 value={accountAliasIndex}
               >
@@ -621,7 +624,7 @@ function WithdrawalListContent() {
 
               {/* 출금액 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setWithdrawalAmountIndex(e.target.value)}
                 value={withdrawalAmountIndex}
               >
@@ -635,7 +638,7 @@ function WithdrawalListContent() {
 
               {/* 계좌적요 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setAccountDescriptionIndex(e.target.value)}
                 value={accountDescriptionIndex}
               >
@@ -649,7 +652,7 @@ function WithdrawalListContent() {
 
               {/* 거래수단1 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setTransactionMethod1Index(e.target.value)}
                 value={transactionMethod1Index}
               >
@@ -663,7 +666,7 @@ function WithdrawalListContent() {
 
               {/* 거래수단2 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setTransactionMethod2Index(e.target.value)}
                 value={transactionMethod2Index}
               >
@@ -677,7 +680,7 @@ function WithdrawalListContent() {
 
               {/* 계좌메모 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setAccountMemoIndex(e.target.value)}
                 value={accountMemoIndex}
               >
@@ -691,7 +694,7 @@ function WithdrawalListContent() {
 
               {/* 용도 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setPurposeIndex(e.target.value)}
                 value={purposeIndex}
               >
@@ -705,7 +708,7 @@ function WithdrawalListContent() {
 
               {/* 거래처 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setClientNameIndex(e.target.value)}
                 value={clientNameIndex}
               >
@@ -718,7 +721,7 @@ function WithdrawalListContent() {
               </select>
             </div>
             {excelFile ? (
-              <div className="flex h-96 w-96 flex-col items-center justify-center gap-4 border border-solid border-black">
+              <div className="mt-6 flex h-80 w-80 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border border-solid border-black">
                 <div className="flex h-28 w-28 items-center justify-center">
                   <img src={excelLogoIcon} alt="" className="" />
                 </div>
@@ -727,19 +730,23 @@ function WithdrawalListContent() {
             ) : (
               <div
                 {...getRootProps()}
-                className="flex h-96 w-96 items-center justify-center border border-solid border-black"
+                className="mt-6 flex h-80 w-80 cursor-pointer items-center justify-center rounded-md border border-solid border-black"
               >
                 <input {...getInputProps()} className="h-full w-full" />
                 {isDragActive ? (
-                  <p>파일을 놓아주세요</p>
+                  <p className="text-base font-medium">파일을 놓아주세요</p>
                 ) : (
-                  <p>엑셀 파일을 드래그하거나 클릭하여 업로드해주세요</p>
+                  <p className="text-base font-medium">
+                    엑셀 파일을 드래그하거나
+                    <br />
+                    클릭하여 업로드해주세요
+                  </p>
                 )}
               </div>
             )}
 
             <button
-              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
               onClick={handleCreateWithdrawalButtonClick}
             >
               등록
@@ -759,151 +766,191 @@ function WithdrawalListContent() {
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
             <h2 className="text-xl font-bold">출금값 수정</h2>
-            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-7">
               <div className="flex w-full items-center gap-4">
-                <span className="">매체명</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.mediumName}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      mediumName: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.mediumName}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        mediumName: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">출금일자</span>
-                <input
-                  type="date"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.withdrawalDate}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      withdrawalDate: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  출금일자
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="date"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.withdrawalDate}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        withdrawalDate: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">계좌별칭</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.accountAlias}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      accountAlias: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  계좌별칭
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.accountAlias}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        accountAlias: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">출금액</span>
-                <input
-                  type="number"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.withdrawalAmount}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      withdrawalAmount: Number(e.target.value),
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  출금액
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="number"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.withdrawalAmount}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        withdrawalAmount: Number(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">계좌적요</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.accountDescription}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      accountDescription: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  계좌적요
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.accountDescription}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        accountDescription: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">거래수단1</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.transactionMethod1}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      transactionMethod1: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  거래수단1
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.transactionMethod1}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        transactionMethod1: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">거래수단2</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.transactionMethod2}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      transactionMethod2: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  거래수단2
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.transactionMethod2}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        transactionMethod2: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">계좌메모</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.accountMemo}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      accountMemo: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  계좌메모
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.accountMemo}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        accountMemo: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">용도</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.purpose}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      purpose: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  용도
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.purpose}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        purpose: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">거래처</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateWithdrawal.clientName}
-                  onChange={(e) => {
-                    setUpdateWithdrawal({
-                      ...updateWithdrawal,
-                      clientName: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  거래처
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={updateWithdrawal.clientName}
+                    onChange={(e) => {
+                      setUpdateWithdrawal({
+                        ...updateWithdrawal,
+                        clientName: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
             </div>
 
             <button
-              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
               onClick={handleUpdateWithdrawalButtonClick}
             >
               수정
@@ -923,39 +970,51 @@ function WithdrawalListContent() {
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
             <h2 className="text-xl font-bold">출금 매칭 등록</h2>
-            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-7">
               <div className="flex w-full items-center gap-4">
-                <span className="">매체명</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  onChange={(e) => {
-                    setMediumNameToMatch(e.target.value);
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    onChange={(e) => {
+                      setMediumNameToMatch(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">계좌별칭</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={accountAliasToMatch}
-                  disabled
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  계좌별칭
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={accountAliasToMatch}
+                    disabled
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">용도</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={purposeToMatch}
-                  disabled
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  용도
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={purposeToMatch}
+                    disabled
+                  />
+                </div>
               </div>
             </div>
 
             <button
-              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
               onClick={handleRegisterWithdrawalMatchingButtonClick}
             >
               등록

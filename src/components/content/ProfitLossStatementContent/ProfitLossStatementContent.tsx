@@ -10,10 +10,12 @@ function ProfitLossStatementContent() {
   const [companyList, setCompanyList] = useState<string[]>([]); // 매체명 목록
 
   // 검색 관련 상태
-  const [startDate, setStartDate] = useState(""); // 검색 시작일자
-  const [endDate, setEndDate] = useState(""); // 검색 종료일자
-  const [mediumName, setMediumName] = useState(""); // 매체명
+  const [startDate, setStartDate] = useState<string>(""); // 검색 시작일자
+  const [endDate, setEndDate] = useState<string>(""); // 검색 종료일자
+  const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
+  const [mediumName, setMediumName] = useState<string>(""); // 매체명
 
+  // 검색 버튼 클릭 핸들러
   function handleSearchButtonClick() {
     fetchProfitLossSearch({
       startDate: startDate,
@@ -65,43 +67,50 @@ function ProfitLossStatementContent() {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className={`${periodType === "" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                onClick={() => setPeriodType("")}
               >
                 전체
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className={`${periodType === "어제" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                onClick={() => setPeriodType("어제")}
               >
                 어제
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className={`${periodType === "지난 3일" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                onClick={() => setPeriodType("지난 3일")}
               >
                 지난 3일
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className={`${periodType === "일주일" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                onClick={() => setPeriodType("일주일")}
               >
                 일주일
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className={`${periodType === "1개월" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                onClick={() => setPeriodType("1개월")}
               >
                 1개월
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className={`${periodType === "3개월" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                onClick={() => setPeriodType("3개월")}
               >
                 3개월
               </button>
               <button
                 type="button"
-                className="flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-gray-500 px-5 font-semibold text-white"
+                className={`${periodType === "6개월" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
+                onClick={() => setPeriodType("6개월")}
               >
                 6개월
               </button>
@@ -174,27 +183,48 @@ function ProfitLossStatementContent() {
               <tr className="h-10">
                 <th className="border border-black text-center">도매 매출</th>
                 <td className="border border-black text-center">
-                  {profitLoss?.wholesaleSales}
+                  {profitLoss?.wholesaleSales.toLocaleString()}
                 </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center">도매 배송비</th>
                 <td className="border border-black text-center">
-                  {profitLoss?.wholesaleShippingFee}
+                  {profitLoss?.wholesaleShippingFee.toLocaleString()}
                 </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center">
-                  수익 리스트 (용도 명 출력)
+                  수익리스트 <br />
+                  (용도명 출력)
                 </th>
-                <td className="border border-black text-center"></td>
+                <td className="border border-black text-center">
+                  {profitLoss?.depositByPurpose &&
+                    Object.keys(profitLoss?.depositByPurpose).map(
+                      (key, index) => (
+                        <span key={index} className="">
+                          {key} :{" "}
+                          {profitLoss?.depositByPurpose[key].toLocaleString()}
+                        </span>
+                      ),
+                    )}
+                </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center">
                   온라인 리스트 매출 <br />
                   (온라인 업체명 출력)
                 </th>
-                <td className="border border-black text-center"></td>
+                <td className="border border-black text-center">
+                  {profitLoss?.onlineSalesByMedia &&
+                    Object.keys(profitLoss.onlineSalesByMedia).map(
+                      (key, index) => (
+                        <span key={index} className="">
+                          {key} :{" "}
+                          {profitLoss?.onlineSalesByMedia[key].toLocaleString()}
+                        </span>
+                      ),
+                    )}
+                </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center"></th>
@@ -205,7 +235,7 @@ function ProfitLossStatementContent() {
           <div className="flex h-10 w-full border-collapse items-center justify-center border border-y-0 border-black bg-gray-300">
             매입
           </div>
-          <table className="w-full table-fixed border-collapse border border-black">
+          <table className="mb-10 w-full table-fixed border-collapse border border-black">
             <thead className="bg-gray-200">
               <tr className="h-10">
                 <th className="border border-black">과목</th>
@@ -215,18 +245,53 @@ function ProfitLossStatementContent() {
             <tbody>
               <tr className="h-10">
                 <th className="border border-black text-center">도매 매입</th>
-                <td className="border border-black text-center"></td>
+                <td className="border border-black text-center">
+                  {profitLoss?.wholesalePurchase.toLocaleString()}
+                </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center">도매 배송비</th>
-                <td className="border border-black text-center"></td>
+                <td className="border border-black text-center">
+                  {profitLoss?.wholesalePurchaseShippingFee.toLocaleString()}
+                </td>
+              </tr>
+              <tr className="h-10">
+                <th className="border border-black text-center">
+                  비용리스트 <br />
+                  (용도명 출력)
+                </th>
+                <td className="border border-black text-center">
+                  {profitLoss?.withdrawalByPurpose &&
+                    Object.keys(profitLoss?.withdrawalByPurpose).map(
+                      (key, index) => (
+                        <span key={index} className="">
+                          {key} :{" "}
+                          {profitLoss?.withdrawalByPurpose[
+                            key
+                          ].toLocaleString()}
+                        </span>
+                      ),
+                    )}
+                </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center">
                   온라인 리스트 매입 <br />
                   (온라인 업체명 출력)
                 </th>
-                <td className="border border-black text-center"></td>
+                <td className="border border-black text-center">
+                  {profitLoss?.onlinePurchaseByMedia &&
+                    Object.keys(profitLoss.onlinePurchaseByMedia).map(
+                      (key, index) => (
+                        <span key={index} className="">
+                          {key} :{" "}
+                          {profitLoss?.onlinePurchaseByMedia[
+                            key
+                          ].toLocaleString()}
+                        </span>
+                      ),
+                    )}
+                </td>
               </tr>
               <tr className="h-10">
                 <th className="border border-black text-center"></th>
@@ -236,7 +301,9 @@ function ProfitLossStatementContent() {
                 <th className="border border-black text-center">
                   당기 순이익 (순손실)
                 </th>
-                <td className="border border-black text-center"></td>
+                <td className="border border-black text-center">
+                  {profitLoss?.netProfitOrLoss.toLocaleString()}
+                </td>
               </tr>
             </tbody>
           </table>

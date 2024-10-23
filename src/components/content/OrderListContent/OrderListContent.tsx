@@ -174,6 +174,7 @@ function OrderListContent() {
         .then(() => {
           setIsCreateOrderModalOpen(false);
           setExcelFile(undefined);
+          window.location.reload();
         })
         .catch((error: AxiosError) => {
           console.error(error);
@@ -189,6 +190,7 @@ function OrderListContent() {
       .then((response) => {
         console.log(response);
         setIsUpdateOrderModalOpen(false);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -256,6 +258,7 @@ function OrderListContent() {
         setPurchasePlaceToMatch("");
         setSalesPlaceToMatch("");
         setIsRegisterOrderMatchingModalOpen(false);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -641,7 +644,7 @@ function OrderListContent() {
               </button>
             </div>
           </div>
-          <div className="mt-2 h-fit w-full overflow-x-auto">
+          <div className="mb-10 mt-2 h-fit w-full overflow-x-auto">
             <table className="w-full border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
@@ -700,26 +703,26 @@ function OrderListContent() {
                       {order.salesPlace}
                     </td>
                     <td className="border border-black text-center">
-                      {order.purchasePrice}
+                      {order.purchasePrice.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
-                      {order.salesPrice}
+                      {order.salesPrice.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
-                      {order.purchaseShippingFee}
+                      {order.purchaseShippingFee.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
-                      {order.salesShippingFee}
+                      {order.salesShippingFee.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
                       {order.taxType === "11" && "과세"}
                       {order.taxType === "12" && "면세"}
                     </td>
                     <td className="border border-black text-center">
-                      {order.marginAmount}
+                      {order.marginAmount.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
-                      {order.shippingDifference}
+                      {order.shippingDifference.toLocaleString()}
                     </td>
                     <td className="border border-black text-center">
                       <div className="flex w-full items-center justify-center gap-2">
@@ -761,23 +764,23 @@ function OrderListContent() {
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalPurchasePrice}
+                    {orderList?.totalPurchasePrice.toLocaleString()}
                   </td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalSalesPrice}
+                    {orderList?.totalSalesPrice.toLocaleString()}
                   </td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalPurchaseShippingFee}
+                    {orderList?.totalPurchaseShippingFee.toLocaleString()}
                   </td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalSalesShippingFee}
+                    {orderList?.totalSalesShippingFee.toLocaleString()}
                   </td>
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalMarginAmount}
+                    {orderList?.totalMarginAmount.toLocaleString()}
                   </td>
                   <td className="border border-black text-center font-semibold">
-                    {orderList?.totalShippingDifference}
+                    {orderList?.totalShippingDifference.toLocaleString()}
                   </td>
                   <td className="border border-black text-center">-</td>
                 </tr>
@@ -801,7 +804,7 @@ function OrderListContent() {
             <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-6">
               {/* 상품명 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setProductNameIndex(e.target.value)}
                 value={productNameIndex}
               >
@@ -815,7 +818,7 @@ function OrderListContent() {
 
               {/* 수량 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setQuantityIndex(e.target.value)}
                 value={quantityIndex}
               >
@@ -829,7 +832,7 @@ function OrderListContent() {
 
               {/* 발주일자 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setOrderDateIndex(e.target.value)}
                 value={orderDateIndex}
               >
@@ -843,7 +846,7 @@ function OrderListContent() {
 
               {/* 매입처 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setPurchasePlaceIndex(e.target.value)}
                 value={purchasePlaceIndex}
               >
@@ -857,7 +860,7 @@ function OrderListContent() {
 
               {/* 매출처 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setSalesPlaceIndex(e.target.value)}
                 value={salesPlaceIndex}
               >
@@ -871,7 +874,7 @@ function OrderListContent() {
 
               {/* 과세 여부 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setTaxTypeIndex(e.target.value)}
                 value={taxTypeIndex}
               >
@@ -885,7 +888,7 @@ function OrderListContent() {
 
               {/* 매입가 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setPurchasePriceIndex(e.target.value)}
                 value={purchasePriceIndex}
               >
@@ -899,7 +902,7 @@ function OrderListContent() {
 
               {/* 판매가 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setSalesPriceIndex(e.target.value)}
                 value={salesPriceIndex}
               >
@@ -913,7 +916,7 @@ function OrderListContent() {
 
               {/* 매입 배송비 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setPurchaseShippingFeeIndex(e.target.value)}
                 value={purchaseShippingFeeIndex}
               >
@@ -927,7 +930,7 @@ function OrderListContent() {
 
               {/* 매출 배송비 드롭다운 */}
               <select
-                className="border border-solid border-black"
+                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
                 onChange={(e) => setSalesShippingFeeIndex(e.target.value)}
                 value={salesShippingFeeIndex}
               >
@@ -940,7 +943,7 @@ function OrderListContent() {
               </select>
             </div>
             {excelFile ? (
-              <div className="flex h-96 w-96 flex-col items-center justify-center gap-4 border border-solid border-black">
+              <div className="mt-6 flex h-80 w-80 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border border-solid border-black">
                 <div className="flex h-28 w-28 items-center justify-center">
                   <img src={excelLogoIcon} alt="" className="" />
                 </div>
@@ -949,13 +952,17 @@ function OrderListContent() {
             ) : (
               <div
                 {...getRootProps()}
-                className="flex h-96 w-96 items-center justify-center border border-solid border-black"
+                className="mt-6 flex h-80 w-80 cursor-pointer items-center justify-center rounded-md border border-solid border-black"
               >
                 <input {...getInputProps()} className="h-full w-full" />
                 {isDragActive ? (
-                  <p>파일을 놓아주세요</p>
+                  <p className="text-base font-medium">파일을 놓아주세요</p>
                 ) : (
-                  <p>엑셀 파일을 드래그하거나 클릭하여 업로드해주세요</p>
+                  <p className="text-base font-medium">
+                    엑셀 파일을 드래그하거나
+                    <br />
+                    클릭하여 업로드해주세요
+                  </p>
                 )}
               </div>
             )}
@@ -981,181 +988,229 @@ function OrderListContent() {
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
             <h2 className="text-xl font-bold">주문값 수정</h2>
-            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-7">
               <div className="flex w-full items-center gap-4">
-                <span className="">매체명</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.mediumName}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      mediumName: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="text"
+                    className="h-full w-full"
+                    value={updateOrder.mediumName}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        mediumName: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">정산업체명</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.settlementCompanyName}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      settlementCompanyName: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  정산업체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="text"
+                    className="h-full w-full"
+                    value={updateOrder.settlementCompanyName}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        settlementCompanyName: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">상품명</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.productName}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      productName: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  상품명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="text"
+                    className="h-full w-full"
+                    value={updateOrder.productName}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        productName: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">수량</span>
-                <input
-                  type="number"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.quantity}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      quantity: Number(e.target.value),
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  수량
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="number"
+                    className="h-full w-full"
+                    value={updateOrder.quantity}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        quantity: Number(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">발주일자</span>
-                <input
-                  type="date"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.orderDate}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      orderDate: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  발주일자
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="date"
+                    className="h-full w-full"
+                    value={updateOrder.orderDate}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        orderDate: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">매입처</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.purchasePlace}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      purchasePlace: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매입처
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="text"
+                    className="h-full w-full"
+                    value={updateOrder.purchasePlace}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        purchasePlace: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">매출처</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.salesPlace}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      salesPlace: e.target.value,
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매출처
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="text"
+                    className="h-full w-full"
+                    value={updateOrder.salesPlace}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        salesPlace: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">매입가</span>
-                <input
-                  type="number"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.purchasePrice}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      purchasePrice: Number(e.target.value),
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매입가
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="number"
+                    className="h-full w-full"
+                    value={updateOrder.purchasePrice}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        purchasePrice: Number(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">판매가</span>
-                <input
-                  type="number"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.salesPrice}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      salesPrice: Number(e.target.value),
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  판매가
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="number"
+                    className="h-full w-full"
+                    value={updateOrder.salesPrice}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        salesPrice: Number(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">매입 배송비</span>
-                <input
-                  type="number"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.purchaseShippingFee}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      purchaseShippingFee: Number(e.target.value),
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매입 배송비
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="number"
+                    className="h-full w-full"
+                    value={updateOrder.purchaseShippingFee}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        purchaseShippingFee: Number(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">매출 배송비</span>
-                <input
-                  type="number"
-                  className="w-96 border border-solid border-black"
-                  value={updateOrder.salesShippingFee}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      salesShippingFee: Number(e.target.value),
-                    });
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매출 배송비
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="number"
+                    className="h-full w-full"
+                    value={updateOrder.salesShippingFee}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        salesShippingFee: Number(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">과세 여부</span>
-                <select
-                  className="w-96 border border-solid border-black"
-                  value={Number(updateOrder.taxType)}
-                  onChange={(e) => {
-                    setUpdateOrder({
-                      ...updateOrder,
-                      taxType: Number(e.target.value),
-                    });
-                  }}
-                >
-                  <option value="11">과세</option>
-                  <option value="12">면세</option>
-                </select>
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  과세 여부
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <select
+                    className="h-full w-full px-2"
+                    value={Number(updateOrder.taxType)}
+                    onChange={(e) => {
+                      setUpdateOrder({
+                        ...updateOrder,
+                        taxType: Number(e.target.value),
+                      });
+                    }}
+                  >
+                    <option value="11">과세</option>
+                    <option value="12">면세</option>
+                  </select>
+                </div>
               </div>
             </div>
 
             <button
-              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
               onClick={handleUpdateOrderButtonClick}
             >
               수정
@@ -1175,49 +1230,64 @@ function OrderListContent() {
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
             <h2 className="text-xl font-bold">주문 매칭 등록</h2>
-            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-4">
+            <div className="mx-auto mt-7 flex w-3/4 flex-col gap-7">
               <div className="flex w-full items-center gap-4">
-                <span className="">매체명</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  onChange={(e) => {
-                    setMediumNameToMatch(e.target.value);
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="text"
+                    className="h-full w-full"
+                    onChange={(e) => {
+                      setMediumNameToMatch(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">정산업체명</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  onChange={(e) => {
-                    setSettlementCompanyNameToMatch(e.target.value);
-                  }}
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  정산업체명
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                  <input
+                    type="text"
+                    className="h-full w-full"
+                    onChange={(e) => {
+                      setSettlementCompanyNameToMatch(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">매입처</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={purchasePlaceToMatch}
-                  disabled
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매입처
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={purchasePlaceToMatch}
+                    disabled
+                  />
+                </div>
               </div>
               <div className="flex w-full items-center gap-4">
-                <span className="">매출처</span>
-                <input
-                  type="text"
-                  className="w-96 border border-solid border-black"
-                  value={salesPlaceToMatch}
-                  disabled
-                />
+                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                  매출처
+                </span>
+                <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
+                  <input
+                    type="text"
+                    className="h-full w-full px-2"
+                    value={salesPlaceToMatch}
+                    disabled
+                  />
+                </div>
               </div>
             </div>
-
             <button
-              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
               onClick={handleRegisterOrderMatchingButtonClick}
             >
               등록

@@ -249,7 +249,7 @@ function SettlementCompanyManagementContent() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="bg-editButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center rounded-md bg-editButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setIsUpdateSettlementCompanyModalOpen(true);
                             setSettlementCompanyIdToUpdate(settleCompany.id);
@@ -259,7 +259,7 @@ function SettlementCompanyManagementContent() {
                         </button>
                         <button
                           type="button"
-                          className="bg-deleteButton flex items-center justify-center rounded-md px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center rounded-md bg-deleteButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
                             setIsDeleteConfirmModalOpen(true);
                             setSettlementCompanyIdToDelete(settleCompany.id);
@@ -289,15 +289,19 @@ function SettlementCompanyManagementContent() {
             </button>
             <h2 className="text-xl font-bold">정산업체 등록</h2>
             <div className="mt-7 flex w-full items-center gap-5">
-              <span className="whitespace-nowrap">정산업체</span>
-              <input
-                type="text"
-                className="h-full w-full border border-solid border-black"
-                onChange={handleSettlementCompanyNameInputChange}
-              />
+              <span className="whitespace-nowrap text-lg font-semibold">
+                정산업체명
+              </span>
+              <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                <input
+                  type="text"
+                  className="h-full w-full"
+                  onChange={handleSettlementCompanyNameInputChange}
+                />
+              </div>
             </div>
             <button
-              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
               onClick={handleCreateSettleCompanyButtonClick}
             >
               등록
@@ -318,15 +322,19 @@ function SettlementCompanyManagementContent() {
             </button>
             <h2 className="text-xl font-bold">매체명 수정</h2>
             <div className="mt-7 flex w-full items-center gap-5">
-              <span className="whitespace-nowrap">매체명</span>
-              <input
-                type="text"
-                className="h-full w-full border border-solid border-black"
-                onChange={handleSettlementCompanyNameToUpdateChange}
-              />
+              <span className="whitespace-nowrap text-lg font-semibold">
+                매체명
+              </span>
+              <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black px-2">
+                <input
+                  type="text"
+                  className="h-full w-full"
+                  onChange={handleSettlementCompanyNameToUpdateChange}
+                />
+              </div>
             </div>
             <button
-              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
               onClick={handleUpdateSettlementCompanyButtonClick}
             >
               수정
@@ -345,17 +353,18 @@ function SettlementCompanyManagementContent() {
             >
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
-            <div className="my-auto flex w-full items-center justify-center gap-5">
+            <h1 className="text-lg font-bold">삭제하시겠습니까?</h1>
+            <div className="mt-7 flex w-full items-center justify-center gap-5">
               <button
                 type="button"
-                className="border border-solid border-black bg-gray-200 px-5 py-1"
+                className="rounded-md bg-gray-300 px-5 py-1 font-medium"
                 onClick={() => setIsDeleteConfirmModalOpen(false)}
               >
                 아니오
               </button>
               <button
                 type="button"
-                className="border border-solid border-black bg-gray-200 px-5 py-1"
+                className="rounded-md bg-gray-300 px-5 py-1 font-medium"
                 onClick={handleDeleteCompanyButtonClick}
               >
                 예
