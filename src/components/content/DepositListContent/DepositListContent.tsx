@@ -238,6 +238,8 @@ function DepositListContent() {
 
   // 입금값 등록 모달 열기 버튼 클릭 이벤트
   function handleCreateDepositModalOpenButtonClick() {
+    setIsCreateDepositModalOpen(true);
+
     fetchDepositExcelColumnIndex().then((response) => {
       if (response) {
         setDepositDateIndex(response.depositDateIdx);
@@ -251,8 +253,6 @@ function DepositListContent() {
         setPurposeIndex(response.purposeIdx);
         setClientNameIndex(response.clientNameIdx);
       }
-
-      setIsCreateDepositModalOpen(true);
     });
   }
 

@@ -239,6 +239,8 @@ function WithdrawalListContent() {
 
   // 출금값 등록 모달 열기 버튼 클릭 이벤트
   function handleCreateWithdrawalModalOpenButtonClick() {
+    setIsCreateWithdrawalModalOpen(true);
+
     fetchWithdrawalExcelColumnIndex().then((response) => {
       if (response) {
         setWithdrawalDateIndex(response.withdrawalDateIdx);
@@ -251,8 +253,6 @@ function WithdrawalListContent() {
         setPurposeIndex(response.purposeIdx);
         setClientNameIndex(response.clientNameIdx);
       }
-
-      setIsCreateWithdrawalModalOpen(true);
     });
   }
 

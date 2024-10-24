@@ -285,6 +285,8 @@ function OrderListContent() {
 
   // 주문값 등록 모달 열기 버튼 클릭 이벤트
   function handleCreateOrderModalOpenButtonClick() {
+    setIsCreateOrderModalOpen(true);
+
     fetchOrderExcelColumnIndex().then((response) => {
       if (response) {
         setProductNameIndex(response.productNameIndex);
@@ -298,8 +300,6 @@ function OrderListContent() {
         setSalesShippingFeeIndex(response.salesShippingFeeIndex);
         setTaxTypeIndex(response.taxTypeIndex);
       }
-
-      setIsCreateOrderModalOpen(true);
     });
   }
 
