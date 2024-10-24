@@ -169,7 +169,11 @@ function WithdrawalListContent() {
       searchQuery,
     })
       .then((response) => {
-        setWithdrawalList(response);
+        setWithdrawalList(
+          response ?? {
+            items: [],
+          },
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -256,7 +260,11 @@ function WithdrawalListContent() {
   useEffect(() => {
     fetchWithdrawalListAll()
       .then((response) => {
-        setWithdrawalList(response);
+        setWithdrawalList(
+          response ?? {
+            items: [],
+          },
+        );
       })
       .catch((error: AxiosError) => {
         console.error(error);

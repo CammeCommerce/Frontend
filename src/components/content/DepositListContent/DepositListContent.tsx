@@ -14,7 +14,6 @@ import {
 import { useDropzone } from "react-dropzone";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
-import { AxiosError } from "axios";
 import { fetchCompanyAll } from "../../../api/medium/medium";
 
 /* prettier-ignore */
@@ -152,9 +151,7 @@ function DepositListContent() {
           setExcelFile(undefined);
           window.location.reload();
         })
-        .catch((error: AxiosError) => {
-          console.error(error);
-        });
+        .catch(() => {});
     } else {
       alert("엑셀 파일을 업로드해주세요.");
     }
@@ -183,7 +180,11 @@ function DepositListContent() {
       searchQuery,
     })
       .then((response) => {
-        setDepositList(response);
+        setDepositList(
+          response ?? {
+            items: [],
+          },
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -259,7 +260,11 @@ function DepositListContent() {
   useEffect(() => {
     fetchDepositListAll()
       .then((response) => {
-        setDepositList(response);
+        setDepositList(
+          response ?? {
+            items: [],
+          },
+        );
       })
       .catch((error) => {
         console.error(error);

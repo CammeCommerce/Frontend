@@ -64,8 +64,8 @@ function CompanyManagementContent() {
       .then((response) => {
         setCompanyList(response);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        alert("매체 검색에 실패했습니다.");
       });
   }
 
@@ -96,9 +96,7 @@ function CompanyManagementContent() {
       .then((response) => {
         setCompanyList(response);
       })
-      .catch((e) => {
-        console.error(e);
-      });
+      .catch(() => {});
   }, []);
 
   return (

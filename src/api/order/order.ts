@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import api from "../baseUrl/baseUrl";
 
 export interface OrderList {
@@ -125,9 +126,9 @@ export const uploadOrder = async (
       },
     });
 
-    console.log("response", response.data);
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -135,11 +136,10 @@ export const uploadOrder = async (
 export const fetchOrderListAll = async () => {
   try {
     const response = await api.get<FetchOrderListAllResponse>("/order");
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -147,11 +147,10 @@ export const fetchOrderListAll = async () => {
 export const fetchOrderListOne = async (id: number) => {
   try {
     const response = await api.get<OrderList>(`/order/${id}`);
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -163,11 +162,10 @@ export const fetchOrderListSearch = async (
     const response = await api.get<FetchOrderListAllResponse>("/order/search", {
       params: searchQueryParams,
     });
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -180,11 +178,10 @@ export const sortOrderList = async (field: string, order: string) => {
         order,
       },
     });
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -198,11 +195,10 @@ export const updateOrderListOne = async (
       `/order/${id}`,
       updateOrderList,
     );
-    console.log("수정", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -224,7 +220,7 @@ export const downloadOrderListExcel = async (
     link.click();
     document.body.removeChild(link);
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -236,9 +232,10 @@ export const deleteOrderListMany = async (ids: number[]) => {
         ids,
       },
     });
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -251,11 +248,10 @@ export const registerOrderMatching = async (
       "/order-matching",
       registerOrderMatchingRequest,
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -264,11 +260,10 @@ export const fetchOrderMatchingListAll = async () => {
   try {
     const response =
       await api.get<FetchOrderMatchingListAllResponse>("/order-matching");
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -299,11 +294,10 @@ export const fetchOrderMatchingListSearch = async (
         params: params,
       },
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -315,9 +309,10 @@ export const deleteOrderMatchingListMany = async (ids: number[]) => {
         ids,
       },
     });
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -327,10 +322,9 @@ export const fetchOrderExcelColumnIndex = async () => {
     const response = await api.get<FetchOrderExcelColumnIndexResponse>(
       "/order/column-index",
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };

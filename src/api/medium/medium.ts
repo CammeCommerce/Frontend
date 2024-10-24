@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import api from "../baseUrl/baseUrl";
 
 export interface CompanyCreatedAt {
@@ -22,11 +23,10 @@ export const createCompanyOne = async (name: string) => {
     const response = await api.post<CompanyCreatedAt>("/medium", {
       name: name,
     });
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -34,11 +34,10 @@ export const createCompanyOne = async (name: string) => {
 export const fetchCompanyAll = async () => {
   try {
     const response = await api.get<FetchCompanyAllResponse>("/medium");
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -61,11 +60,10 @@ export const fetchCompanySearch = async (
     const response = await api.get<FetchCompanyAllResponse>("/medium/search", {
       params: params,
     });
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -75,11 +73,10 @@ export const updateCompanyOne = async (id: number, name: string) => {
     const response = await api.patch<CompanyUpdatedAt>(`/medium/${id}`, {
       name: name,
     });
-    console.log("수정", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -87,8 +84,9 @@ export const updateCompanyOne = async (id: number, name: string) => {
 export const deleteCompanyOne = async (id: number) => {
   try {
     const response = await api.delete(`/medium/${id}`);
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };

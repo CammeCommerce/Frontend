@@ -12,8 +12,7 @@ function MainHeader() {
           navigate("/login");
         }
       })
-      .catch((e) => {
-        console.error(e);
+      .catch(() => {
         alert("로그아웃에 실패했습니다.");
       });
   }

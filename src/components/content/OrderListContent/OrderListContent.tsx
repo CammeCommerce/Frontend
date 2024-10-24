@@ -218,7 +218,17 @@ function OrderListContent() {
       searchQuery,
     })
       .then((response) => {
-        setOrderList(response);
+        setOrderList(
+          response ?? {
+            items: [],
+            totalMarginAmount: 0,
+            totalPurchasePrice: 0,
+            totalPurchaseShippingFee: 0,
+            totalSalesPrice: 0,
+            totalSalesShippingFee: 0,
+            totalShippingDifference: 0,
+          },
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -298,7 +308,17 @@ function OrderListContent() {
     // 주문 리스트 조회
     fetchOrderListAll()
       .then((response) => {
-        setOrderList(response);
+        setOrderList(
+          response ?? {
+            items: [],
+            totalMarginAmount: 0,
+            totalPurchasePrice: 0,
+            totalPurchaseShippingFee: 0,
+            totalSalesPrice: 0,
+            totalSalesShippingFee: 0,
+            totalShippingDifference: 0,
+          },
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -330,7 +350,17 @@ function OrderListContent() {
     if (fieldToSort && isDescend) {
       sortOrderList(fieldToSort, isDescend)
         .then((response) => {
-          setOrderList(response);
+          setOrderList(
+            response ?? {
+              items: [],
+              totalMarginAmount: 0,
+              totalPurchasePrice: 0,
+              totalPurchaseShippingFee: 0,
+              totalSalesPrice: 0,
+              totalSalesShippingFee: 0,
+              totalShippingDifference: 0,
+            },
+          );
         })
         .catch((error) => {
           console.error(error);

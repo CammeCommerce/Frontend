@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import api from "../baseUrl/baseUrl";
 
 export interface FetchProfitLossSearchRequest {
@@ -28,10 +29,9 @@ export const fetchProfitLossSearch = async (
     const response = await api.get<ProfitLoss>("/profit-loss", {
       params: fetchProfitLossSearchRequest,
     });
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };

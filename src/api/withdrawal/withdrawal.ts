@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import api from "../baseUrl/baseUrl";
 
 export interface UploadWithdrawalRequest {
@@ -140,9 +141,9 @@ export const uploadWithdrawal = async (
       },
     });
 
-    console.log("response", response.data);
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -151,11 +152,10 @@ export const fetchWithdrawalListAll = async () => {
   try {
     const response =
       await api.get<FetchWithdrawalListAllResponse>("/withdrawal");
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -163,11 +163,10 @@ export const fetchWithdrawalListAll = async () => {
 export const fetchWithdrawalOne = async (id: number) => {
   try {
     const response = await api.get<WithdrawalList>(`/withdrawal/${id}`);
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -182,11 +181,10 @@ export const fetchWithdrawalListSearch = async (
         params: searchQueryParams,
       },
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -200,9 +198,10 @@ export const updateWithdrawalOne = async (
       `/withdrawal/${id}`,
       updateWithdrawalRequest,
     );
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -224,7 +223,7 @@ export const downloadWithdrawalListExcel = async (
     link.click();
     document.body.removeChild(link);
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -236,9 +235,10 @@ export const deleteWithdrawalListMany = async (ids: number[]) => {
         ids,
       },
     });
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -251,9 +251,10 @@ export const registerWithdrawalMatching = async (
       "/withdrawal-matching",
       registerWithdrawalMatchingRequest,
     );
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -263,11 +264,10 @@ export const fetchWithdrawalMatchingListAll = async () => {
     const response = await api.get<WithdrawalMatchingList>(
       "/withdrawal-matching",
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -282,11 +282,10 @@ export const fetchWithdrawalMatchingListSearch = async (
         params: searchQueryParams,
       },
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -298,9 +297,10 @@ export const deleteWithdrawalMatchingListMany = async (ids: number[]) => {
         ids,
       },
     });
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -310,10 +310,9 @@ export const fetchWithdrawalExcelColumnIndex = async () => {
     const response = await api.get<FetchWithdrawalExcelColumnIndexResponse>(
       "/withdrawal/column-index",
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };

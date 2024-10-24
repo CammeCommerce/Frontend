@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import api from "../baseUrl/baseUrl";
 
 export interface DepositList {
@@ -104,11 +105,10 @@ export interface FetchDepositExcelColumnIndexResponse {
 export const fetchDepositListAll = async () => {
   try {
     const response = await api.get<FetchDepositListAllResponse>("/deposit");
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -116,11 +116,10 @@ export const fetchDepositListAll = async () => {
 export const fetchDepositListOne = async (id: number) => {
   try {
     const response = await api.get<DepositList>(`/deposit/${id}`);
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -135,11 +134,10 @@ export const fetchDepositListSearch = async (
         params: fetchDepositListSearchRequest,
       },
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -194,9 +192,9 @@ export const uploadDepositListExcel = async (
       },
     });
 
-    console.log("response", response.data);
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -207,9 +205,10 @@ export const updateDepositListOne = async (
 ) => {
   try {
     const response = await api.patch(`/deposit/${id}`, updateDeposit);
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -231,7 +230,7 @@ export const downloadDepositListExcel = async (
     link.click();
     document.body.removeChild(link);
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -243,9 +242,10 @@ export const deleteDepositListMany = async (ids: number[]) => {
         ids,
       },
     });
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -258,9 +258,10 @@ export const registerDepositMatching = async (
       "/deposit-matching",
       registerDepositMatchingRequest,
     );
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -269,11 +270,10 @@ export const fetchDepositMatchingListAll = async () => {
   try {
     const response =
       await api.get<FetchDepositMatchingListAllResponse>("/deposit-matching");
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -288,11 +288,10 @@ export const fetchDepositMatchingListSearch = async (
         params: fetchDepositMatchingListSearchRequest,
       },
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -304,9 +303,10 @@ export const deleteDepositMatchingListMany = async (ids: number[]) => {
         ids,
       },
     });
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -316,10 +316,9 @@ export const fetchDepositExcelColumnIndex = async () => {
     const response = await api.get<FetchDepositExcelColumnIndexResponse>(
       "/deposit/column-index",
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };

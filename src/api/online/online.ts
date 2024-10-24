@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import api from "../baseUrl/baseUrl";
 
 export interface CreateOnlineListOneRequest {
@@ -42,9 +43,10 @@ export const createOnlineListOne = async (
       "/online",
       createOnlineListOneRequest,
     );
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -52,11 +54,10 @@ export const createOnlineListOne = async (
 export const fetchOnlineListAll = async () => {
   try {
     const response = await api.get<OnlineListResponse>("/online");
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -64,11 +65,10 @@ export const fetchOnlineListAll = async () => {
 export const fetchOnlineListOne = async (id: number) => {
   try {
     const response = await api.get<OnlineList>(`/online/${id}`);
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -77,18 +77,15 @@ export const fetchOnlineListSearch = async (
   fetchOnlineListSearchParams: FetchOnlineListSearchParams,
 ) => {
   try {
-    console.log("request", fetchOnlineListSearchParams);
-
     const response = await api.get<OnlineListResponse>("/online/search", {
       params: {
         fetchOnlineListSearchParams,
       },
     });
-    console.log("검색", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -99,9 +96,10 @@ export const updateOnlineListOne = async (
 ) => {
   try {
     const response = await api.patch(`/online/${id}`, updateOnlineListRequest);
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -113,8 +111,9 @@ export const deleteOnlineListMany = async (ids: number[]) => {
         ids,
       },
     });
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };

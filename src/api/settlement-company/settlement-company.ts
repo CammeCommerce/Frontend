@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import api from "../baseUrl/baseUrl";
 
 export interface SettlementCompanyCreatedAt {
@@ -25,11 +26,10 @@ export const createSettlementCompanyOne = async (name: string) => {
         name: name,
       },
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -39,11 +39,10 @@ export const fetchSettlementCompanyAll = async () => {
     const response = await api.get<FetchSettlementCompanyAllResponse>(
       "/settlement-company",
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -69,11 +68,10 @@ export const fetchSettlementCompanySearch = async (
         params: params,
       },
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -86,11 +84,10 @@ export const updateSettlementCompanyOne = async (id: number, name: string) => {
         name: name,
       },
     );
-    console.log("response", response.data);
 
     return response.data;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };
 
@@ -98,8 +95,9 @@ export const updateSettlementCompanyOne = async (id: number, name: string) => {
 export const deleteSettlementCompanyOne = async (id: number) => {
   try {
     const response = await api.delete(`/settlement-company/${id}`);
-    console.log("response", response.data);
+
+    return response;
   } catch (e) {
-    console.error(e);
+    return Promise.reject(e as AxiosError);
   }
 };

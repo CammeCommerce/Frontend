@@ -20,11 +20,8 @@ export const login = async (email: string, password: string) => {
       },
     );
 
-    console.log(response.data);
-
     return response;
   } catch (e) {
-    console.error(e);
     return Promise.reject(e as AxiosError);
   }
 };
@@ -38,11 +35,8 @@ export const logout = async () => {
       { withCredentials: true },
     );
 
-    console.log(response.data);
-
     return response;
   } catch (e) {
-    console.error(e);
     alert("로그아웃에 실패했습니다.");
   }
 };
@@ -53,8 +47,6 @@ export const checkLogin = async () => {
     const response = await api.get("/user/status", {
       withCredentials: true,
     });
-
-    console.log(response.data);
 
     return response;
   } catch (e) {
@@ -75,11 +67,8 @@ export const sendEmail = async (email: string) => {
       },
     );
 
-    console.log(response.data);
-
     return response;
   } catch (e) {
-    console.error(e);
     return Promise.reject(e as AxiosError);
   }
 };
@@ -98,11 +87,8 @@ export const verifyPassword = async (email: string, code: string) => {
       },
     );
 
-    console.log(response.data);
-
     return response;
   } catch (e) {
-    console.error(e);
     return Promise.reject(e as AxiosError);
   }
 };
@@ -121,11 +107,8 @@ export const updatePassword = async (email: string, newPassword: string) => {
       },
     );
 
-    console.log(response.data);
-
     return response;
   } catch (e) {
-    console.error(e);
     return Promise.reject(e as AxiosError);
   }
 };
