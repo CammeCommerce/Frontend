@@ -97,9 +97,16 @@ function SettlementCompanyManagementContent() {
 
   // 삭제 확인 모달 버튼 클릭 함수
   function handleDeleteCompanyButtonClick() {
-    deleteSettlementCompanyOne(settlementCompanyIdToDelete);
-    setIsDeleteConfirmModalOpen(false);
-    window.location.reload();
+    deleteSettlementCompanyOne(settlementCompanyIdToDelete)
+      .then(() => {
+        setIsDeleteConfirmModalOpen(false);
+        window.location.reload();
+      })
+      .catch((error) => {
+        if (error.status === 400) {
+          alert(error.response.data.message);
+        }
+      });
   }
 
   // 마운트 시 실행
