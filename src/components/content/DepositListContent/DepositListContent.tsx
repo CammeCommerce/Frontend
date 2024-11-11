@@ -529,7 +529,7 @@ function DepositListContent() {
                       />
                     </td>
                     <td className="border border-black text-center">
-                      {deposit.id}
+                      {depositList.items.length - index}
                     </td>
                     <td className="border border-black text-center">
                       {deposit.mediumName}

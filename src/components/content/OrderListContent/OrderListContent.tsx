@@ -279,7 +279,9 @@ function OrderListContent() {
         window.location.reload();
       })
       .catch((error) => {
-        console.error(error);
+        if (error.response.status === 409) {
+          alert("이미 등록된 매칭입니다.");
+        }
       });
   }
 
@@ -717,7 +719,7 @@ function OrderListContent() {
                       />
                     </td>
                     <td className="border border-black text-center">
-                      {order.id}
+                      {orderList.items.length - index}
                     </td>
                     <td className="border border-black text-center">
                       {order.mediumName}
@@ -762,11 +764,11 @@ function OrderListContent() {
                     <td className="border border-black text-center">
                       {order.shippingDifference}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-2 text-center">
                       <div className="flex w-full items-center justify-center gap-2">
                         <button
                           type="button"
-                          className="flex items-center justify-center rounded-md bg-editButton px-5 py-1 font-semibold text-white"
+                          className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-editButton px-5 font-semibold text-white"
                           onClick={() => {
                             setIsUpdateOrderModalOpen(true);
                             setOrderIdToUpdate(order.id);
@@ -776,7 +778,7 @@ function OrderListContent() {
                         </button>
                         <button
                           type="button"
-                          className="flex items-center justify-center rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
+                          className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 font-semibold text-white"
                           onClick={() => {
                             setPurchasePlaceToMatch(order.purchasePlace);
                             setSalesPlaceToMatch(order.salesPlace);

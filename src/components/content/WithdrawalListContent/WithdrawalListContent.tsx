@@ -528,7 +528,7 @@ function WithdrawalListContent() {
                       />
                     </td>
                     <td className="border border-black text-center">
-                      {item.id}
+                      {withdrawalList.items.length - index}
                     </td>
                     <td className="border border-black text-center">
                       {item.mediumName}

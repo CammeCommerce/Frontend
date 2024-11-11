@@ -160,11 +160,11 @@ function ProfitLossStatementContent() {
       <div className="mt-10 flex h-fit w-full flex-col">
         <div className="flex items-center gap-5">
           <div className="flex items-center justify-center gap-2 rounded-sm border border-solid border-black px-3 py-2">
-            <span className="">매체 : </span>
+            <span className="font-bold">매체 : </span>
             <span className="">{profitLoss?.mediumName}</span>
           </div>
           <div className="flex items-center justify-center gap-2 rounded-sm border border-solid border-black px-3 py-2">
-            <span className="">기간 : </span>
+            <span className="font-bold">기간 : </span>
             <span className="">{profitLoss?.period}</span>
           </div>
         </div>
@@ -204,6 +204,7 @@ function ProfitLossStatementContent() {
                         <span key={index} className="">
                           {key} :{" "}
                           {profitLoss?.depositByPurpose[key].toLocaleString()}
+                          <br />
                         </span>
                       ),
                     )}
@@ -221,6 +222,7 @@ function ProfitLossStatementContent() {
                         <span key={index} className="">
                           {key} :{" "}
                           {profitLoss?.onlineSalesByMedia[key].toLocaleString()}
+                          <br />
                         </span>
                       ),
                     )}
@@ -269,6 +271,7 @@ function ProfitLossStatementContent() {
                           {profitLoss?.withdrawalByPurpose[
                             key
                           ].toLocaleString()}
+                          <br />
                         </span>
                       ),
                     )}
@@ -288,6 +291,7 @@ function ProfitLossStatementContent() {
                           {profitLoss?.onlinePurchaseByMedia[
                             key
                           ].toLocaleString()}
+                          <br />
                         </span>
                       ),
                     )}
