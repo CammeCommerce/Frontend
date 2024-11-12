@@ -290,23 +290,25 @@ function DepositListContent() {
 
   // 수정 모달 열기 시 실행
   useEffect(() => {
-    fetchDepositListOne(depositIdToUpdate).then((response) => {
-      if (response) {
-        setUpdateDeposit({
-          mediumName: response.mediumName,
-          depositDate: response.depositDate,
-          accountAlias: response.accountAlias,
-          depositAmount: response.depositAmount,
-          accountDescription: response.accountDescription,
-          transactionMethod1: response.transactionMethod1,
-          transactionMethod2: response.transactionMethod2,
-          accountMemo: response.accountMemo,
-          counterpartyName: response.counterpartyName,
-          purpose: response.purpose,
-          clientName: response.clientName,
-        });
-      }
-    });
+    if (depositIdToUpdate !== -1) {
+      fetchDepositListOne(depositIdToUpdate).then((response) => {
+        if (response) {
+          setUpdateDeposit({
+            mediumName: response.mediumName,
+            depositDate: response.depositDate,
+            accountAlias: response.accountAlias,
+            depositAmount: response.depositAmount,
+            accountDescription: response.accountDescription,
+            transactionMethod1: response.transactionMethod1,
+            transactionMethod2: response.transactionMethod2,
+            accountMemo: response.accountMemo,
+            counterpartyName: response.counterpartyName,
+            purpose: response.purpose,
+            clientName: response.clientName,
+          });
+        }
+      });
+    }
   }, [depositIdToUpdate]);
 
   return (

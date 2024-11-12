@@ -200,18 +200,21 @@ function OnlineListContent() {
       });
   }, []);
 
+  // 수정 모달 오픈 시 실행
   useEffect(() => {
-    fetchOnlineListOne(onlineListIdToUpdate).then((response) => {
-      if (response) {
-        setSalesMonthToUpdate(response.salesMonth);
-        setMediumNameToUpdate(response.mediumName);
-        setOnlineCompanyNameToUpdate(response.onlineCompanyName);
-        setSalesAmountToUpdate(response.salesAmount);
-        setPurchaseAmountToUpdate(response.purchaseAmount);
-        setMarginAmountToUpdate(response.marginAmount);
-        setMemoToUpdate(response.memo);
-      }
-    });
+    if (onlineListIdToUpdate !== -1) {
+      fetchOnlineListOne(onlineListIdToUpdate).then((response) => {
+        if (response) {
+          setSalesMonthToUpdate(response.salesMonth);
+          setMediumNameToUpdate(response.mediumName);
+          setOnlineCompanyNameToUpdate(response.onlineCompanyName);
+          setSalesAmountToUpdate(response.salesAmount);
+          setPurchaseAmountToUpdate(response.purchaseAmount);
+          setMarginAmountToUpdate(response.marginAmount);
+          setMemoToUpdate(response.memo);
+        }
+      });
+    }
   }, [onlineListIdToUpdate]);
 
   return (

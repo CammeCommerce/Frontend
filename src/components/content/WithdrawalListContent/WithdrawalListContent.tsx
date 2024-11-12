@@ -50,7 +50,7 @@ function WithdrawalListContent() {
   // 수정 모달 관련 상태
   const [isUpdateWithdrawalModalOpen, setIsUpdateWithdrawalModalOpen] =
     useState<boolean>(false); // 수정 모달 오픈 상태
-  const [withdrawalIdToUpdate, setWithdrawalIdToUpdate] = useState<number>(0); // 수정할 주문값 ID
+  const [withdrawalIdToUpdate, setWithdrawalIdToUpdate] = useState<number>(-1); // 수정할 주문값 ID
   const [updateWithdrawal, setUpdateWithdrawal] = useState({
     mediumName: "",
     withdrawalDate: "",
@@ -290,22 +290,24 @@ function WithdrawalListContent() {
 
   // 수정 모달 열기 시 실행
   useEffect(() => {
-    fetchWithdrawalOne(withdrawalIdToUpdate).then((response) => {
-      if (response) {
-        setUpdateWithdrawal({
-          mediumName: response.mediumName,
-          withdrawalDate: response.withdrawalDate,
-          accountAlias: response.accountAlias,
-          withdrawalAmount: response.withdrawalAmount,
-          accountDescription: response.accountDescription,
-          transactionMethod1: response.transactionMethod1,
-          transactionMethod2: response.transactionMethod2,
-          accountMemo: response.accountMemo,
-          purpose: response.purpose,
-          clientName: response.clientName,
-        });
-      }
-    });
+    if (withdrawalIdToUpdate !== -1) {
+      fetchWithdrawalOne(withdrawalIdToUpdate).then((response) => {
+        if (response) {
+          setUpdateWithdrawal({
+            mediumName: response.mediumName,
+            withdrawalDate: response.withdrawalDate,
+            accountAlias: response.accountAlias,
+            withdrawalAmount: response.withdrawalAmount,
+            accountDescription: response.accountDescription,
+            transactionMethod1: response.transactionMethod1,
+            transactionMethod2: response.transactionMethod2,
+            accountMemo: response.accountMemo,
+            purpose: response.purpose,
+            clientName: response.clientName,
+          });
+        }
+      });
+    }
   }, [withdrawalIdToUpdate]);
 
   return (
