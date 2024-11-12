@@ -70,9 +70,15 @@ function WithdrawalMatchingListContent() {
 
   // 선택 삭제 버튼 클릭 핸들러
   function handleDeleteButtonClick() {
+    if (withdrawalMatchingIdsToDelete.length === 0) {
+      alert("삭제할 항목을 선택해주세요.");
+      return;
+    }
+
     deleteWithdrawalMatchingListMany(withdrawalMatchingIdsToDelete)
       .then(() => {
         setWithdrawalMatchingIdsToDelete([]);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -224,7 +230,6 @@ function WithdrawalMatchingListContent() {
             <button
               type="button"
               className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
-              disabled={withdrawalMatchingIdsToDelete.length === 0}
               onClick={handleDeleteButtonClick}
             >
               선택 삭제
