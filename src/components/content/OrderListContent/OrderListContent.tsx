@@ -832,7 +832,7 @@ function OrderListContent() {
 
       {isCreateOrderModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
-          <div className="relative flex h-fit w-excelModal flex-col items-center rounded-md bg-white px-10 py-10">
+          <div className="relative flex h-fit w-fit flex-col items-center rounded-md bg-white px-10 py-8">
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
@@ -1036,7 +1036,7 @@ function OrderListContent() {
                 </div>
               </div>
               {excelFile ? (
-                <div className="mt-6 flex h-80 w-96 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border border-solid border-black">
+                <div className="mt-6 flex h-96 w-96 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border border-solid border-black">
                   <div className="flex h-28 w-28 items-center justify-center">
                     <img src={excelLogoIcon} alt="" className="" />
                   </div>
@@ -1047,7 +1047,7 @@ function OrderListContent() {
               ) : (
                 <div
                   {...getRootProps()}
-                  className="mt-6 flex h-80 w-96 cursor-pointer items-center justify-center rounded-md border border-solid border-black"
+                  className="mt-6 flex h-96 w-96 cursor-pointer items-center justify-center rounded-md border border-solid border-black"
                 >
                   <input {...getInputProps()} className="h-full w-full" />
                   {isDragActive ? (
@@ -1064,7 +1064,7 @@ function OrderListContent() {
             </div>
 
             <button
-              className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
+              className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
               onClick={handleCreateOrderButtonClick}
             >
               등록
