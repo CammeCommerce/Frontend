@@ -841,8 +841,8 @@ function OrderListContent() {
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
             <h2 className="text-2xl font-bold">주문값 등록</h2>
-            <div className="flex items-center justify-center gap-10">
-              <div className="mt-7 flex w-fit flex-col flex-wrap items-center justify-center gap-6">
+            <div className="mt-7 flex items-center justify-center gap-10">
+              <div className="flex w-fit flex-col flex-wrap items-center justify-center gap-6">
                 {/* 상품명 드롭다운 */}
                 <div className="flex items-center justify-center">
                   <span className="w-32 text-center text-lg font-semibold">

@@ -595,7 +595,7 @@ function WithdrawalListContent() {
 
       {isCreateWithdrawalModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
-          <div className="relative flex h-excelModal w-excelModal flex-col items-center rounded-md bg-white px-10 py-4">
+          <div className="relative flex h-excelModal w-fit flex-col items-center rounded-md bg-white px-10 py-8">
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
@@ -603,158 +603,207 @@ function WithdrawalListContent() {
             >
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
-            <h2 className="text-xl font-bold">출금값 등록</h2>
-            <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-6">
-              {/* 출금일자 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setWithdrawalDateIndex(e.target.value)}
-                value={withdrawalDateIndex}
-              >
-                <option value="">출금일자</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 계좌별칭 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setAccountAliasIndex(e.target.value)}
-                value={accountAliasIndex}
-              >
-                <option value="">계좌별칭</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 출금액 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setWithdrawalAmountIndex(e.target.value)}
-                value={withdrawalAmountIndex}
-              >
-                <option value="">출금액</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 계좌적요 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setAccountDescriptionIndex(e.target.value)}
-                value={accountDescriptionIndex}
-              >
-                <option value="">계좌적요</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 거래수단1 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setTransactionMethod1Index(e.target.value)}
-                value={transactionMethod1Index}
-              >
-                <option value="">거래수단1</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 거래수단2 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setTransactionMethod2Index(e.target.value)}
-                value={transactionMethod2Index}
-              >
-                <option value="">거래수단2</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 계좌메모 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setAccountMemoIndex(e.target.value)}
-                value={accountMemoIndex}
-              >
-                <option value="">계좌메모</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 용도 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setPurposeIndex(e.target.value)}
-                value={purposeIndex}
-              >
-                <option value="">용도</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 거래처 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setClientNameIndex(e.target.value)}
-                value={clientNameIndex}
-              >
-                <option value="">거래처</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {excelFile ? (
-              <div className="mt-6 flex h-80 w-80 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border border-solid border-black">
-                <div className="flex h-28 w-28 items-center justify-center">
-                  <img src={excelLogoIcon} alt="" className="" />
+            <h2 className="text-2xl font-bold">출금값 등록</h2>
+            <div className="mt-7 flex items-center justify-center gap-10">
+              <div className="flex w-fit flex-col flex-wrap items-center justify-center gap-6">
+                {/* 출금일자 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    출금일자
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setWithdrawalDateIndex(e.target.value)}
+                    value={withdrawalDateIndex}
+                  >
+                    <option value="">출금일자</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <span className="text-lg font-semibold">{excelFile.name}</span>
+
+                {/* 계좌별칭 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    계좌별칭
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setAccountAliasIndex(e.target.value)}
+                    value={accountAliasIndex}
+                  >
+                    <option value="">계좌별칭</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 출금액 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    출금액
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setWithdrawalAmountIndex(e.target.value)}
+                    value={withdrawalAmountIndex}
+                  >
+                    <option value="">출금액</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 계좌적요 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    계좌적요
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setAccountDescriptionIndex(e.target.value)}
+                    value={accountDescriptionIndex}
+                  >
+                    <option value="">계좌적요</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 거래수단1 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    거래수단1
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setTransactionMethod1Index(e.target.value)}
+                    value={transactionMethod1Index}
+                  >
+                    <option value="">거래수단1</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 거래수단2 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    거래수단2
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setTransactionMethod2Index(e.target.value)}
+                    value={transactionMethod2Index}
+                  >
+                    <option value="">거래수단2</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 계좌메모 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    계좌메모
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setAccountMemoIndex(e.target.value)}
+                    value={accountMemoIndex}
+                  >
+                    <option value="">계좌메모</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 용도 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    용도
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setPurposeIndex(e.target.value)}
+                    value={purposeIndex}
+                  >
+                    <option value="">용도</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 거래처 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    거래처
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setClientNameIndex(e.target.value)}
+                    value={clientNameIndex}
+                  >
+                    <option value="">거래처</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-            ) : (
-              <div
-                {...getRootProps()}
-                className="mt-6 flex h-80 w-80 cursor-pointer items-center justify-center rounded-md border border-solid border-black"
-              >
-                <input {...getInputProps()} className="h-full w-full" />
-                {isDragActive ? (
-                  <p className="text-base font-medium">파일을 놓아주세요</p>
-                ) : (
-                  <p className="text-base font-medium">
-                    엑셀 파일을 드래그하거나
-                    <br />
-                    클릭하여 업로드해주세요
-                  </p>
-                )}
-              </div>
-            )}
+              {excelFile ? (
+                <div className="mt-6 flex h-96 w-96 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border border-solid border-black">
+                  <div className="flex h-28 w-28 items-center justify-center">
+                    <img src={excelLogoIcon} alt="" className="" />
+                  </div>
+                  <span className="text-lg font-semibold">
+                    {excelFile.name}
+                  </span>
+                </div>
+              ) : (
+                <div
+                  {...getRootProps()}
+                  className="mt-6 flex h-96 w-96 cursor-pointer items-center justify-center rounded-md border border-solid border-black"
+                >
+                  <input {...getInputProps()} className="h-full w-full" />
+                  {isDragActive ? (
+                    <p className="text-base font-medium">파일을 놓아주세요</p>
+                  ) : (
+                    <p className="text-base font-medium">
+                      엑셀 파일을 드래그하거나
+                      <br />
+                      클릭하여 업로드해주세요
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
 
             <button
               className="absolute bottom-2 right-2 flex rounded-md bg-gray-300 px-5 py-1 font-medium"
