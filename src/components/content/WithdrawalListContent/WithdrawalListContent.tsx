@@ -208,6 +208,12 @@ function WithdrawalListContent() {
 
   // 선택 삭제 버튼 클릭 이벤트
   function handleDeleteSelectedButtonClick() {
+    // 삭제할 항목이 없으면 알림창 띄우기
+    if (withdrawalIdsToDelete.length === 0) {
+      alert("삭제할 항목을 선택해주세요.");
+      return;
+    }
+
     deleteWithdrawalListMany(withdrawalIdsToDelete)
       .then(() => {
         setWithdrawalIdsToDelete([]);
@@ -471,7 +477,6 @@ function WithdrawalListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
-                disabled={withdrawalIdsToDelete.length === 0}
                 onClick={handleDeleteSelectedButtonClick}
               >
                 선택 삭제
