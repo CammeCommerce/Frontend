@@ -162,9 +162,16 @@ function OnlineListContent() {
 
   // 선택 삭제 버튼 클릭 이벤트
   function handleDeleteOnlineListButtonClick() {
+    // 삭제할 항목이 없을 경우 알림
+    if (onlineListIdsToDelete.length === 0) {
+      alert("삭제할 항목을 선택해주세요.");
+      return;
+    }
+
     deleteOnlineListMany(onlineListIdsToDelete)
       .then(() => {
         setOnlineListIdsToDelete([]);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -338,7 +345,6 @@ function OnlineListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
-                disabled={onlineListIdsToDelete.length === 0}
                 onClick={handleDeleteOnlineListButtonClick}
               >
                 선택 삭제
