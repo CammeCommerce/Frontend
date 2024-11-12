@@ -71,9 +71,15 @@ function OrderMatchingListContent() {
 
   // 선택 삭제 버튼 클릭 이벤트
   function handleDeleteButtonClick() {
+    if (orderMatchingIdsToDelete.length === 0) {
+      alert("삭제할 주문 매칭을 선택해주세요.");
+      return;
+    }
+
     deleteOrderMatchingListMany(orderMatchingIdsToDelete)
       .then(() => {
         setOrderMatchingIdsToDelete([]);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -250,7 +256,6 @@ function OrderMatchingListContent() {
           <button
             type="button"
             className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
-            disabled={orderMatchingIdsToDelete.length === 0}
             onClick={handleDeleteButtonClick}
           >
             선택 삭제
