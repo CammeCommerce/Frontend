@@ -832,7 +832,7 @@ function OrderListContent() {
 
       {isCreateOrderModalOpen && (
         <div className="fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center bg-black bg-opacity-60">
-          <div className="relative flex h-excelModal w-excelModal flex-col items-center rounded-md bg-white px-10 py-4">
+          <div className="relative flex h-fit w-excelModal flex-col items-center rounded-md bg-white px-10 py-10">
             <button
               type="button"
               className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center"
@@ -840,172 +840,228 @@ function OrderListContent() {
             >
               <img src={closeIcon} alt="닫기" className="w-full" />
             </button>
-            <h2 className="text-xl font-bold">주문값 등록</h2>
-            <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-6">
-              {/* 상품명 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setProductNameIndex(e.target.value)}
-                value={productNameIndex || ""}
-              >
-                <option value="">상품명</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 수량 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setQuantityIndex(e.target.value)}
-                value={quantityIndex || ""}
-              >
-                <option value="">수량</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 발주일자 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setOrderDateIndex(e.target.value)}
-                value={orderDateIndex || ""}
-              >
-                <option value="">발주일자</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 매입처 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setPurchasePlaceIndex(e.target.value)}
-                value={purchasePlaceIndex || ""}
-              >
-                <option value="">매입처</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 매출처 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setSalesPlaceIndex(e.target.value)}
-                value={salesPlaceIndex || ""}
-              >
-                <option value="">매출처</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 과세 여부 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setTaxTypeIndex(e.target.value)}
-                value={taxTypeIndex || ""}
-              >
-                <option value="">과세 여부</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 매입가 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setPurchasePriceIndex(e.target.value)}
-                value={purchasePriceIndex || ""}
-              >
-                <option value="">매입가</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 판매가 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setSalesPriceIndex(e.target.value)}
-                value={salesPriceIndex || ""}
-              >
-                <option value="">판매가</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 매입 배송비 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setPurchaseShippingFeeIndex(e.target.value)}
-                value={purchaseShippingFeeIndex || ""}
-              >
-                <option value="">매입 배송비</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-
-              {/* 매출 배송비 드롭다운 */}
-              <select
-                className="h-7 rounded-sm border border-solid border-black px-4 text-center"
-                onChange={(e) => setSalesShippingFeeIndex(e.target.value)}
-                value={salesShippingFeeIndex || ""}
-              >
-                <option value="">매출 배송비</option>
-                {ALPHABET.map((alphabet, index) => (
-                  <option key={index} value={alphabet || ""}>
-                    {alphabet}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {excelFile ? (
-              <div className="mt-6 flex h-80 w-80 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border border-solid border-black">
-                <div className="flex h-28 w-28 items-center justify-center">
-                  <img src={excelLogoIcon} alt="" className="" />
+            <h2 className="text-2xl font-bold">주문값 등록</h2>
+            <div className="flex items-center justify-center gap-10">
+              <div className="mt-7 flex w-fit flex-col flex-wrap items-center justify-center gap-6">
+                {/* 상품명 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    상품명
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setProductNameIndex(e.target.value)}
+                    value={productNameIndex || ""}
+                  >
+                    <option value="">상품명</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <span className="text-lg font-semibold">{excelFile.name}</span>
+
+                {/* 수량 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    수량
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setQuantityIndex(e.target.value)}
+                    value={quantityIndex || ""}
+                  >
+                    <option value="">수량</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 발주일자 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    발주일자
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setOrderDateIndex(e.target.value)}
+                    value={orderDateIndex || ""}
+                  >
+                    <option value="">발주일자</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 매입처 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    매입처
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setPurchasePlaceIndex(e.target.value)}
+                    value={purchasePlaceIndex || ""}
+                  >
+                    <option value="">매입처</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 매출처 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    매출처
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setSalesPlaceIndex(e.target.value)}
+                    value={salesPlaceIndex || ""}
+                  >
+                    <option value="">매출처</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 과세 여부 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    과세 여부
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setTaxTypeIndex(e.target.value)}
+                    value={taxTypeIndex || ""}
+                  >
+                    <option value="">과세 여부</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 매입가 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    매입가
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setPurchasePriceIndex(e.target.value)}
+                    value={purchasePriceIndex || ""}
+                  >
+                    <option value="">매입가</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 판매가 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    판매가
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setSalesPriceIndex(e.target.value)}
+                    value={salesPriceIndex || ""}
+                  >
+                    <option value="">판매가</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 매입 배송비 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    매입 배송비
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) =>
+                      setPurchaseShippingFeeIndex(e.target.value)
+                    }
+                    value={purchaseShippingFeeIndex || ""}
+                  >
+                    <option value="">매입 배송비</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 매출 배송비 드롭다운 */}
+                <div className="flex items-center justify-center">
+                  <span className="w-32 text-center text-lg font-semibold">
+                    매출 배송비
+                  </span>
+                  <select
+                    className="h-7 w-40 rounded-sm border border-solid border-black px-4 text-center"
+                    onChange={(e) => setSalesShippingFeeIndex(e.target.value)}
+                    value={salesShippingFeeIndex || ""}
+                  >
+                    <option value="">매출 배송비</option>
+                    {ALPHABET.map((alphabet, index) => (
+                      <option key={index} value={alphabet || ""}>
+                        {alphabet}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-            ) : (
-              <div
-                {...getRootProps()}
-                className="mt-6 flex h-80 w-80 cursor-pointer items-center justify-center rounded-md border border-solid border-black"
-              >
-                <input {...getInputProps()} className="h-full w-full" />
-                {isDragActive ? (
-                  <p className="text-base font-medium">파일을 놓아주세요</p>
-                ) : (
-                  <p className="text-base font-medium">
-                    엑셀 파일을 드래그하거나
-                    <br />
-                    클릭하여 업로드해주세요
-                  </p>
-                )}
-              </div>
-            )}
+              {excelFile ? (
+                <div className="mt-6 flex h-80 w-96 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border border-solid border-black">
+                  <div className="flex h-28 w-28 items-center justify-center">
+                    <img src={excelLogoIcon} alt="" className="" />
+                  </div>
+                  <span className="text-lg font-semibold">
+                    {excelFile.name}
+                  </span>
+                </div>
+              ) : (
+                <div
+                  {...getRootProps()}
+                  className="mt-6 flex h-80 w-96 cursor-pointer items-center justify-center rounded-md border border-solid border-black"
+                >
+                  <input {...getInputProps()} className="h-full w-full" />
+                  {isDragActive ? (
+                    <p className="text-base font-medium">파일을 놓아주세요</p>
+                  ) : (
+                    <p className="text-base font-medium">
+                      엑셀 파일을 드래그하거나
+                      <br />
+                      클릭하여 업로드해주세요
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
 
             <button
               className="absolute bottom-2 right-2 flex bg-gray-200 px-5 py-1"
