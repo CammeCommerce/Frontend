@@ -260,6 +260,7 @@ function OrderListContent() {
     deleteOrderListMany(orderIdsToDelete)
       .then(() => {
         setOrderIdsToDelete([]);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
