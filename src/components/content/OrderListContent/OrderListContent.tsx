@@ -253,6 +253,10 @@ function OrderListContent() {
 
   // 주문값 선택 삭제 버튼 클릭 이벤트
   function handleDeleteOrderButtonClick() {
+    if (orderIdsToDelete.length === 0) {
+      alert("삭제할 주문값을 선택해주세요.");
+      return;
+    }
     deleteOrderListMany(orderIdsToDelete)
       .then(() => {
         setOrderIdsToDelete([]);
@@ -639,7 +643,6 @@ function OrderListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
-                disabled={orderIdsToDelete.length === 0}
                 onClick={handleDeleteOrderButtonClick}
               >
                 선택 삭제
