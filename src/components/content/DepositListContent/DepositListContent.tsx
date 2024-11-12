@@ -207,6 +207,12 @@ function DepositListContent() {
 
   // 선택 삭제 버튼 클릭 이벤트
   function handleDeleteDepositButtonClick() {
+    // 삭제할 입금값이 없을 경우
+    if (depositIdsToDelete.length === 0) {
+      alert("삭제할 입금값을 선택해주세요.");
+      return;
+    }
+
     deleteDepositListMany(depositIdsToDelete)
       .then(() => {
         setDepositIdsToDelete([]);
@@ -472,7 +478,6 @@ function DepositListContent() {
               <button
                 type="button"
                 className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
-                disabled={depositIdsToDelete.length === 0}
                 onClick={handleDeleteDepositButtonClick}
               >
                 선택 삭제
