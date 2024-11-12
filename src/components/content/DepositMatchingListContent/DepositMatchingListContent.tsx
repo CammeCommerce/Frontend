@@ -68,9 +68,16 @@ function DepositMatchingListContent() {
 
   // 선택 삭제 버튼 클릭 핸들러
   function handleDeleteButtonClick() {
+    // 삭제할 항목이 없으면 경고창
+    if (depositMatchingIdsToDelete.length === 0) {
+      alert("삭제할 항목을 선택해주세요.");
+      return;
+    }
+
     deleteDepositMatchingListMany(depositMatchingIdsToDelete)
       .then(() => {
         setDepositMatchingIdsToDelete([]);
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -222,7 +229,6 @@ function DepositMatchingListContent() {
             <button
               type="button"
               className="flex h-10 items-center justify-center rounded-md bg-deleteButton px-5 font-semibold text-white"
-              disabled={depositMatchingIdsToDelete.length === 0}
               onClick={handleDeleteButtonClick}
             >
               선택 삭제
