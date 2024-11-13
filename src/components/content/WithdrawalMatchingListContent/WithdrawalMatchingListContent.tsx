@@ -270,7 +270,9 @@ function WithdrawalMatchingListContent() {
                       checked={withdrawalMatchingIdsToDelete.includes(item.id)}
                     />
                   </td>
-                  <td className="border border-black text-center">{item.id}</td>
+                  <td className="border border-black text-center">
+                    {index + 1}
+                  </td>
                   <td className="border border-black text-center">
                     {item.mediumName}
                   </td>

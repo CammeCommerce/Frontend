@@ -299,7 +299,7 @@ function OrderMatchingListContent() {
                     />
                   </td>
                   <td className="border border-black text-center">
-                    {orderMatching.id}
+                    {index + 1}
                   </td>
                   <td className="border border-black text-center">
                     {orderMatching.mediumName}
