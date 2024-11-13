@@ -393,7 +393,7 @@ function OnlineListContent() {
                       />
                     </td>
                     <td className="border border-black text-center">
-                      {item.id}
+                      {index + 1}
                     </td>
                     <td className="border border-black text-center">
                       {item.salesMonth}
