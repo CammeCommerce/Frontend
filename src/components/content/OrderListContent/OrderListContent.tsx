@@ -184,8 +184,8 @@ function OrderListContent() {
           setExcelFile(undefined);
           window.location.reload();
         })
-        .catch((error: AxiosError) => {
-          console.error(error);
+        .catch((error) => {
+          alert(error.response.data.message);
         });
     } else {
       alert("엑셀 파일을 업로드해주세요.");

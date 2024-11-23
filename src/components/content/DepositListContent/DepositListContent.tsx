@@ -151,7 +151,9 @@ function DepositListContent() {
           setExcelFile(undefined);
           window.location.reload();
         })
-        .catch(() => {});
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
     } else {
       alert("엑셀 파일을 업로드해주세요.");
     }
