@@ -12,7 +12,7 @@ function ProfitLossStatementContent() {
   // 검색 관련 상태
   const [startDate, setStartDate] = useState<string>(""); // 검색 시작일자
   const [endDate, setEndDate] = useState<string>(""); // 검색 종료일자
-  const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
+  // const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
   const [mediumName, setMediumName] = useState<string>(""); // 매체명
 
   // 검색 버튼 클릭 핸들러
