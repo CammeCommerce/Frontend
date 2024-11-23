@@ -106,6 +106,23 @@ export const uploadOrder = async (
   salesShippingFeeIndex: string,
   taxTypeIndex: string,
 ) => {
+  // 입력값 검증
+  if (
+    !productNameIndex ||
+    !quantityIndex ||
+    !orderDateIndex ||
+    !purchasePlaceIndex ||
+    !salesPlaceIndex ||
+    !purchasePriceIndex ||
+    !salesPriceIndex ||
+    !purchaseShippingFeeIndex ||
+    !salesShippingFeeIndex ||
+    !taxTypeIndex
+  ) {
+    alert("모든 엑셀 열 인덱스를 입력해주세요.");
+    return;
+  }
+
   try {
     const formData = new FormData();
     formData.append("file", excelFile);

@@ -101,6 +101,34 @@ export interface FetchWithdrawalExcelColumnIndexResponse {
 export const uploadWithdrawal = async (
   uploadWithdrawalRequest: UploadWithdrawalRequest,
 ) => {
+  // 입력값 검증
+  const {
+    withdrawalDateIndex,
+    accountAliasIndex,
+    withdrawalAmountIndex,
+    accountDescriptionIndex,
+    transactionMethod1Index,
+    transactionMethod2Index,
+    accountMemoIndex,
+    purposeIndex,
+    clientNameIndex,
+  } = uploadWithdrawalRequest;
+
+  if (
+    !withdrawalDateIndex ||
+    !accountAliasIndex ||
+    !withdrawalAmountIndex ||
+    !accountDescriptionIndex ||
+    !transactionMethod1Index ||
+    !transactionMethod2Index ||
+    !accountMemoIndex ||
+    !purposeIndex ||
+    !clientNameIndex
+  ) {
+    alert("모든 엑셀 열 인덱스를 입력해주세요.");
+    return;
+  }
+
   try {
     const formData = new FormData();
     formData.append("file", uploadWithdrawalRequest.file);

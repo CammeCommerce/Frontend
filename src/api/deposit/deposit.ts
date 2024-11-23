@@ -145,6 +145,36 @@ export const fetchDepositListSearch = async (
 export const uploadDepositListExcel = async (
   uploadDepositListExcelRequest: UploadDepositListExcelRequest,
 ) => {
+  // 입력값 겁증
+  const {
+    depositDateIndex,
+    accountAliasIndex,
+    depositAmountIndex,
+    accountDescriptionIndex,
+    transactionMethod1Index,
+    transactionMethod2Index,
+    accountMemoIndex,
+    counterpartyNameIndex,
+    purposeIndex,
+    clientNameIndex,
+  } = uploadDepositListExcelRequest;
+
+  if (
+    !depositDateIndex ||
+    !accountAliasIndex ||
+    !depositAmountIndex ||
+    !accountDescriptionIndex ||
+    !transactionMethod1Index ||
+    !transactionMethod2Index ||
+    !accountMemoIndex ||
+    !counterpartyNameIndex ||
+    !purposeIndex ||
+    !clientNameIndex
+  ) {
+    alert("모든 엑셀 열 인덱스를 입력해주세요.");
+    return;
+  }
+
   try {
     const formData = new FormData();
     formData.append("file", uploadDepositListExcelRequest.file);
