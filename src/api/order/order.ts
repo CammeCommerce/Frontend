@@ -244,6 +244,20 @@ export const registerOrderMatching = async (
   registerOrderMatchingRequest: RegisterOrderMatchingRequest,
 ) => {
   try {
+    // 입력값 검증
+    const { mediumName, settlementCompanyName, purchasePlace, salesPlace } =
+      registerOrderMatchingRequest;
+
+    if (
+      !mediumName ||
+      !settlementCompanyName ||
+      !purchasePlace ||
+      !salesPlace
+    ) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+
     const response = await api.post(
       "/order-matching",
       registerOrderMatchingRequest,
