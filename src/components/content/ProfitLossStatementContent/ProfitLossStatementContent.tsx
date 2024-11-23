@@ -64,7 +64,8 @@ function ProfitLossStatementContent() {
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
-            <div className="flex items-center gap-2">
+            {/* 전체, 어제, 지난 3일 등 버튼 주석 */}
+            {/* <div className="flex items-center gap-2">
               <button
                 type="button"
                 className={`${periodType === "" ? "border border-solid border-primaryButton bg-primaryButton text-white" : "border border-solid border-primaryButton text-primaryButton"} flex h-10 items-center justify-center whitespace-nowrap rounded-md px-5 font-semibold`}
@@ -114,7 +115,7 @@ function ProfitLossStatementContent() {
               >
                 6개월
               </button>
-            </div>
+            </div> */}
           </div>
           <div className="flex items-center gap-20">
             <div className="flex flex-col gap-5">
