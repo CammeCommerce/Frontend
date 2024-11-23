@@ -247,6 +247,15 @@ export const registerWithdrawalMatching = async (
   registerWithdrawalMatchingRequest: RegisterWithdrawalMatchingRequest,
 ) => {
   try {
+    // 입력값 검증
+    const { mediumName, accountAlias, purpose } =
+      registerWithdrawalMatchingRequest;
+
+    if (!mediumName || !accountAlias || !purpose) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+
     const response = await api.post(
       "/withdrawal-matching",
       registerWithdrawalMatchingRequest,
