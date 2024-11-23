@@ -451,7 +451,7 @@ function OnlineListContent() {
             <h2 className="text-xl font-bold">온라인 리스트 추가</h2>
             <div className="mt-7 flex w-2/3 flex-wrap justify-center gap-10">
               <div className="flex w-full items-center gap-3">
-                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                <span className="w-32 whitespace-nowrap text-lg font-semibold">
                   매출 발생 월
                 </span>
                 <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
@@ -463,7 +463,7 @@ function OnlineListContent() {
                 </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                <span className="w-32 whitespace-nowrap text-lg font-semibold">
                   매체명
                 </span>
                 <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
@@ -475,7 +475,7 @@ function OnlineListContent() {
                 </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                <span className="w-32 whitespace-nowrap text-lg font-semibold">
                   온라인 업체명
                 </span>
                 <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
@@ -487,7 +487,7 @@ function OnlineListContent() {
                 </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                <span className="w-32 whitespace-nowrap text-lg font-semibold">
                   매출액
                 </span>
                 <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
@@ -501,7 +501,7 @@ function OnlineListContent() {
                 </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                <span className="w-32 whitespace-nowrap text-lg font-semibold">
                   매입액
                 </span>
                 <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
@@ -515,7 +515,7 @@ function OnlineListContent() {
                 </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                <span className="w-32 whitespace-nowrap text-lg font-semibold">
                   마진
                 </span>
                 <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
@@ -528,7 +528,7 @@ function OnlineListContent() {
                 </div>
               </div>
               <div className="flex w-full items-center gap-3">
-                <span className="w-24 whitespace-nowrap text-lg font-semibold">
+                <span className="w-32 whitespace-nowrap text-lg font-semibold">
                   메모
                 </span>
                 <div className="flex h-7 w-full items-center justify-center rounded-sm border border-solid border-black">
