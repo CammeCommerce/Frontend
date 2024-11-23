@@ -239,7 +239,11 @@ function WithdrawalListContent() {
         window.location.reload();
       })
       .catch((error) => {
-        console.error(error);
+        if (error.response.status === 409) {
+          alert("이미 등록된 매칭입니다.");
+        } else {
+          alert(error.response.data.message);
+        }
       });
   }
 
