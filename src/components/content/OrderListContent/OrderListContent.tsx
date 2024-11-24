@@ -739,7 +739,7 @@ function OrderListContent() {
                     <td className="border border-black text-center">
                       {order.settlementCompanyName}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-2 text-center">
                       {order.productName}
                     </td>
                     <td className="border border-black text-center">
