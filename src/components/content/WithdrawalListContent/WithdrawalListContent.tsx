@@ -181,6 +181,7 @@ function WithdrawalListContent() {
         );
       })
       .catch((error) => {
+        alert(error.response.data.message);
         console.error(error);
       });
   }

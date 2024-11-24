@@ -236,6 +236,7 @@ function OrderListContent() {
         );
       })
       .catch((error) => {
+        alert(error.response.data.message);
         console.error(error);
       });
   }

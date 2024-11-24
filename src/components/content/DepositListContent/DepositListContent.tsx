@@ -195,6 +195,7 @@ function DepositListContent() {
         );
       })
       .catch((error) => {
+        alert(error.response.data.message);
         console.error(error);
       });
   }
