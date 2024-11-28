@@ -15,7 +15,6 @@ import {
 import { useDropzone } from "react-dropzone";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
-import { AxiosError } from "axios";
 import { fetchCompanyAll } from "../../../api/medium/medium";
 import { fetchSettlementCompanyAll } from "../../../api/settlement-company/settlement-company";
 
