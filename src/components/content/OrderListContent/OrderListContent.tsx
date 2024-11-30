@@ -822,7 +822,7 @@ function OrderListContent() {
                         handleEditableChange(
                           index,
                           "mediumName",
-                          e.currentTarget.textContent,
+                          e.currentTarget.textContent || "",
                         )
                       }
                     >
@@ -836,7 +836,7 @@ function OrderListContent() {
                         handleEditableChange(
                           index,
                           "settlementCompanyName",
-                          e.currentTarget.textContent,
+                          e.currentTarget.textContent || "",
                         )
                       }
                     >

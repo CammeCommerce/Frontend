@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   deleteDepositListMany,
+  DepositList,
   downloadDepositListExcel,
   fetchDepositExcelColumnIndex,
   fetchDepositListAll,
@@ -52,6 +53,14 @@ function DepositListContent() {
 
   // 수정할 입금값 관련 상태
   const [depositIdToUpdate, setDepositIdToUpdate] = useState<number>(-1); // 수정할 입금값 ID
+
+  const [isEditMode, setIsEditMode] = useState<boolean>(false); // 수정 가능 여부
+  const [editableDepositList, setEditableDepositList] = useState<DepositList[]>(
+    [],
+  );
+
+  // 원본 데이터를 참조로 저장
+  const originalDepositList = useRef<DepositList[]>([]);
 
   // 수정할 입금값
   const [updateDeposit, setUpdateDeposit] = useState({
@@ -163,6 +172,70 @@ function DepositListContent() {
     } else {
       alert("엑셀 파일을 업로드해주세요.");
     }
+  }
+
+  // "전체 수정" 버튼 클릭 이벤트
+  function handleEditButtonClick() {
+    setIsEditMode(true);
+    setEditableDepositList(depositList.items); // 수정 가능한 데이터 복사
+    originalDepositList.current = JSON.parse(JSON.stringify(depositList.items)); // 원본 데이터 저장
+  }
+
+  // "저장" 버튼 클릭 이벤트
+  function handleSaveButtonClick() {
+    // 수정된 데이터만 추출
+    const modifiedDeposits = editableDepositList.filter(
+      (editableItem, index) => {
+        const originalItem = originalDepositList.current[index];
+        return JSON.stringify(editableItem) !== JSON.stringify(originalItem);
+      },
+    );
+
+    console.log("수정된 데이터:", modifiedDeposits); // 수정된 데이터 출력
+
+    try {
+      modifiedDeposits.forEach((modifiedDeposit) => {
+        updateDepositListOne(modifiedDeposit.id, {
+          mediumName: modifiedDeposit.mediumName,
+          depositDate: modifiedDeposit.depositDate,
+          accountAlias: modifiedDeposit.accountAlias,
+          depositAmount: modifiedDeposit.depositAmount,
+          accountDescription: modifiedDeposit.accountDescription,
+          transactionMethod1: modifiedDeposit.transactionMethod1,
+          transactionMethod2: modifiedDeposit.transactionMethod2,
+          accountMemo: modifiedDeposit.accountMemo,
+          counterpartyName: modifiedDeposit.counterpartyName,
+          purpose: modifiedDeposit.purpose,
+          clientName: modifiedDeposit.clientName,
+        })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
+
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+    }
+
+    setIsEditMode(false);
+  }
+
+  // 값 수정 핸들러
+  function handleEditableChange(
+    index: number,
+    field: keyof DepositList,
+    value: string,
+  ) {
+    const updatedList = [...editableDepositList];
+    updatedList[index] = {
+      ...updatedList[index],
+      [field]: value,
+    };
+    setEditableDepositList(updatedList);
   }
 
   // 주문값 수정 버튼 클릭 이벤트
@@ -497,6 +570,23 @@ function DepositListContent() {
               >
                 선택 삭제
               </button>
+              {isEditMode ? (
+                <button
+                  type="button"
+                  className="flex h-10 items-center justify-center rounded-md bg-primaryButtonHover px-5 font-semibold text-white"
+                  onClick={handleSaveButtonClick}
+                >
+                  저장
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="flex h-10 items-center justify-center rounded-md bg-primaryButton px-5 font-semibold text-white"
+                  onClick={handleEditButtonClick}
+                >
+                  전체 수정
+                </button>
+              )}
             </div>
             <button
               type="button"
@@ -551,7 +641,18 @@ function DepositListContent() {
                     <td className="border border-black text-center">
                       {depositList.items.length - index}
                     </td>
-                    <td className="border border-black text-center">
+                    <td
+                      className="border border-black text-center"
+                      contentEditable={isEditMode}
+                      suppressContentEditableWarning
+                      onInput={(e) =>
+                        handleEditableChange(
+                          index,
+                          "mediumName",
+                          e.currentTarget.textContent || "",
+                        )
+                      }
+                    >
                       {deposit.mediumName}
                     </td>
                     <td className="border border-black text-center">
