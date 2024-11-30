@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   deleteOrderListMany,
   downloadOrderListExcel,
@@ -7,6 +7,7 @@ import {
   FetchOrderListAllResponse,
   fetchOrderListOne,
   fetchOrderListSearch,
+  OrderList,
   registerOrderMatching,
   sortOrderList,
   updateOrderListOne,
@@ -63,6 +64,11 @@ function OrderListContent() {
   const [salesPlaceToMatch, setSalesPlaceToMatch] = useState<string>(""); // 매칭할 매출처
   const [fieldToSort, setFieldToSort] = useState<string>(""); // 정렬할 필드
   const [isDescend, setIsDescend] = useState<string>(""); // 내림차순 여부
+  const [isEditMode, setIsEditMode] = useState<boolean>(false); // 수정 가능 여부
+  const [editableOrderList, setEditableOrderList] = useState<OrderList[]>([]);
+
+  // 원본 데이터를 참조로 저장
+  const originalOrderList = useRef<OrderList[]>([]);
 
   const [isExcelResponseLoading, setIsExcelResponseLoading] =
     useState<boolean>(false); // 엑셀 응답 로딩 상태
@@ -162,6 +168,65 @@ function OrderListContent() {
   function handleExcelModalCloseButtonClick() {
     setIsCreateOrderModalOpen(false);
     setExcelFile(undefined);
+  }
+
+  // "전체 수정" 버튼 클릭 이벤트
+  function handleEditButtonClick() {
+    setIsEditMode(true);
+    setEditableOrderList(orderList.items); // 수정 가능한 데이터 복사
+    originalOrderList.current = JSON.parse(JSON.stringify(orderList.items)); // 원본 데이터 저장
+  }
+
+  // "저장" 버튼 클릭 이벤트
+  function handleSaveButtonClick() {
+    // 수정된 데이터만 추출
+    const modifiedOrders = editableOrderList.filter((editableItem, index) => {
+      const originalItem = originalOrderList.current[index];
+      return JSON.stringify(editableItem) !== JSON.stringify(originalItem);
+    });
+
+    // console.log("수정된 데이터:", modifiedOrders); // 수정된 데이터 출력
+
+    try {
+      modifiedOrders.forEach((modifiedOrder) => {
+        updateOrderListOne(modifiedOrder.id, {
+          mediumName: modifiedOrder.mediumName,
+          settlementCompanyName: modifiedOrder.settlementCompanyName,
+          productName: modifiedOrder.productName,
+          quantity: modifiedOrder.quantity,
+          orderDate: modifiedOrder.orderDate,
+          purchasePlace: modifiedOrder.purchasePlace,
+          salesPlace: modifiedOrder.salesPlace,
+          purchasePrice: modifiedOrder.purchasePrice,
+          salesPrice: modifiedOrder.salesPrice,
+          purchaseShippingFee: modifiedOrder.purchaseShippingFee,
+          salesShippingFee: modifiedOrder.salesShippingFee,
+          taxType: Number(modifiedOrder.taxType),
+        }).catch((error) => {
+          console.error(error);
+        });
+      });
+
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+    }
+
+    setIsEditMode(false);
+  }
+
+  // 값 수정 핸들러
+  function handleEditableChange(
+    index: number,
+    field: keyof OrderList,
+    value: string,
+  ) {
+    const updatedList = [...editableOrderList];
+    updatedList[index] = {
+      ...updatedList[index],
+      [field]: value,
+    };
+    setEditableOrderList(updatedList);
   }
 
   // 주문값 등록 버튼 클릭 이벤트
@@ -655,6 +720,23 @@ function OrderListContent() {
               >
                 선택 삭제
               </button>
+              {isEditMode ? (
+                <button
+                  type="button"
+                  className="flex h-10 items-center justify-center rounded-md bg-primaryButtonHover px-5 font-semibold text-white"
+                  onClick={handleSaveButtonClick}
+                >
+                  저장
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="flex h-10 items-center justify-center rounded-md bg-primaryButton px-5 font-semibold text-white"
+                  onClick={handleEditButtonClick}
+                >
+                  전체 수정
+                </button>
+              )}
             </div>
             <div className="flex items-center gap-3">
               <select
@@ -732,10 +814,32 @@ function OrderListContent() {
                     <td className="border border-black text-center">
                       {orderList.items.length - index}
                     </td>
-                    <td className="border border-black text-center">
+                    <td
+                      className="border border-black text-center"
+                      contentEditable={isEditMode}
+                      suppressContentEditableWarning
+                      onInput={(e) =>
+                        handleEditableChange(
+                          index,
+                          "mediumName",
+                          e.currentTarget.textContent,
+                        )
+                      }
+                    >
                       {order.mediumName}
                     </td>
-                    <td className="border border-black text-center">
+                    <td
+                      className="border border-black text-center"
+                      contentEditable={isEditMode}
+                      suppressContentEditableWarning
+                      onInput={(e) =>
+                        handleEditableChange(
+                          index,
+                          "settlementCompanyName",
+                          e.currentTarget.textContent,
+                        )
+                      }
+                    >
                       {order.settlementCompanyName}
                     </td>
                     <td className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-2 text-center">
