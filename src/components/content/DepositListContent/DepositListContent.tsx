@@ -207,13 +207,9 @@ function DepositListContent() {
           counterpartyName: modifiedDeposit.counterpartyName,
           purpose: modifiedDeposit.purpose,
           clientName: modifiedDeposit.clientName,
-        })
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        }).catch((error) => {
+          console.error(error);
+        });
       });
 
       window.location.reload();
