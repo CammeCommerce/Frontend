@@ -51,6 +51,8 @@ function WithdrawalListContent() {
 
   const [isExcelResponseLoading, setIsExcelResponseLoading] =
     useState<boolean>(false); // 엑셀 응답 로딩 상태
+  const [isDeleting, setIsDeleting] = useState<boolean>(false); // 삭제 중 로딩 상태
+
   // 수정 모달 관련 상태
   const [isUpdateWithdrawalModalOpen, setIsUpdateWithdrawalModalOpen] =
     useState<boolean>(false); // 수정 모달 오픈 상태
@@ -291,14 +293,22 @@ function WithdrawalListContent() {
       return;
     }
 
-    deleteWithdrawalListMany(withdrawalIdsToDelete)
-      .then(() => {
-        setWithdrawalIdsToDelete([]);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      setIsDeleting(true); // 삭제 중 로딩 상태
+      deleteWithdrawalListMany(withdrawalIdsToDelete)
+        .then(() => {
+          setIsDeleting(false); // 삭제 중 로딩 상태 해제
+          setWithdrawalIdsToDelete([]);
+          window.location.reload();
+        })
+        .catch((error) => {
+          setIsDeleting(false); // 삭제 중 로딩 상태 해제
+          console.error(error);
+        });
+    } catch (error) {
+      setIsDeleting(false); // 삭제 중 로딩 상태 해제
+      console.error(error);
+    }
   }
 
   // 출금 매칭 등록 버튼 클릭 이벤트
@@ -928,8 +938,6 @@ function WithdrawalListContent() {
             >
               등록
             </button>
-
-            {isExcelResponseLoading && <LoadingSpinner />}
           </div>
         </div>
       )}
@@ -1202,6 +1210,9 @@ function WithdrawalListContent() {
           </div>
         </div>
       )}
+
+      {isExcelResponseLoading && <LoadingSpinner />}
+      {isDeleting && <LoadingSpinner />}
     </>
   );
 }

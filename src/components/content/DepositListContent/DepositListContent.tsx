@@ -85,6 +85,8 @@ function DepositListContent() {
 
   const [isExcelResponseLoading, setIsExcelResponseLoading] =
     useState<boolean>(false); // 엑셀 응답 로딩 상태
+  const [isDeleting, setIsDeleting] = useState<boolean>(false); // 삭제 중 로딩 상태
+
   const [
     isRegisterDepositMatchingModalOpen,
     setIsRegisterDepositMatchingModalOpen,
@@ -292,14 +294,22 @@ function DepositListContent() {
       return;
     }
 
-    deleteDepositListMany(depositIdsToDelete)
-      .then(() => {
-        setDepositIdsToDelete([]);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      setIsDeleting(true); // 삭제 중 로딩 상태
+      deleteDepositListMany(depositIdsToDelete)
+        .then(() => {
+          setIsDeleting(false); // 삭제 중 로딩 상태 해제
+          setDepositIdsToDelete([]);
+          window.location.reload();
+        })
+        .catch((error) => {
+          setIsDeleting(false); // 삭제 중 로딩 상태 해제
+          console.error(error);
+        });
+    } catch (error) {
+      setIsDeleting(false); // 삭제 중 로딩 상태 해제
+      console.error(error);
+    }
   }
 
   // 매칭 등록 버튼 클릭 이벤트
@@ -953,8 +963,6 @@ function DepositListContent() {
             >
               등록
             </button>
-
-            {isExcelResponseLoading && <LoadingSpinner />}
           </div>
         </div>
       )}
@@ -1247,6 +1255,9 @@ function DepositListContent() {
           </div>
         </div>
       )}
+
+      {isExcelResponseLoading && <LoadingSpinner />}
+      {isDeleting && <LoadingSpinner />}
     </>
   );
 }

@@ -73,6 +73,9 @@ function OrderListContent() {
 
   const [isExcelResponseLoading, setIsExcelResponseLoading] =
     useState<boolean>(false); // 엑셀 응답 로딩 상태
+  const [isDeleting, setIsDeleting] = useState<boolean>(false); // 삭제 중 로딩 상태
+  const [isTableLoading, setIsTableLoading] = useState<boolean>(false); // 테이블 로딩 상태
+
   const [isCreateOrderModalOpen, setIsCreateOrderModalOpen] =
     useState<boolean>(false); // 주문값 등록 모달 오픈 상태
   const [isUpdateOrderModalOpen, setIsUpdateOrderModalOpen] =
@@ -328,14 +331,22 @@ function OrderListContent() {
       alert("삭제할 주문값을 선택해주세요.");
       return;
     }
-    deleteOrderListMany(orderIdsToDelete)
-      .then(() => {
-        setOrderIdsToDelete([]);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      setIsDeleting(true); // 삭제 중 로딩 상태
+      deleteOrderListMany(orderIdsToDelete)
+        .then(() => {
+          setIsDeleting(false); // 삭제 중 로딩 상태 해제
+          setOrderIdsToDelete([]);
+          window.location.reload();
+        })
+        .catch((error) => {
+          setIsDeleting(false); // 삭제 중 로딩 상태 해제
+          console.error(error);
+        });
+    } catch (error) {
+      setIsDeleting(false); // 삭제 중 로딩 상태 해제
+      console.error(error);
+    }
   }
 
   // 주문 매칭 등록 버튼 클릭 이벤트
@@ -1189,8 +1200,6 @@ function OrderListContent() {
             >
               등록
             </button>
-
-            {isExcelResponseLoading && <LoadingSpinner />}
           </div>
         </div>
       )}
@@ -1515,6 +1524,9 @@ function OrderListContent() {
           </div>
         </div>
       )}
+
+      {isExcelResponseLoading && <LoadingSpinner />}
+      {isDeleting && <LoadingSpinner />}
     </>
   );
 }

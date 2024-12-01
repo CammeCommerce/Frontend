@@ -1,8 +1,8 @@
 function LoadingSpinner() {
   return (
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <svg
-        className="h-16 w-16 animate-spin text-gray-900/50"
+        className="h-16 w-16 animate-spin text-gray-400"
         viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
