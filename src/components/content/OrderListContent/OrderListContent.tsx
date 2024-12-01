@@ -815,7 +815,7 @@ function OrderListContent() {
                       {orderList.items.length - index}
                     </td>
                     <td
-                      className="max-w-32 overflow-hidden whitespace-nowrap border border-black text-center"
+                      className={`${isEditMode || "text-ellipsis px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
                       contentEditable={isEditMode}
                       suppressContentEditableWarning
                       onInput={(e) =>
@@ -829,7 +829,7 @@ function OrderListContent() {
                       {order.mediumName}
                     </td>
                     <td
-                      className="max-w-32 overflow-hidden whitespace-nowrap border border-black text-center"
+                      className={`${isEditMode || "text-ellipsis px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
                       contentEditable={isEditMode}
                       suppressContentEditableWarning
                       onInput={(e) =>
