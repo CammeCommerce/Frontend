@@ -865,7 +865,7 @@ function OrderListContent() {
                         setMediumNameToMatch(e.currentTarget.textContent || "");
                       }}
                       onFocus={() => setIsEditMode(index)}
-                      onBlur={() => setIsEditMode(null)}
+                      // onBlur={() => setIsEditMode(null)}
                     >
                       {order.mediumName}
                     </td>
@@ -886,7 +886,7 @@ function OrderListContent() {
                         );
                       }}
                       onFocus={() => setIsEditMode(index)}
-                      onBlur={() => setIsEditMode(null)}
+                      // onBlur={() => setIsEditMode(null)}
                     >
                       {order.settlementCompanyName}
                     </td>
@@ -941,7 +941,8 @@ function OrderListContent() {
                         </button>
                         <button
                           type="button"
-                          className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 font-semibold text-white"
+                          className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 font-semibold text-white disabled:bg-opacity-40"
+                          disabled={isEditMode !== index}
                           onClick={() => {
                             // setMediumNameToMatch(order.mediumName);
                             // setSettlementCompanyNameToMatch(
