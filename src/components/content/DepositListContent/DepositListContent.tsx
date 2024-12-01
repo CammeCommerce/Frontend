@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   deleteDepositListMany,
   DepositList,
@@ -55,13 +55,15 @@ function DepositListContent() {
   // 수정할 입금값 관련 상태
   const [depositIdToUpdate, setDepositIdToUpdate] = useState<number>(-1); // 수정할 입금값 ID
 
-  const [isEditMode, setIsEditMode] = useState<boolean>(false); // 수정 가능 여부
-  const [editableDepositList, setEditableDepositList] = useState<DepositList[]>(
-    [],
-  );
+  const [isEditMode, setIsEditMode] = useState<number | null>(null); // 수정 가능 여부
+  const [isMatchingButtonClicked, setIsMatchingButtonClicked] =
+    useState<boolean>(false); // 매칭 버튼 클릭 여부
+  // const [editableDepositList, setEditableDepositList] = useState<DepositList[]>(
+  //   [],
+  // );
 
   // 원본 데이터를 참조로 저장
-  const originalDepositList = useRef<DepositList[]>([]);
+  // const originalDepositList = useRef<DepositList[]>([]);
 
   // 수정할 입금값
   const [updateDeposit, setUpdateDeposit] = useState({
@@ -414,6 +416,15 @@ function DepositListContent() {
     }
   }, [depositIdToUpdate]);
 
+  // 매칭 버튼 클릭 시 실행
+  useEffect(() => {
+    if (isMatchingButtonClicked) {
+      handleRegisterDepositMatchingButtonClick();
+      setIsMatchingButtonClicked(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMatchingButtonClicked, accountAliasToMatch, purposeToMatch]);
+
   return (
     <>
       <div className="flex h-main w-full flex-col bg-primaryBackground p-5">
@@ -659,16 +670,21 @@ function DepositListContent() {
                       {depositList.items.length - index}
                     </td>
                     <td
-                      className={`${isEditMode || "text-ellipsis px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
-                      contentEditable={isEditMode}
+                      className={`${isEditMode === index || "px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
+                      contentEditable={deposit.mediumName === null}
                       suppressContentEditableWarning
-                      onInput={(e) =>
-                        handleEditableChange(
-                          index,
-                          "mediumName",
-                          e.currentTarget.textContent || "",
-                        )
-                      }
+                      // onInput={(e) =>
+                      //   handleEditableChange(
+                      //     index,
+                      //     "mediumName",
+                      //     e.currentTarget.textContent || "",
+                      //   )
+                      // }
+                      onInput={(e) => {
+                        setMediumNameToMatch(e.currentTarget.textContent || "");
+                      }}
+                      onFocus={() => setIsEditMode(index)}
+                      onBlur={() => setIsEditMode(null)}
                     >
                       {deposit.mediumName}
                     </td>
@@ -718,10 +734,11 @@ function DepositListContent() {
                           type="button"
                           className="flex items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
-                            setMediumNameToMatch(deposit.mediumName);
+                            // setMediumNameToMatch(deposit.mediumName);
                             setAccountAliasToMatch(deposit.accountAlias);
                             setPurposeToMatch(deposit.purpose);
-                            setIsRegisterDepositMatchingModalOpen(true);
+                            setIsMatchingButtonClicked(true);
+                            // setIsRegisterDepositMatchingModalOpen(true);
                           }}
                         >
                           등록

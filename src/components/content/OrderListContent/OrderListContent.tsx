@@ -864,12 +864,8 @@ function OrderListContent() {
                       onInput={(e) => {
                         setMediumNameToMatch(e.currentTarget.textContent || "");
                       }}
-                      onFocus={() => {
-                        setIsEditMode(index);
-                      }}
-                      onBlur={() => {
-                        setIsEditMode(null);
-                      }}
+                      onFocus={() => setIsEditMode(index)}
+                      onBlur={() => setIsEditMode(null)}
                     >
                       {order.mediumName}
                     </td>
@@ -889,12 +885,8 @@ function OrderListContent() {
                           e.currentTarget.textContent || "",
                         );
                       }}
-                      onFocus={() => {
-                        setIsEditMode(index);
-                      }}
-                      onBlur={() => {
-                        setIsEditMode(null);
-                      }}
+                      onFocus={() => setIsEditMode(index)}
+                      onBlur={() => setIsEditMode(null)}
                     >
                       {order.settlementCompanyName}
                     </td>
