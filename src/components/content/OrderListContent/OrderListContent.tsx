@@ -397,23 +397,32 @@ function OrderListContent() {
   // 마운트 시 실행
   useEffect(() => {
     // 주문 리스트 조회
-    fetchOrderListAll()
-      .then((response) => {
-        setOrderList(
-          response ?? {
-            items: [],
-            totalMarginAmount: 0,
-            totalPurchasePrice: 0,
-            totalPurchaseShippingFee: 0,
-            totalSalesPrice: 0,
-            totalSalesShippingFee: 0,
-            totalShippingDifference: 0,
-          },
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      setIsTableLoading(true); // 테이블 로딩 상태
+      fetchOrderListAll()
+        .then((response) => {
+          setOrderList(
+            response ?? {
+              items: [],
+              totalMarginAmount: 0,
+              totalPurchasePrice: 0,
+              totalPurchaseShippingFee: 0,
+              totalSalesPrice: 0,
+              totalSalesShippingFee: 0,
+              totalShippingDifference: 0,
+            },
+          );
+          setIsTableLoading(false); // 테이블 로딩 상태 해제
+        })
+        .catch((error) => {
+          setIsTableLoading(false); // 테이블 로딩 상태 해제
+          console.error(error);
+        });
+    } catch (error) {
+      setIsTableLoading(false); // 테이블 로딩 상태 해제
+      console.error(error);
+    }
+
     // 매체명 조회
     fetchCompanyAll()
       .then((response) => {
@@ -1527,6 +1536,7 @@ function OrderListContent() {
 
       {isExcelResponseLoading && <LoadingSpinner />}
       {isDeleting && <LoadingSpinner />}
+      {isTableLoading && <LoadingSpinner />}
     </>
   );
 }

@@ -86,6 +86,7 @@ function DepositListContent() {
   const [isExcelResponseLoading, setIsExcelResponseLoading] =
     useState<boolean>(false); // 엑셀 응답 로딩 상태
   const [isDeleting, setIsDeleting] = useState<boolean>(false); // 삭제 중 로딩 상태
+  const [isTableLoading, setIsTableLoading] = useState<boolean>(false); // 테이블 로딩 상태
 
   const [
     isRegisterDepositMatchingModalOpen,
@@ -357,17 +358,26 @@ function DepositListContent() {
 
   // 마운트 시 실행
   useEffect(() => {
-    fetchDepositListAll()
-      .then((response) => {
-        setDepositList(
-          response ?? {
-            items: [],
-          },
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      setIsTableLoading(true); // 테이블 로딩 상태
+      fetchDepositListAll()
+        .then((response) => {
+          setDepositList(
+            response ?? {
+              items: [],
+            },
+          );
+          setIsTableLoading(false); // 테이블 로딩 상태 해제
+        })
+        .catch((error) => {
+          setIsTableLoading(false); // 테이블 로딩 상태 해제
+          console.error(error);
+        });
+    } catch (error) {
+      setIsTableLoading(false); // 테이블 로딩 상태 해제
+      console.error(error);
+    }
+
     // 매체명 조회
     fetchCompanyAll()
       .then((response) => {
@@ -1258,6 +1268,7 @@ function DepositListContent() {
 
       {isExcelResponseLoading && <LoadingSpinner />}
       {isDeleting && <LoadingSpinner />}
+      {isTableLoading && <LoadingSpinner />}
     </>
   );
 }
