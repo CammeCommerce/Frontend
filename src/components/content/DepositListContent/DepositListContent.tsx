@@ -697,6 +697,7 @@ function DepositListContent() {
                           type="button"
                           className="flex items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
+                            setMediumNameToMatch(deposit.mediumName);
                             setAccountAliasToMatch(deposit.accountAlias);
                             setPurposeToMatch(deposit.purpose);
                             setIsRegisterDepositMatchingModalOpen(true);
@@ -1228,6 +1229,7 @@ function DepositListContent() {
                   <input
                     type="text"
                     className="h-full w-full px-2"
+                    value={mediumNameToMatch || ""}
                     onChange={(e) => {
                       setMediumNameToMatch(e.target.value);
                     }}
@@ -1242,7 +1244,7 @@ function DepositListContent() {
                   <input
                     type="text"
                     className="h-full w-full px-2"
-                    value={accountAliasToMatch}
+                    value={accountAliasToMatch || ""}
                     disabled
                   />
                 </div>
@@ -1255,7 +1257,7 @@ function DepositListContent() {
                   <input
                     type="text"
                     className="h-full w-full px-2"
-                    value={purposeToMatch}
+                    value={purposeToMatch || ""}
                     disabled
                   />
                 </div>

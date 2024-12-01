@@ -691,6 +691,7 @@ function WithdrawalListContent() {
                           type="button"
                           className="flex items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
+                            setMediumNameToMatch(item.mediumName);
                             setAccountAliasToMatch(item.accountAlias);
                             setPurposeToMatch(item.purpose);
                             setIsRegisterWithdrawalMatchingModalOpen(true);
@@ -1183,6 +1184,7 @@ function WithdrawalListContent() {
                   <input
                     type="text"
                     className="h-full w-full px-2"
+                    value={mediumNameToMatch || ""}
                     onChange={(e) => {
                       setMediumNameToMatch(e.target.value);
                     }}
@@ -1197,7 +1199,7 @@ function WithdrawalListContent() {
                   <input
                     type="text"
                     className="h-full w-full px-2"
-                    value={accountAliasToMatch}
+                    value={accountAliasToMatch || ""}
                     disabled
                   />
                 </div>
@@ -1210,7 +1212,7 @@ function WithdrawalListContent() {
                   <input
                     type="text"
                     className="h-full w-full px-2"
-                    value={purposeToMatch}
+                    value={purposeToMatch || ""}
                     disabled
                   />
                 </div>

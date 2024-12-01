@@ -895,6 +895,10 @@ function OrderListContent() {
                           type="button"
                           className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 font-semibold text-white"
                           onClick={() => {
+                            setMediumNameToMatch(order.mediumName);
+                            setSettlementCompanyNameToMatch(
+                              order.settlementCompanyName,
+                            );
                             setPurchasePlaceToMatch(order.purchasePlace);
                             setSalesPlaceToMatch(order.salesPlace);
                             setIsRegisterOrderMatchingModalOpen(true);
@@ -1479,6 +1483,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full"
+                    value={mediumNameToMatch || ""}
                     onChange={(e) => {
                       setMediumNameToMatch(e.target.value);
                     }}
@@ -1493,6 +1498,7 @@ function OrderListContent() {
                   <input
                     type="text"
                     className="h-full w-full"
+                    value={settlementCompanyNameToMatch || ""}
                     onChange={(e) => {
                       setSettlementCompanyNameToMatch(e.target.value);
                     }}
