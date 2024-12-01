@@ -87,13 +87,15 @@ function WithdrawalListContent() {
   const [purposeIndex, setPurposeIndex] = useState<string>(""); // 용도
   const [clientNameIndex, setClientNameIndex] = useState<string>(""); // 거래처
 
-  const [isEditMode, setIsEditMode] = useState<boolean>(false); // 수정 가능 여부
-  const [editableWithdrawalList, setEditableWithdrawalList] = useState<
-    WithdrawalList[]
-  >([]);
+  const [isEditMode, setIsEditMode] = useState<number | null>(null); // 수정 가능 여부
+  const [isMatchingButtonClicked, setIsMatchingButtonClicked] =
+    useState<boolean>(false); // 매칭 버튼 클릭 여부
+  // const [editableWithdrawalList, setEditableWithdrawalList] = useState<
+  //   WithdrawalList[]
+  // >([]);
 
-  // 원본 데이터를 참조로 저장
-  const originalWithdrawalList = useRef<WithdrawalList[]>([]);
+  // // 원본 데이터를 참조로 저장
+  // const originalWithdrawalList = useRef<WithdrawalList[]>([]);
 
   const [withdrawalIdsToDelete, setWithdrawalIdsToDelete] = useState<number[]>(
     [],
@@ -411,6 +413,14 @@ function WithdrawalListContent() {
     }
   }, [withdrawalIdToUpdate]);
 
+  useEffect(() => {
+    if (isMatchingButtonClicked) {
+      handleRegisterWithdrawalMatchingButtonClick();
+      setIsMatchingButtonClicked(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMatchingButtonClicked, accountAliasToMatch, purposeToMatch]);
+
   return (
     <>
       <div className="flex h-main w-full flex-col bg-primaryBackground p-5">
@@ -584,7 +594,7 @@ function WithdrawalListContent() {
               >
                 선택 삭제
               </button>
-              {isEditMode ? (
+              {/* {isEditMode ? (
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center rounded-md bg-primaryButtonHover px-5 font-semibold text-white"
@@ -600,7 +610,7 @@ function WithdrawalListContent() {
                 >
                   전체 수정
                 </button>
-              )}
+              )} */}
             </div>
             <button
               type="button"
@@ -656,16 +666,21 @@ function WithdrawalListContent() {
                       {withdrawalList.items.length - index}
                     </td>
                     <td
-                      className={`${isEditMode || "text-ellipsis px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
-                      contentEditable={isEditMode}
+                      className={`${isEditMode === index || "px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
+                      contentEditable={item.mediumName === null}
                       suppressContentEditableWarning
-                      onInput={(e) =>
-                        handleEditableChange(
-                          index,
-                          "mediumName",
-                          e.currentTarget.textContent || "",
-                        )
-                      }
+                      // onInput={(e) =>
+                      //   handleEditableChange(
+                      //     index,
+                      //     "mediumName",
+                      //     e.currentTarget.textContent || "",
+                      //   )
+                      // }
+                      onInput={(e) => {
+                        setMediumNameToMatch(e.currentTarget.textContent || "");
+                      }}
+                      onFocus={() => setIsEditMode(index)}
+                      onBlur={() => setIsEditMode(null)}
                     >
                       {item.mediumName}
                     </td>
@@ -712,10 +727,11 @@ function WithdrawalListContent() {
                           type="button"
                           className="flex items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
                           onClick={() => {
-                            setMediumNameToMatch(item.mediumName);
+                            // setMediumNameToMatch(item.mediumName);
                             setAccountAliasToMatch(item.accountAlias);
                             setPurposeToMatch(item.purpose);
-                            setIsRegisterWithdrawalMatchingModalOpen(true);
+                            setIsMatchingButtonClicked(true);
+                            // setIsRegisterWithdrawalMatchingModalOpen(true);
                           }}
                         >
                           등록

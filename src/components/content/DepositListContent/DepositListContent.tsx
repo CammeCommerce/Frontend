@@ -598,7 +598,7 @@ function DepositListContent() {
               >
                 선택 삭제
               </button>
-              {isEditMode ? (
+              {/* {isEditMode ? (
                 <button
                   type="button"
                   className="flex h-10 items-center justify-center rounded-md bg-primaryButtonHover px-5 font-semibold text-white"
@@ -614,7 +614,7 @@ function DepositListContent() {
                 >
                   전체 수정
                 </button>
-              )}
+              )} */}
             </div>
             <button
               type="button"
