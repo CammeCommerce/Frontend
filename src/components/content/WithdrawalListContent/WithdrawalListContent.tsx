@@ -680,7 +680,7 @@ function WithdrawalListContent() {
                         setMediumNameToMatch(e.currentTarget.textContent || "");
                       }}
                       onFocus={() => setIsEditMode(index)}
-                      onBlur={() => setIsEditMode(null)}
+                      // onBlur={() => setIsEditMode(null)}
                     >
                       {item.mediumName}
                     </td>
@@ -712,7 +712,7 @@ function WithdrawalListContent() {
                       {item.clientName}
                     </td>
                     <td className="border border-black text-center">
-                      <div className="flex w-full items-center justify-center gap-2">
+                      <div className="flex w-full items-center justify-center gap-2 px-2">
                         <button
                           type="button"
                           className="flex items-center justify-center whitespace-nowrap rounded-md bg-editButton px-5 py-1 font-semibold text-white"
@@ -725,7 +725,8 @@ function WithdrawalListContent() {
                         </button>
                         <button
                           type="button"
-                          className="flex items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 py-1 font-semibold text-white"
+                          className="flex items-center justify-center whitespace-nowrap rounded-md bg-registerButton px-5 py-1 font-semibold text-white disabled:bg-opacity-40"
+                          disabled={isEditMode !== index}
                           onClick={() => {
                             // setMediumNameToMatch(item.mediumName);
                             setAccountAliasToMatch(item.accountAlias);
