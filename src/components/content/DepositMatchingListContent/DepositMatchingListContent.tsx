@@ -37,6 +37,7 @@ function DepositMatchingListContent() {
       })
       .catch((error) => {
         console.error(error);
+        alert(error.response.data.message);
       });
   }
 
