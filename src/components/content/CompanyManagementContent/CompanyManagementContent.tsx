@@ -93,6 +93,10 @@ function CompanyManagementContent() {
       .catch((error) => {
         if (error.status === 400) {
           alert(error.response.data.message);
+          window.location.reload();
+        } else {
+          alert("에러 : 개발자에게 문의하세요.");
+          window.location.reload();
         }
       });
   }
