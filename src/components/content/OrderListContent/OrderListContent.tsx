@@ -64,7 +64,7 @@ function OrderListContent() {
   const [purchasePlaceToMatch, setPurchasePlaceToMatch] = useState<string>(""); // 매칭할 매입처
   const [salesPlaceToMatch, setSalesPlaceToMatch] = useState<string>(""); // 매칭할 매출처
   const [fieldToSort, setFieldToSort] = useState<string>(""); // 정렬할 필드
-  const [isDescend, setIsDescend] = useState<string>(""); // 내림차순 여부
+  const [isDescend, setIsDescend] = useState<string>("desc"); // 내림차순 여부
   const [isEditMode, setIsEditMode] = useState<number | null>(null); // 수정 가능 여부
   // const [editableOrderList, setEditableOrderList] = useState<OrderList[]>([]);
   const [isMatchingButtonClicked, setIsMatchingButtonClicked] =
@@ -797,7 +797,11 @@ function OrderListContent() {
                 id=""
                 className="h-10 rounded-md border border-solid border-black px-4 text-center font-medium"
                 onChange={(e) => {
-                  setIsDescend(e.target.value);
+                  if (fieldToSort) {
+                    setIsDescend(e.target.value);
+                  } else {
+                    alert("리스트명을 선택해주세요.");
+                  }
                 }}
               >
                 <option value="">정렬방식</option>
@@ -851,7 +855,8 @@ function OrderListContent() {
                       />
                     </td>
                     <td className="border border-black px-1 text-center">
-                      {orderList.items.length - index}
+                      {isDescend === "desc" && orderList.items.length - index}
+                      {isDescend === "asc" && index + 1}
                     </td>
                     <td
                       className={`${isEditMode === index || "px-1"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
