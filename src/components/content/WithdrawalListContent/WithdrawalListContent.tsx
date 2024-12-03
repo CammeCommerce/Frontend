@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import closeIcon from "/assets/icon/svg/Close_round.svg";
 import excelLogoIcon from "/assets/icon/png/excel-logo.png";
 import { useDropzone } from "react-dropzone";
@@ -13,7 +13,7 @@ import {
   registerWithdrawalMatching,
   updateWithdrawalOne,
   uploadWithdrawal,
-  WithdrawalList,
+  // WithdrawalList,
 } from "../../../api/withdrawal/withdrawal";
 import { AxiosError } from "axios";
 import { fetchCompanyAll } from "../../../api/medium/medium";
@@ -201,66 +201,66 @@ function WithdrawalListContent() {
       });
   }
 
-  // "전체 수정" 버튼 클릭 이벤트
-  function handleEditButtonClick() {
-    setIsEditMode(true);
-    setEditableWithdrawalList(withdrawalList.items); // 수정 가능한 데이터 복사
-    originalWithdrawalList.current = JSON.parse(
-      JSON.stringify(withdrawalList.items),
-    ); // 원본 데이터 저장
-  }
+  // // "전체 수정" 버튼 클릭 이벤트
+  // function handleEditButtonClick() {
+  //   setIsEditMode(true);
+  //   setEditableWithdrawalList(withdrawalList.items); // 수정 가능한 데이터 복사
+  //   originalWithdrawalList.current = JSON.parse(
+  //     JSON.stringify(withdrawalList.items),
+  //   ); // 원본 데이터 저장
+  // }
 
-  // "저장" 버튼 클릭 이벤트
-  function handleSaveButtonClick() {
-    // 수정된 데이터만 추출
-    const modifiedWithdrawals = editableWithdrawalList.filter(
-      (editableItem, index) => {
-        const originalItem = originalWithdrawalList.current[index];
-        return JSON.stringify(editableItem) !== JSON.stringify(originalItem);
-      },
-    );
+  // // "저장" 버튼 클릭 이벤트
+  // function handleSaveButtonClick() {
+  //   // 수정된 데이터만 추출
+  //   const modifiedWithdrawals = editableWithdrawalList.filter(
+  //     (editableItem, index) => {
+  //       const originalItem = originalWithdrawalList.current[index];
+  //       return JSON.stringify(editableItem) !== JSON.stringify(originalItem);
+  //     },
+  //   );
 
-    console.log("수정된 데이터:", modifiedWithdrawals); // 수정된 데이터 출력
+  //   console.log("수정된 데이터:", modifiedWithdrawals); // 수정된 데이터 출력
 
-    try {
-      modifiedWithdrawals.forEach((modifiedWithdrawal) => {
-        updateWithdrawalOne(modifiedWithdrawal.id, {
-          mediumName: modifiedWithdrawal.mediumName,
-          withdrawalDate: modifiedWithdrawal.withdrawalDate,
-          accountAlias: modifiedWithdrawal.accountAlias,
-          withdrawalAmount: modifiedWithdrawal.withdrawalAmount,
-          accountDescription: modifiedWithdrawal.accountDescription,
-          transactionMethod1: modifiedWithdrawal.transactionMethod1,
-          transactionMethod2: modifiedWithdrawal.transactionMethod2,
-          accountMemo: modifiedWithdrawal.accountMemo,
-          purpose: modifiedWithdrawal.purpose,
-          clientName: modifiedWithdrawal.clientName,
-        }).catch((error) => {
-          console.error(error);
-        });
-      });
+  //   try {
+  //     modifiedWithdrawals.forEach((modifiedWithdrawal) => {
+  //       updateWithdrawalOne(modifiedWithdrawal.id, {
+  //         mediumName: modifiedWithdrawal.mediumName,
+  //         withdrawalDate: modifiedWithdrawal.withdrawalDate,
+  //         accountAlias: modifiedWithdrawal.accountAlias,
+  //         withdrawalAmount: modifiedWithdrawal.withdrawalAmount,
+  //         accountDescription: modifiedWithdrawal.accountDescription,
+  //         transactionMethod1: modifiedWithdrawal.transactionMethod1,
+  //         transactionMethod2: modifiedWithdrawal.transactionMethod2,
+  //         accountMemo: modifiedWithdrawal.accountMemo,
+  //         purpose: modifiedWithdrawal.purpose,
+  //         clientName: modifiedWithdrawal.clientName,
+  //       }).catch((error) => {
+  //         console.error(error);
+  //       });
+  //     });
 
-      window.location.reload();
-    } catch (e) {
-      console.error(e);
-    }
+  //     window.location.reload();
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
 
-    setIsEditMode(false);
-  }
+  //   setIsEditMode(false);
+  // }
 
-  // 값 수정 핸들러
-  function handleEditableChange(
-    index: number,
-    field: keyof WithdrawalList,
-    value: string,
-  ) {
-    const updatedList = [...editableWithdrawalList];
-    updatedList[index] = {
-      ...updatedList[index],
-      [field]: value,
-    };
-    setEditableWithdrawalList(updatedList);
-  }
+  // // 값 수정 핸들러
+  // function handleEditableChange(
+  //   index: number,
+  //   field: keyof WithdrawalList,
+  //   value: string,
+  // ) {
+  //   const updatedList = [...editableWithdrawalList];
+  //   updatedList[index] = {
+  //     ...updatedList[index],
+  //     [field]: value,
+  //   };
+  //   setEditableWithdrawalList(updatedList);
+  // }
 
   // 출금값 수정 버튼 클릭 이벤트
   function handleUpdateWithdrawalButtonClick() {

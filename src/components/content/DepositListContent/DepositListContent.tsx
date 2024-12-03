@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   deleteDepositListMany,
-  DepositList,
+  // DepositList,
   downloadDepositListExcel,
   fetchDepositExcelColumnIndex,
   fetchDepositListAll,
@@ -180,65 +180,65 @@ function DepositListContent() {
     }
   }
 
-  // "전체 수정" 버튼 클릭 이벤트
-  function handleEditButtonClick() {
-    setIsEditMode(true);
-    setEditableDepositList(depositList.items); // 수정 가능한 데이터 복사
-    originalDepositList.current = JSON.parse(JSON.stringify(depositList.items)); // 원본 데이터 저장
-  }
+  // // "전체 수정" 버튼 클릭 이벤트
+  // function handleEditButtonClick() {
+  //   setIsEditMode(true);
+  //   setEditableDepositList(depositList.items); // 수정 가능한 데이터 복사
+  //   originalDepositList.current = JSON.parse(JSON.stringify(depositList.items)); // 원본 데이터 저장
+  // }
 
-  // "저장" 버튼 클릭 이벤트
-  function handleSaveButtonClick() {
-    // 수정된 데이터만 추출
-    const modifiedDeposits = editableDepositList.filter(
-      (editableItem, index) => {
-        const originalItem = originalDepositList.current[index];
-        return JSON.stringify(editableItem) !== JSON.stringify(originalItem);
-      },
-    );
+  // // "저장" 버튼 클릭 이벤트
+  // function handleSaveButtonClick() {
+  //   // 수정된 데이터만 추출
+  //   const modifiedDeposits = editableDepositList.filter(
+  //     (editableItem, index) => {
+  //       const originalItem = originalDepositList.current[index];
+  //       return JSON.stringify(editableItem) !== JSON.stringify(originalItem);
+  //     },
+  //   );
 
-    console.log("수정된 데이터:", modifiedDeposits); // 수정된 데이터 출력
+  //   console.log("수정된 데이터:", modifiedDeposits); // 수정된 데이터 출력
 
-    try {
-      modifiedDeposits.forEach((modifiedDeposit) => {
-        updateDepositListOne(modifiedDeposit.id, {
-          mediumName: modifiedDeposit.mediumName,
-          depositDate: modifiedDeposit.depositDate,
-          accountAlias: modifiedDeposit.accountAlias,
-          depositAmount: modifiedDeposit.depositAmount,
-          accountDescription: modifiedDeposit.accountDescription,
-          transactionMethod1: modifiedDeposit.transactionMethod1,
-          transactionMethod2: modifiedDeposit.transactionMethod2,
-          accountMemo: modifiedDeposit.accountMemo,
-          counterpartyName: modifiedDeposit.counterpartyName,
-          purpose: modifiedDeposit.purpose,
-          clientName: modifiedDeposit.clientName,
-        }).catch((error) => {
-          console.error(error);
-        });
-      });
+  //   try {
+  //     modifiedDeposits.forEach((modifiedDeposit) => {
+  //       updateDepositListOne(modifiedDeposit.id, {
+  //         mediumName: modifiedDeposit.mediumName,
+  //         depositDate: modifiedDeposit.depositDate,
+  //         accountAlias: modifiedDeposit.accountAlias,
+  //         depositAmount: modifiedDeposit.depositAmount,
+  //         accountDescription: modifiedDeposit.accountDescription,
+  //         transactionMethod1: modifiedDeposit.transactionMethod1,
+  //         transactionMethod2: modifiedDeposit.transactionMethod2,
+  //         accountMemo: modifiedDeposit.accountMemo,
+  //         counterpartyName: modifiedDeposit.counterpartyName,
+  //         purpose: modifiedDeposit.purpose,
+  //         clientName: modifiedDeposit.clientName,
+  //       }).catch((error) => {
+  //         console.error(error);
+  //       });
+  //     });
 
-      window.location.reload();
-    } catch (e) {
-      console.error(e);
-    }
+  //     window.location.reload();
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
 
-    setIsEditMode(false);
-  }
+  //   setIsEditMode(false);
+  // }
 
-  // 값 수정 핸들러
-  function handleEditableChange(
-    index: number,
-    field: keyof DepositList,
-    value: string,
-  ) {
-    const updatedList = [...editableDepositList];
-    updatedList[index] = {
-      ...updatedList[index],
-      [field]: value,
-    };
-    setEditableDepositList(updatedList);
-  }
+  // // 값 수정 핸들러
+  // function handleEditableChange(
+  //   index: number,
+  //   field: keyof DepositList,
+  //   value: string,
+  // ) {
+  //   const updatedList = [...editableDepositList];
+  //   updatedList[index] = {
+  //     ...updatedList[index],
+  //     [field]: value,
+  //   };
+  //   setEditableDepositList(updatedList);
+  // }
 
   // 주문값 수정 버튼 클릭 이벤트
   function handleUpdateDepositButtonClick() {
