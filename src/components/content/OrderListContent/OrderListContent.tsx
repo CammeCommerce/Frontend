@@ -981,24 +981,24 @@ function OrderListContent() {
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center">-</td>
                   <td className="border border-black text-center">-</td>
-                  <td className="border border-black text-center font-semibold">
-                    {orderList?.totalPurchasePrice}
+                  <td className="border border-black px-1 text-center font-semibold">
+                    {orderList?.totalPurchasePrice.toLocaleString()}
                   </td>
-                  <td className="border border-black text-center font-semibold">
-                    {orderList?.totalSalesPrice}
+                  <td className="border border-black px-1 text-center font-semibold">
+                    {orderList?.totalSalesPrice.toLocaleString()}
                   </td>
-                  <td className="border border-black text-center font-semibold">
-                    {orderList?.totalPurchaseShippingFee}
+                  <td className="border border-black px-1 text-center font-semibold">
+                    {orderList?.totalPurchaseShippingFee.toLocaleString()}
                   </td>
-                  <td className="border border-black text-center font-semibold">
-                    {orderList?.totalSalesShippingFee}
+                  <td className="border border-black px-1 text-center font-semibold">
+                    {orderList?.totalSalesShippingFee.toLocaleString()}
                   </td>
                   <td className="border border-black text-center">-</td>
-                  <td className="border border-black text-center font-semibold">
-                    {orderList?.totalMarginAmount}
+                  <td className="border border-black px-1 text-center font-semibold">
+                    {orderList?.totalMarginAmount.toLocaleString()}
                   </td>
-                  <td className="border border-black text-center font-semibold">
-                    {orderList?.totalShippingDifference}
+                  <td className="border border-black px-1 text-center font-semibold">
+                    {orderList?.totalShippingDifference.toLocaleString()}
                   </td>
                   <td className="border border-black text-center">-</td>
                 </tr>
