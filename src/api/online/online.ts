@@ -76,10 +76,16 @@ export const fetchOnlineListOne = async (id: number) => {
 export const fetchOnlineListSearch = async (
   fetchOnlineListSearchParams: FetchOnlineListSearchParams,
 ) => {
+  const { startDate, endDate, periodType, mediumName, searchQuery } =
+    fetchOnlineListSearchParams;
   try {
     const response = await api.get<OnlineListResponse>("/online/search", {
       params: {
-        fetchOnlineListSearchParams,
+        startDate,
+        endDate,
+        periodType,
+        mediumName,
+        searchQuery,
       },
     });
 
