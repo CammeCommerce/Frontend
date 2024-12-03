@@ -91,11 +91,11 @@ function OrderListContent() {
   const [endDate, setEndDate] = useState<string>(""); // 검색 종료일
   const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
   const [mediumName, setMediumName] = useState<string>(""); // 매체명
-  const [isMediumMatched, setIsMediumMatched] = useState<string>("전체"); // 매체명 매칭여부
+  const [isMediumMatched, setIsMediumMatched] = useState<string>(""); // 매체명 매칭여부
   const [settlementCompanyName, setSettlementCompanyName] =
     useState<string>(""); // 정산업체명
   const [isSettlementCompanyMatched, setIsSettlementCompanyMatched] =
-    useState<string>("전체"); // 정산업체명 매칭여부
+    useState<string>(""); // 정산업체명 매칭여부
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
   // 엑셀 파일 관련 상태
@@ -609,9 +609,9 @@ function OrderListContent() {
                       <input
                         type="radio"
                         name="mediumMatching"
-                        value="전체"
+                        value=""
                         className=""
-                        checked={isMediumMatched === "전체"}
+                        checked={isMediumMatched === ""}
                         onChange={(e) => {
                           setIsMediumMatched(e.target.value);
                         }}
@@ -622,9 +622,9 @@ function OrderListContent() {
                       <input
                         type="radio"
                         name="mediumMatching"
-                        value="완료"
+                        value="true"
                         className=""
-                        checked={isMediumMatched === "완료"}
+                        checked={isMediumMatched === "true"}
                         onChange={(e) => {
                           setIsMediumMatched(e.target.value);
                         }}
@@ -635,9 +635,9 @@ function OrderListContent() {
                       <input
                         type="radio"
                         name="mediumMatching"
-                        value="미매칭"
+                        value="false"
                         className=""
-                        checked={isMediumMatched === "미매칭"}
+                        checked={isMediumMatched === "false"}
                         onChange={(e) => {
                           setIsMediumMatched(e.target.value);
                         }}
@@ -671,9 +671,9 @@ function OrderListContent() {
                       <input
                         type="radio"
                         name="settlementCompanyMatching"
-                        value="전체"
+                        value=""
                         className=""
-                        checked={isSettlementCompanyMatched === "전체"}
+                        checked={isSettlementCompanyMatched === ""}
                         onChange={(e) => {
                           setIsSettlementCompanyMatched(e.target.value);
                         }}
@@ -684,9 +684,9 @@ function OrderListContent() {
                       <input
                         type="radio"
                         name="settlementCompanyMatching"
-                        value="완료"
+                        value="true"
                         className=""
-                        checked={isSettlementCompanyMatched === "완료"}
+                        checked={isSettlementCompanyMatched === "true"}
                         onChange={(e) => {
                           setIsSettlementCompanyMatched(e.target.value);
                         }}
@@ -697,9 +697,9 @@ function OrderListContent() {
                       <input
                         type="radio"
                         name="settlementCompanyMatching"
-                        value="미매칭"
+                        value="false"
                         className=""
-                        checked={isSettlementCompanyMatched === "미매칭"}
+                        checked={isSettlementCompanyMatched === "false"}
                         onChange={(e) => {
                           setIsSettlementCompanyMatched(e.target.value);
                         }}

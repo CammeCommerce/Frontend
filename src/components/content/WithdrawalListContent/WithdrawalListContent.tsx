@@ -37,7 +37,7 @@ function WithdrawalListContent() {
   const [endDate, setEndDate] = useState<string>(""); // 검색 종료일자
   const [periodType, setPeriodType] = useState<string>(""); // 검색 기간
   const [mediumName, setMediumName] = useState<string>(""); // 매체명
-  const [isMediumMatched, setIsMediumMatched] = useState<string>("전체"); // 매체명 매칭여부
+  const [isMediumMatched, setIsMediumMatched] = useState<string>(""); // 매체명 매칭여부
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
 
   // 등록 모달 관련 상태
@@ -517,10 +517,10 @@ function WithdrawalListContent() {
                       <input
                         type="radio"
                         name="companyMatching"
-                        value="전체"
+                        value=""
                         className=""
-                        checked={isMediumMatched === "전체"}
-                        onChange={() => setIsMediumMatched("전체")}
+                        checked={isMediumMatched === ""}
+                        onChange={(e) => setIsMediumMatched(e.target.value)}
                       />
                       전체
                     </label>
@@ -528,10 +528,10 @@ function WithdrawalListContent() {
                       <input
                         type="radio"
                         name="companyMatching"
-                        value="완료"
+                        value="true"
                         className=""
-                        checked={isMediumMatched === "완료"}
-                        onChange={() => setIsMediumMatched("완료")}
+                        checked={isMediumMatched === "true"}
+                        onChange={(e) => setIsMediumMatched(e.target.value)}
                       />
                       완료
                     </label>
@@ -539,10 +539,10 @@ function WithdrawalListContent() {
                       <input
                         type="radio"
                         name="companyMatching"
-                        value="미매칭"
+                        value="false"
                         className=""
-                        checked={isMediumMatched === "미매칭"}
-                        onChange={() => setIsMediumMatched("미매칭")}
+                        checked={isMediumMatched === "false"}
+                        onChange={(e) => setIsMediumMatched(e.target.value)}
                       />
                       미매칭
                     </label>
