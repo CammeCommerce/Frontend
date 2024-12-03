@@ -624,7 +624,7 @@ function WithdrawalListContent() {
             <table className="w-full border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
-                  <th className="border border-black">
+                  <th className="whitespace-nowrap border border-black px-1">
                     <input
                       type="checkbox"
                       className=""
@@ -637,24 +637,48 @@ function WithdrawalListContent() {
                       }
                     />
                   </th>
-                  <th className="border border-black">No</th>
-                  <th className="border border-black">매체명</th>
-                  <th className="border border-black">출금일자</th>
-                  <th className="border border-black">계좌별칭</th>
-                  <th className="border border-black">출금액</th>
-                  <th className="border border-black">계좌적요</th>
-                  <th className="border border-black">거래수단1</th>
-                  <th className="border border-black">거래수단2</th>
-                  <th className="border border-black">계좌메모</th>
-                  <th className="border border-black">용도</th>
-                  <th className="border border-black">거래처</th>
-                  <th className="border border-black">수정</th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    No
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    매체명
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    출금일자
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    계좌별칭
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    출금액
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    계좌적요
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    거래수단1
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    거래수단2
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    계좌메모
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    용도
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    거래처
+                  </th>
+                  <th className="whitespace-nowrap border border-black px-1">
+                    수정
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {withdrawalList?.items.map((item, index) => (
                   <tr key={index} className="h-10">
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       <input
                         type="checkbox"
                         className=""
@@ -662,11 +686,11 @@ function WithdrawalListContent() {
                         checked={withdrawalIdsToDelete.includes(item.id)}
                       />
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {withdrawalList.items.length - index}
                     </td>
                     <td
-                      className={`${isEditMode === index || "px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
+                      className={`${isEditMode === index || "px-1"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
                       contentEditable={item.mediumName === null}
                       suppressContentEditableWarning
                       // onInput={(e) =>
@@ -684,35 +708,35 @@ function WithdrawalListContent() {
                     >
                       {item.mediumName}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {item.withdrawalDate}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {item.accountAlias}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {item.withdrawalAmount.toLocaleString()}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-1 text-center">
                       {item.accountDescription}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {item.transactionMethod1}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {item.transactionMethod2}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {item.accountMemo}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {item.purpose}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-1 text-center">
                       {item.clientName}
                     </td>
                     <td className="border border-black text-center">
-                      <div className="flex w-full items-center justify-center gap-2 px-2">
+                      <div className="flex w-full items-center justify-center gap-2 px-1">
                         <button
                           type="button"
                           className="flex items-center justify-center whitespace-nowrap rounded-md bg-editButton px-5 py-1 font-semibold text-white"

@@ -628,7 +628,7 @@ function DepositListContent() {
             <table className="w-full border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
-                  <th className="border border-black">
+                  <th className="whitespace-nowrap border border-black">
                     <input
                       type="checkbox"
                       className=""
@@ -640,25 +640,49 @@ function DepositListContent() {
                       }
                     />
                   </th>
-                  <th className="border border-black">No</th>
-                  <th className="border border-black">매체명</th>
-                  <th className="border border-black">입금일자</th>
-                  <th className="border border-black">계좌별칭</th>
-                  <th className="border border-black">입금액</th>
-                  <th className="border border-black">계좌적요</th>
-                  <th className="border border-black">거래수단1</th>
-                  <th className="border border-black">거래수단2</th>
-                  <th className="border border-black">계좌메모</th>
-                  <th className="border border-black">상대계좌예금주명</th>
-                  <th className="border border-black">용도</th>
-                  <th className="border border-black">거래처</th>
-                  <th className="border border-black">관리</th>
+                  <th className="whitespace-nowrap border border-black">No</th>
+                  <th className="whitespace-nowrap border border-black">
+                    매체명
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    입금일자
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    계좌별칭
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    입금액
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    계좌적요
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    거래수단1
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    거래수단2
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    계좌메모
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    상대계좌예금주명
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    용도
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    거래처
+                  </th>
+                  <th className="whitespace-nowrap border border-black">
+                    관리
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {depositList?.items.map((deposit, index) => (
                   <tr key={index} className="h-10">
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       <input
                         type="checkbox"
                         className=""
@@ -666,11 +690,11 @@ function DepositListContent() {
                         checked={depositIdsToDelete.includes(deposit.id)}
                       />
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {depositList.items.length - index}
                     </td>
                     <td
-                      className={`${isEditMode === index || "px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
+                      className={`${isEditMode === index || "px-1"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
                       contentEditable={deposit.mediumName === null}
                       suppressContentEditableWarning
                       // onInput={(e) =>
@@ -688,38 +712,38 @@ function DepositListContent() {
                     >
                       {deposit.mediumName}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {deposit.depositDate}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {deposit.accountAlias}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {deposit.depositAmount.toLocaleString()}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {deposit.accountDescription}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {deposit.transactionMethod1}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {deposit.transactionMethod2}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {deposit.accountMemo}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-1 text-center">
                       {deposit.counterpartyName}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {deposit.purpose}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-1 text-center">
                       {deposit.clientName}
                     </td>
                     <td className="border border-black text-center">
-                      <div className="flex w-full items-center justify-center gap-2 px-2">
+                      <div className="flex w-full items-center justify-center gap-2 px-1">
                         <button
                           type="button"
                           className="flex items-center justify-center whitespace-nowrap rounded-md bg-editButton px-5 py-1 font-semibold text-white"

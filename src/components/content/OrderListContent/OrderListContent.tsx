@@ -817,7 +817,7 @@ function OrderListContent() {
             <table className="w-full border-collapse border border-black">
               <thead className="bg-gray-200">
                 <tr className="h-10">
-                  <th className="w-9 border border-black">
+                  <th className="w-9 whitespace-nowrap border border-black px-1">
                     <input
                       type="checkbox"
                       className=""
@@ -830,7 +830,10 @@ function OrderListContent() {
                     />
                   </th>
                   {ORDERLIST_HEADER.map((header, index) => (
-                    <th key={index} className="border border-black">
+                    <th
+                      key={index}
+                      className="whitespace-nowrap border border-black px-1"
+                    >
                       {Object.keys(header)[0]}
                     </th>
                   ))}
@@ -839,7 +842,7 @@ function OrderListContent() {
               <tbody>
                 {orderList?.items.map((order, index) => (
                   <tr key={index} className="h-10">
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       <input
                         type="checkbox"
                         className=""
@@ -847,11 +850,11 @@ function OrderListContent() {
                         checked={orderIdsToDelete.includes(order.id)}
                       />
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {orderList.items.length - index}
                     </td>
                     <td
-                      className={`${isEditMode === index || "px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
+                      className={`${isEditMode === index || "px-1"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
                       contentEditable={order.mediumName === null}
                       suppressContentEditableWarning
                       // onInput={(e) =>
@@ -870,7 +873,7 @@ function OrderListContent() {
                       {order.mediumName}
                     </td>
                     <td
-                      className={`${isEditMode === index || "px-2"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
+                      className={`${isEditMode === index || "px-1"} max-w-32 overflow-hidden whitespace-nowrap border border-black text-center`}
                       contentEditable={order.settlementCompanyName === null}
                       suppressContentEditableWarning
                       // onInput={(e) =>
@@ -890,44 +893,44 @@ function OrderListContent() {
                     >
                       {order.settlementCompanyName}
                     </td>
-                    <td className="max-w-60 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-2 text-center">
+                    <td className="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-1 text-center">
                       {order.productName}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.quantity}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.orderDate}
                     </td>
-                    <td className="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-2 text-center">
+                    <td className="max-w-52 border border-black px-1 text-center">
                       {order.purchasePlace}
                     </td>
-                    <td className="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap border border-black px-2 text-center">
+                    <td className="max-w-52 border border-black px-1 text-center">
                       {order.salesPlace}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.purchasePrice}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.salesPrice}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.purchaseShippingFee}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.salesShippingFee}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.taxType === "11" && "과세"}
                       {order.taxType === "12" && "면세"}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.marginAmount}
                     </td>
-                    <td className="border border-black text-center">
+                    <td className="border border-black px-1 text-center">
                       {order.shippingDifference}
                     </td>
-                    <td className="border border-black px-2 text-center">
+                    <td className="border border-black px-1 text-center">
                       <div className="flex w-full items-center justify-center gap-2">
                         <button
                           type="button"
